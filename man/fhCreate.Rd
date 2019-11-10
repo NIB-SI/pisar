@@ -4,13 +4,20 @@
 \alias{fhCreate}
 \title{Create pISA layer or *fh* component.}
 \usage{
-fhCreate(type = "assays", meta)
+fhCreate(type = "assays", meta = list(), class = "EXP",
+  file = "NA.TXT")
 }
 \arguments{
 \item{type}{Component name (e.g. 'people', 'projets', ...).}
 
 \item{meta}{Data frame with pISA metadata or
-a list with minimal information (Title, Description, *ToDo: add fields*).}
+a list with minimal information (Title, 
+Description, *ToDo: add fields*).}
+
+\item{class}{Assay class key string.
+Possible values are 'EXP' and 'MODEL'.}
+
+\item{file}{File name with path, relative to layer.}
 }
 \value{
 FAIRDOMhub created component.
@@ -24,8 +31,6 @@ of newly created component can be used. Check status code.
 }
 \examples{
 \\donotrun{
-fhLog("Start testing log", append=FALSE)
-fhTime()
 if(FALSE)
 {
 fhIni(prid = 26, test=TRUE)
@@ -47,7 +52,7 @@ options("fhub")
     )
  si
  fhData(si)$id
-}
+
  iid=fhData(si)$id
  iid <- 115
  fhIni(prid = 26, pid=104, iid=iid, test=TRUE)
@@ -70,10 +75,37 @@ options("fhub")
   , meta= list(
       Title=paste("Test assay", Sys.time())
     , Description="Testing of upload")
+    , class="EXP"
     )
  #str(sa)
  sa
- fhData(sa)$id
+}
+
+# Type: data_file
+astring <- "_p_Demo/_I_Test/_S_Show/_A_Work-R/"
+oldwd <- setwd(system.file("extdata",astring,package="pisar"))
+oldwd
+.aname <- getLayer("A")
+.aroot <- getRoot("A")
+.ameta  <- readMeta()
+ file <- "input/README.MD"
+ fhIni(prid = 26, pid=104, iid=115 , sid=117 , aid=401, test=TRUE)
+ type <- "data_files"
+ type <- "documents"
+ sdat <- fhCreate( type = type
+  , meta= list(
+      Title=paste("Test assay", Sys.time())
+    , Description="Testing of upload")
+  , file=file
+    )
+ #str(sdat)
+ sdat
+ fhData(sdat)$id
+if(interactive()) setwd(oldwd)
+getwd()
+res <- sdat$content
+item_link <- file.path(res$meta$base_url,res$links$self)
+if(interactive()) shell.exec(item_link) 
 }
 }
 \seealso{

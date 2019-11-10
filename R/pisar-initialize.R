@@ -1,4 +1,4 @@
-## ----author, echo=FALSE--------------------------------------------------
+## ----echo=FALSE----------------------------------------------------------
 ###############################################
 ##                                           ##
 ## (c) Andrej Blejec (andrej.blejec@nib.si)  ##
@@ -8,7 +8,7 @@
 
 
 
-## ----Package description-------------------------------------------------
+## ----Package description1------------------------------------------------
 #' pisar: pISA-tree support functions
 #'
 #' The package provides several functions for support
@@ -269,6 +269,8 @@ getMeta.list <- function(x,...){
 #' getLayer("I")
 #' getLayer("S")
 #' getLayer("A")
+#' if(interactive()) setwd(oldwd)
+#' getwd()
 #' }
 getLayer <- function(x, path=getwd()){
   loc <- strsplit(path,"/")[[1]]
@@ -360,7 +362,7 @@ out.path <- function(out.dir="../out", args="", which=1:length(args)) {
 #' dir(pisa$p$root)
 #' # Set pisa options
 #' options(pisa=pisa(global=FALSE))
-#' # Access details with $ 
+#' # Access details with $
 #' options()$pisa$p$root
 #' setwd(oldwd)
 #' }

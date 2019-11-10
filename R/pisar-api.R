@@ -85,11 +85,13 @@ invisible(tmp)
 #' length(r$content)
 #' names(r$content)
 #' r$content[[1]]
+#' names(r)
 #' r
 #' }
 fhParse <- function(resp, ...){
     jsn <- "application/json"
     parsed <- invisible(content(resp,"parsed",type=jsn)$data)
+    if(class(parsed$content) %in% "raw") parsed$content <- rawToChar(parsed$content)
      if (http_error(resp)) {
      stop(
       sprintf(
@@ -105,14 +107,18 @@ fhParse <- function(resp, ...){
   url <- modify_url(parsed$meta$base_url,path=parsed$links)
   ret <-    structure(
        list(
-         path = parsed$links,
-         url = url,
-         content = parsed,
-         response = resp
+          id = parsed$id
+        , path = parsed$links$self
+        , url = url
+        , status = resp$status_code
+        , title = parsed$content$attributes$title
+        , content = parsed
+        , response = resp
        ),
        class = "seek_api"
        )
   return(ret)
+  
 }
 
 
@@ -144,7 +150,7 @@ cat("Status:", x$response$headers$status, "\n")
 {
 pr <- x$content
 cat("Object:", x$url,"\n")
-cat("Path  :", x$path$self,"\n")
+cat("Path  :", x$path,"\n")
 cat("Title :", x$content$attributes$title, "\n")
 if(content) {
 cat(rep("-",20),"\n\n")
@@ -176,6 +182,8 @@ invisible(x)
 #' r$response$status_code
 #' status_code(r$response)
 #' r
+#' Non existent user
+#' fhGet("people",0)
 #' }
 fhGet <- function(type, id,
                    uri=options()$fhub$baseurl, ... ){
@@ -183,14 +191,22 @@ fhGet <- function(type, id,
   if(!missing(type)) uri <- paste0(uri,"/",type)
   if(!missing(id)) uri <- paste0(uri,"/",id)
   ua <- user_agent("https://github.com/ablejec/pisar")
-  t0 <- fhLog("fhGet - ")
+  fhLog("fhGet", uri)
+  fht <- system.time(
   resp <- GET(uri,
          add_headers(Accept="application/json")
          , ua
          )
-  # cat("Status code:",r$status_code,"\n")
+  )
+  cat("Status code:",resp$status_code,"\n")
+
+  if( resp$status_code < 300) {
   parsed <- fhParse(resp)
-         fhTime( resp$headers$status, parsed$url)
+  fhLog( resp$headers$status, round(fht["elapsed"],2), parsed$url)
+  } else {
+  parsed <- resp$status_code
+  fhLog( resp$headers$status, round(fht["elapsed"],2))
+  }
   return(parsed)
 }
 #
@@ -257,6 +273,7 @@ fhDatas <- fhData
 #' @return FAIRDOMhub component identifier: id, type and title.
 #'     If argument title is missing, a data frame with identifiers
 #'     for all items is returned.
+#' @note If item is not found, value 0 is returned as id.
 #' @export
 #' @keywords pisa
 #' @seealso \code{\link{fhFindTitle}}
@@ -267,6 +284,8 @@ fhDatas <- fhData
 #' id <- fhFindId("people","Guest")
 #' id
 #' fhFindTitle("people",id)
+#' # does not exist
+#' fhFindId("people","No User")
 #' # List of projects
 #' projects <- fhFindId("projects")
 #' head(projects)
@@ -278,6 +297,7 @@ fhFindId <- function(type, title){
      # Get FAIRDOMhub user id
      if(!missing(title)){
        id <- d[[pmatch(title,titles[,"title"])]]$id
+       if(is.null(id)) id <- 0
        return(c(id=id,type=type, title=title))
      } else {
      return(titles)
@@ -293,7 +313,8 @@ fhFindId <- function(type, title){
 #'     of the component (id part).
 #' @return FAIRDOMhub component identifier: id, type and title.
 #'     If argument title is missing, a data frame with identifiers
-#'     for all items is returned.
+#'     for all items is returned. See note.
+#' @note If item is not found, empty string is returned as title.
 #' @export
 #' @keywords pisa
 #' @seealso \code{\link{fhFindTitle}}
@@ -306,13 +327,19 @@ fhFindId <- function(type, title){
 #' idNew <- fhFindTitle("people", id[1])
 #' idNew
 #' all.equal(id, idNew)
+#' fhFindTitle("people",0)
 #' }
 fhFindTitle <- function(type, id){
      id <- as.vector(id[1])
      r <- fhGet(type, id )
+     if( class(r)=="integer" && r > 300) {
+     title <- ""
+     } else {
      d <- fhData(r, "attributes")
+     title <- d$title
      # Set FAIRDOMhub user title
-     return(c(id=id, type=type, title=d$title))
+     }
+     return(c(id=id, type=type, title=title))
      }
 
 
@@ -354,8 +381,17 @@ fhFindTitle <- function(type, id){
 #'   )
 #' str(sa)
 #' }
+#'
+#' type = "data_files"
+#' file = 
+#' sdata <- fhSkeleton( type = type
+#'   , meta= meta
+#'   )
+#' str(sdata)
 #' }
-fhSkeleton <- function (type = "assay", meta){
+#'
+#' }
+fhSkeleton <- function (type = "assay", meta, file){
 sj <- switch( type
 , projects =
 '{
@@ -715,11 +751,11 @@ sj <- switch( type
         "tag2"
       ],
       "license": "CC-BY-4.0",
-      "other_creators": "John Smith, Jane Smith",
+      "other_creators": "",
       "content_blobs": [
         {
-          "original_filename": "a_pdf_file.pdf",
-          "content_type": "application/pdf"
+          "original_filename": "*",
+          "content_type": "*"
         }
       ],
       "policy": {
@@ -727,10 +763,10 @@ sj <- switch( type
         "permissions": [
           {
             "resource": {
-              "id": "359",
+              "id": "*",
               "type": "projects"
             },
-            "access": "edit"
+            "access": "manage"
           }
         ]
       }
@@ -739,7 +775,7 @@ sj <- switch( type
       "creators": {
         "data": [
           {
-            "id": "234",
+            "id": "*",
             "type": "people"
           }
         ]
@@ -747,7 +783,7 @@ sj <- switch( type
       "projects": {
         "data": [
           {
-            "id": "359",
+            "id": "*",
             "type": "projects"
           }
         ]
@@ -755,7 +791,7 @@ sj <- switch( type
       "assays": {
         "data": [
           {
-            "id": "38",
+            "id": "*",
             "type": "assays"
           }
         ]
@@ -787,9 +823,10 @@ return(sr)
 #' @author Andrej Blejec \email{andrej.blejec@nib.si}
 #' @examples
 #' tst <- function(){
-#'    t0 <- fhLog("Test", "writing to logfile", file="")
-#'    Sys.sleep(1)
-#'    fhTime(123,file="")
+#'   fhLog("Test", "writing to logfile", file="")
+#'   fht <- system.time(Sys.sleep(1))
+#'   fhLog( "Time:", round(fht["elapsed"],2))
+
 #' }
 #' tst()
 #' rm(tst)
@@ -797,17 +834,53 @@ return(sr)
 #' @rdname fhLog
 #' @export fhLog
 fhLog <- function( ..., file="FAIRDOM.log",append=TRUE){
-   cat(paste(Sys.time(),...), file=file, append=append)
-   Sys.time()
+   cat(paste(Sys.time(),..., "\n"), file=file, append=append)
    }
-#' @rdname fhLog
-#' @export fhTime
-#fhTime <- function(...) cat("\n",file="FAIRDOM.txt", append=TRUE)
-fhTime <- function(..., file="FAIRDOM.log"){
-   tx <- dynGet("t0")
-   cat(... , "(", round(Sys.time()-tx,3),"s )\n", file=file, append=TRUE)
-   }
-   
+
+
+## ------------------------------------------------------------------------
+#' Determine MIME type for file.
+#'
+#' @param File name.
+#' @return MIME type string.
+#' @export
+#' @keywords pisa
+#' @seealso 
+#' @author Andrej Blejec \email{andrej.blejec@nib.si}
+#' @examples
+#' contentType("bla.txt")
+#' contentType("bla.pdf")
+#' contentType("bla.tar.gz")
+#' contentType("bla.bla")
+#'
+contentType <- function(x){
+  switch(tolower(fileType(x))
+         , txt  = "text/plain"
+         , rnw  = "text/plain"
+         , log  = "text/plain"        
+         , rmd  = "text/markdown"
+         , md   = "text/markdown"
+         , csv  = "text/plain"
+         , tsv  = "text/plain"
+         , bat  = "text/plain"
+         , htm 	= "text/html"
+         , html = "text/html"
+         , pdf  = "application/pdf"
+         , doc  = "application/msword"
+         , docx = "application/msword"
+         , xls  = "application/excel"
+         , xlsx = "application/excel"
+         , tex  = "text/plain"
+         , gz   = "application/x-gz"
+         , tar  = "application/x-tar"
+         , jpg  = "image/jpeg"
+         , jpeg = "image/jpeg"
+         , png  = "image/png"
+         , tif  = "image/tiff"
+         , tiff = "image/tiff"
+         , "application/octet-stream"
+         )
+}
 
 
 ## ----fhCreate------------------------------------------------------------
@@ -815,7 +888,11 @@ fhTime <- function(..., file="FAIRDOM.log"){
 #'
 #' @param type Component name (e.g. 'people', 'projets', ...).
 #' @param meta Data frame with pISA metadata or
-#' a list with minimal information (Title, Description, *ToDo: add fields*).
+#'     a list with minimal information (Title, 
+#'     Description, *ToDo: add fields*).
+#' @param class Assay class key string.
+#'     Possible values are 'EXP' and 'MODEL'.
+#' @param file File name with path, relative to layer.
 #' @return FAIRDOMhub created component.
 #' @note Upon success (status code 200) details
 #' of newly created component can be used. Check status code.
@@ -825,8 +902,6 @@ fhTime <- function(..., file="FAIRDOM.log"){
 #' @author Andrej Blejec \email{andrej.blejec@nib.si}
 #' @examples
 #' \donotrun{
-#' fhLog("Start testing log", append=FALSE)
-#' fhTime()
 #' if(FALSE)
 #' {
 #' fhIni(prid = 26, test=TRUE)
@@ -849,7 +924,7 @@ fhTime <- function(..., file="FAIRDOM.log"){
 #'     )
 #'  si
 #'  fhData(si)$id
-#' }
+#'
 #'  iid=fhData(si)$id
 #'  iid <- 115
 #'  fhIni(prid = 26, pid=104, iid=iid, test=TRUE)
@@ -872,22 +947,49 @@ fhTime <- function(..., file="FAIRDOM.log"){
 #'   , meta= list(
 #'       Title=paste("Test assay", Sys.time())
 #'     , Description="Testing of upload")
+#'     , class="EXP"
 #'     )
 #'  #str(sa)
 #'  sa
-#'  fhData(sa)$id
 #' }
-fhCreate <- function (type = "assays", meta){
+#'
+#' # Type: data_file
+#' astring <- "_p_Demo/_I_Test/_S_Show/_A_Work-R/"
+#' oldwd <- setwd(system.file("extdata",astring,package="pisar"))
+#' oldwd
+#' .aname <- getLayer("A")
+#' .aroot <- getRoot("A")
+#' .ameta  <- readMeta()
+#'  file <- "input/README.MD"
+#'  fhIni(prid = 26, pid=104, iid=115 , sid=117 , aid=401, test=TRUE)
+#'  type <- "data_files"
+#'  type <- "documents"
+#'  sdat <- fhCreate( type = type
+#'   , meta= list(
+#'       Title=paste("Test assay", Sys.time())
+#'     , Description="Testing of upload")
+#'   , file=file
+#'     )
+#'  #str(sdat)
+#'  sdat
+#'  fhData(sdat)$id
+#' if(interactive()) setwd(oldwd)
+#' getwd()
+#' res <- sdat$content
+#' item_link <- file.path(res$meta$base_url,res$links$self)
+#' if(interactive()) shell.exec(item_link) 
+#' }
+fhCreate <- function (type = "assays", meta=list(), class="EXP", file="NA.TXT"){
      myid <- options()$fhub$myid
      prid <- options()$fhub$prid
      pid <-  options()$fhub$pid
      iid <-  options()$fhub$iid
      sid <-  options()$fhub$sid
-     s <- fhSkeleton( type, meta)
+     aid <-  options()$fhub$aid
+     s <- fhSkeleton(type, meta)
 # Common fileds
      s$data$attributes$title  <-  getMeta(meta,"Title")
      s$data$attributes$description  <-  getMeta(meta, "Description")
-     #
 # Type specific fields
      switch(s$data$type,
      projects = {
@@ -920,31 +1022,167 @@ fhCreate <- function (type = "assays", meta){
         s$data$relationships$creators$data$id <- myid
         s$data$relationships$creators$data$type <- "people"
         s$data$attributes$assay_class$title <- ""
-        s$data$attributes$assay_class$key <- "EXP"
+        s$data$attributes$assay_class$key <- toupper(class)
 #        s$data$attributes$assay_class$key <- "MODEL"
         s$data$attributes$assay_class$description <- ""
         s$data$attributes$assay_type$label <- ""
         s$data$attributes$assay_type$key <- ""
             }
+      , data_files = {
+        s$data$attributes$title  <-  paste0("/",file)
+        s$data$attributes$description  <-  getMeta(meta,"Description")
+        s$data$attributes$tags  <- c("data","demo")
+        s$data$attributes$content_blobs$original_filename <- file
+        s$data$attributes$content_blobs$content_type <- contentType(file)
+        s$data$attributes$policy$permissions$resource$id <- pid
+        s$data$relationships$creators$data$id <- myid
+        s$data$relationships$projects$data$id <- pid
+        s$data$relationships$assays$data$id <- aid            
+      }
+      , documents = {    
+        document_title <- paste0("/",file)
+        document_description <- getMeta(meta,"Description")
+        content_type <- contentType(file)
+        tags <- content_type
+        #
+        fpath <- file.path(".", file)
+        #
+        s$data$attributes$title <- document_title
+        s$data$attributes$description <- document_description
+        s$data$relationships$creators$data$id <- myid
+        s$data$relationships$creators$data
+        s$data$relationships$projects$data$id <- pid
+        s$data$relationships$projects$data
+        s$data$relationships$assays$data$id <- aid
+        s$data$relationships$assays$data
+        s$data$attributes$policy$permissions$resource$id <- pid
+        s$data$attributes$policy$permissions
+        s$data$attributes$content_blobs$content_type <- content_type
+        s$data$attributes$content_blobs$original_filename <- file
+        s$data$attributes$content_blobs
+        s$data$attributes$other_creators <- ""
+        s$data$attributes$tags <- c("pISA", tags)
+      }     
      )
      baseurl <- options()$fhub$baseurl
      uri <- modify_url(baseurl,path=s$data$type)
      I <- toJSON(s, auto_unbox=TRUE, pretty=TRUE)
-     cat(I, "\n")
+     #
+     # For testing: list JSON object
+     #     cat(I, "\n")
+     #
      ua <- user_agent("https://github.com/ablejec/pisar")
-     t0 <- fhLog("fhCreate -")
-     resp <- POST(uri
+     fhLog("fhCreate", uri)
+     fht <- system.time(resp <- POST(uri
          , authenticate(
              options()$fhub$usr
-           , options()$fhub$pwd,type = "basic")
+           , options()$fhub$pwd
+           , type = "basic")
          , body = I
          , encode="json"
          , accept("application/json")
          , content_type_json()
          , ua
          )
+         )
      parsed <- fhParse(resp)
-     fhTime( resp$headers$status, parsed$url)
-     parsed
+     fhLog( resp$headers$status, round(fht["elapsed"],2), parsed$url)
+# Upload file blob     
+     if(FALSE&&s$data$type %in% c("data_files", "documents")){
+     fhLog("Upload file:", file)
+     res <- parsed$content
+     original_filename <- res$attributes$content_blobs[[1]]$original_filename
+     blob_link <- res$attributes$content_blobs[[1]]$link
+     # Fill the content blob with data
+     uri <- blob_link
+     fpath <- file.path(".",.aroot, file) 
+     if(file.exists(fpath)) {
+     fhLog("fhUpload",uri)
+     fht <- system.time(
+     resp_blob <- PUT(uri
+         , authenticate(
+             options()$fhub$usr
+           , options()$fhub$pwd
+           , type = "basic"
+           )
+    , body = upload_file(fpath)
+    , encode="json"
+    , accept("*.*")
+    ))
+    resp_blob <- fromJSON(content(resp_blob, as = "text"))
+    resp_blob <- paste(fpath, " | File size:", resp_blob)
+    } else {
+    resp_blob <- paste("Error: File not found:" ,fpath)
+    fhLog( resp_blob$headers$status
+         , round(fht["elapsed"],2)
+         , parsed$url)  
      }
+     }
+     parsed
+}
+#fhCreate("documents",meta,file=file)
+
+
+
+## ----fhUpload------------------------------------------------------------
+#' Upload file.
+#'
+#' Upload file to a crerated object of type 'documents' or 'data_files'.
+#'
+#' @param object A previously created SEEK component.
+#'     Must be one of 'documents' or 'data_files'.
+#' @param file File name with path, relative to layer.
+#' @return FAIRDOMhub created component.
+#' @note Upon success (status code 200) details
+#' of newly created component can be used. Check status code.
+#' @export
+#' @keywords pisa
+#' @seealso \code{\link{fhCreate}}
+#' @author Andrej Blejec \email{andrej.blejec@nib.si}
+#' @examples
+#'  iid <- 115
+#'  fhIni(prid = 26, pid=104, iid=iid, aid= test=TRUE)
+#' meta <- list(Title="Title", Description="Description")
+#' file <- dir()[1]
+#' file
+#' fhd <- fhCreate("documents",meta,file=file)
+#' fhd
+#' sda <- fhUpload(fhd, file)
+#' 
+fhUpload <- function( object, file){
+     if(object$content$type %in% c("data_files", "documents")){
+     fhLog("Upload file:", file)
+     res <- object$content
+     original_filename <- res$attributes$content_blobs[[1]]$original_filename
+     blob_link <- res$attributes$content_blobs[[1]]$link
+     # Fill the content blob with data
+     uri <- blob_link
+     fpath <- file.path(".",file)
+     if(file.exists(fpath)) {
+     fhLog("fhUpload",uri)
+     fht=-1
+     fht <- system.time(
+     resp <- PUT(uri
+        , authenticate(
+             options()$fhub$usr
+           , options()$fhub$pwd
+           , type = "basic"
+        )
+    , body = upload_file(fpath)
+    , encode="json"
+    , accept("*.*")
+    ))
+    print(resp)
+    fs <- round(as.numeric(rawToChar(resp$content))/1024^2,3)
+    file_size <- paste0(fpath, " | ", fs,"MB")
+    } else {
+    resp_blob <- paste("Error: File not found:" ,fpath)
+    }
+    fhLog( resp$headers$status
+         , round(fht["elapsed"],2)
+         , file_size
+         , object$url)
+}
+  resp
+}
 

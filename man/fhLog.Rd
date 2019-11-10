@@ -2,12 +2,9 @@
 % Please edit documentation in R/pisar-api.R
 \name{fhLog}
 \alias{fhLog}
-\alias{fhTime}
 \title{Writes a note to a log file.}
 \usage{
 fhLog(..., file = "FAIRDOM.log", append = TRUE)
-
-fhTime(..., file = "FAIRDOM.log")
 }
 \arguments{
 \item{...}{Objects to form a line.}
@@ -24,9 +21,9 @@ Writes a note to a log file.
 }
 \examples{
 tst <- function(){
-   t0 <- fhLog("Test", "writing to logfile", file="")
-   Sys.sleep(1)
-   fhTime(123,file="")
+  fhLog("Test", "writing to logfile", file="")
+  fht <- system.time(Sys.sleep(1))
+  fhLog( "Time:", round(fht["elapsed"],2))
 }
 tst()
 rm(tst)

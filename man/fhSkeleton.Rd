@@ -4,7 +4,7 @@
 \alias{fhSkeleton}
 \title{Create *fh* skeleton.}
 \usage{
-fhSkeleton(type = "assay", meta)
+fhSkeleton(type = "assay", meta, file)
 }
 \arguments{
 \item{type}{Component name (e.g. 'people', 'projets', ...).}

@@ -1053,9 +1053,9 @@ fhCreate <- function (type = "assays", meta=list(), class="EXP", file="NA.TXT"){
             }
       , data_files = {
         s$data$attributes$title  <-  paste0("/",file)
-        s$data$attributes$description  <-  ""
+        s$data$attributes$description  <-  getMeta(meta,"Description")
         s$data$attributes$tags  <- c("data","demo")
-        s$data$attributes$content_blobs$original_filename <- paste0("/",file)
+        s$data$attributes$content_blobs$original_filename <- file
         s$data$attributes$content_blobs$content_type <- contentType(file)
         s$data$attributes$policy$permissions$resource$id <- pid
         s$data$relationships$creators$data$id <- myid
@@ -1064,7 +1064,7 @@ fhCreate <- function (type = "assays", meta=list(), class="EXP", file="NA.TXT"){
       }
       , documents = {    
         document_title <- paste0("/",file)
-        document_description <- ""
+        document_description <- getMeta(meta,"Description")
         content_type <- contentType(file)
         tags <- content_type
         #
@@ -1081,7 +1081,7 @@ fhCreate <- function (type = "assays", meta=list(), class="EXP", file="NA.TXT"){
         s$data$attributes$policy$permissions$resource$id <- pid
         s$data$attributes$policy$permissions
         s$data$attributes$content_blobs$content_type <- content_type
-        s$data$attributes$content_blobs$original_filename <- document_title
+        s$data$attributes$content_blobs$original_filename <- file
         s$data$attributes$content_blobs
         s$data$attributes$other_creators <- ""
         s$data$attributes$tags <- c("pISA", tags)
@@ -1163,11 +1163,17 @@ fhCreate <- function (type = "assays", meta=list(), class="EXP", file="NA.TXT"){
 #' @seealso \code{\link{fhCreate}}
 #' @author Andrej Blejec \email{andrej.blejec@nib.si}
 #' @examples
+#'  iid <- 115
+#'  sid <- 117
+#'  fhIni(prid = 26, pid=104, iid=iid, sid=sid, aid=400, test=TRUE)
+#' meta <- list(Title="Title", Description="Description")
 #' file <- dir()[1]
 #' file
 #' fhd <- fhCreate("documents",meta,file=file)
 #' fhd
-#' sd <- fhUpload(fhd, file)
+#' fhUpload(fhd, file)
+#' # Try to upload Non-existent file 
+#' fhUpload(fhd,"NonExistentFile.err")
 #' 
 fhUpload <- function( object, file){
      if(object$content$type %in% c("data_files", "documents")){
@@ -1192,16 +1198,18 @@ fhUpload <- function( object, file){
     , encode="json"
     , accept("*.*")
     ))
-    print(resp)
-    fs <- round(as.numeric(rawToChar(sd$content))/1024^2,3)
+    if(!exists("resp")) print("Error: no such file")
+    fs <- round(as.numeric(rawToChar(resp$content))/1024^2,3)
     file_size <- paste0(fpath, " | ", fs,"MB")
-    } else {
-    resp_blob <- paste("Error: File not found:" ,fpath)
-    }
-    fhLog( resp$headers$status
+        fhLog( resp$headers$status
          , round(fht["elapsed"],2)
          , file_size
          , object$url)
+    } else {
+    resp <- paste("Error: File not found >" ,fpath)
+    fhLog(resp)
+    }
+
 }
   resp
 }

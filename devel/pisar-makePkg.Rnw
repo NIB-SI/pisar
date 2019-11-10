@@ -126,7 +126,9 @@ childtxt <- paste(childtxt
     , purl(file.path("../devel",fctFile[i])
     , output=file.path(pkgPath,"R",pkgFile[i])))
 }
+file.path(pkgPath,"R")
 dir(file.path(pkgPath,"R"))
+
 @
 \Sexpr{childtxt}
 

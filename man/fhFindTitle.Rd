@@ -15,10 +15,13 @@ of the component (id part).}
 \value{
 FAIRDOMhub component identifier: id, type and title.
     If argument title is missing, a data frame with identifiers
-    for all items is returned.
+    for all items is returned. See note.
 }
 \description{
 Get details of component with id from an *fh* object.
+}
+\note{
+If item is not found, empty string is returned as title.
 }
 \examples{
 \\donotrun{
@@ -28,6 +31,7 @@ id
 idNew <- fhFindTitle("people", id[1])
 idNew
 all.equal(id, idNew)
+fhFindTitle("people",0)
 }
 }
 \seealso{

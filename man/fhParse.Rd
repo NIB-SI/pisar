@@ -29,6 +29,7 @@ r <- fhGet("people")
 length(r$content)
 names(r$content)
 r$content[[1]]
+names(r)
 r
 }
 }

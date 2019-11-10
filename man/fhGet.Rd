@@ -31,6 +31,8 @@ names(r)
 r$response$status_code
 status_code(r$response)
 r
+Non existent user
+fhGet("people",0)
 }
 }
 \seealso{

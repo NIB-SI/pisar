@@ -20,12 +20,17 @@ FAIRDOMhub component identifier: id, type and title.
 \description{
 Get details of component with id from an *fh* object.
 }
+\note{
+If item is not found, value 0 is returned as id.
+}
 \examples{
 \\donotrun{
 fhIni()
 id <- fhFindId("people","Guest")
 id
 fhFindTitle("people",id)
+# does not exist
+fhFindId("people","No User")
 # List of projects
 projects <- fhFindId("projects")
 head(projects)

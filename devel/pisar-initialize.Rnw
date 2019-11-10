@@ -3,7 +3,7 @@
 % .R knitr file  ************************************************
 % ----------------------------------------------------------------
 %%
-<<author, echo=FALSE>>=
+<<echo=FALSE>>=
 ###############################################
 ##                                           ##
 ## (c) Andrej Blejec (andrej.blejec@nib.si)  ##
@@ -11,13 +11,13 @@
 ###############################################
 @
 \section{Functions}
-<<testing,echo=FALSE, purl=FALSE>>=
+<<testing1,echo=FALSE, purl=FALSE>>=
 .testing <- FALSE
 @
 
 \subsection{Package description}
 
-<<Package description>>=
+<<Package description1>>=
 #' pisar: pISA-tree support functions
 #'
 #' The package provides several functions for support

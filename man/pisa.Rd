@@ -57,7 +57,7 @@ names(pisa)
 dir(pisa$p$root)
 # Set pisa options
 options(pisa=pisa(global=FALSE))
-# Access details with $ 
+# Access details with $
 options()$pisa$p$root
 setwd(oldwd)
 }

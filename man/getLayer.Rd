@@ -27,6 +27,8 @@ oldwd
 getLayer("I")
 getLayer("S")
 getLayer("A")
+if(interactive()) setwd(oldwd)
+getwd()
 }
 }
 \author{
