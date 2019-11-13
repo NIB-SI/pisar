@@ -6,9 +6,6 @@
 ###############################################
 #
 
-## ----d,echo=FALSE,results='hide'-----------------------------------------
-options(width=70)
-library(httr)
 
 
 ## ----fhIni---------------------------------------------------------------
@@ -18,7 +15,7 @@ library(httr)
 #'
 #' @param test If TRUE, test server will be used..
 #' @return A list with URL and user information. For side effect see Notes.
-#' @notes The returned list is added to the
+#' @note The returned list is added to the
 #'      \code{options()} list under name 'fhub'.
 #' @export
 #' @keywords file
@@ -118,7 +115,7 @@ fhParse <- function(resp, ...){
        class = "seek_api"
        )
   return(ret)
-  
+
 }
 
 
@@ -380,15 +377,13 @@ fhFindTitle <- function(type, id){
 #'   , meta= meta
 #'   )
 #' str(sa)
-#' }
 #'
 #' type = "data_files"
-#' file = 
+#' file =
 #' sdata <- fhSkeleton( type = type
 #'   , meta= meta
 #'   )
 #' str(sdata)
-#' }
 #'
 #' }
 fhSkeleton <- function (type = "assay", meta, file){
@@ -845,7 +840,7 @@ fhLog <- function( ..., file="FAIRDOM.log",append=TRUE){
 #' @return MIME type string.
 #' @export
 #' @keywords pisa
-#' @seealso 
+#' @seealso \code{\link{fhUpload}}
 #' @author Andrej Blejec \email{andrej.blejec@nib.si}
 #' @examples
 #' contentType("bla.txt")
@@ -857,7 +852,7 @@ contentType <- function(x){
   switch(tolower(fileType(x))
          , txt  = "text/plain"
          , rnw  = "text/plain"
-         , log  = "text/plain"        
+         , log  = "text/plain"
          , rmd  = "text/markdown"
          , md   = "text/markdown"
          , csv  = "text/plain"
@@ -888,7 +883,7 @@ contentType <- function(x){
 #'
 #' @param type Component name (e.g. 'people', 'projets', ...).
 #' @param meta Data frame with pISA metadata or
-#'     a list with minimal information (Title, 
+#'     a list with minimal information (Title,
 #'     Description, *ToDo: add fields*).
 #' @param class Assay class key string.
 #'     Possible values are 'EXP' and 'MODEL'.
@@ -957,6 +952,8 @@ contentType <- function(x){
 #' astring <- "_p_Demo/_I_Test/_S_Show/_A_Work-R/"
 #' oldwd <- setwd(system.file("extdata",astring,package="pisar"))
 #' oldwd
+#' Initialize pISA
+#' pisa()
 #' .aname <- getLayer("A")
 #' .aroot <- getRoot("A")
 #' .ameta  <- readMeta()
@@ -977,7 +974,7 @@ contentType <- function(x){
 #' getwd()
 #' res <- sdat$content
 #' item_link <- file.path(res$meta$base_url,res$links$self)
-#' if(interactive()) shell.exec(item_link) 
+#' if(interactive()) shell.exec(item_link)
 #' }
 fhCreate <- function (type = "assays", meta=list(), class="EXP", file="NA.TXT"){
      myid <- options()$fhub$myid
@@ -1037,9 +1034,9 @@ fhCreate <- function (type = "assays", meta=list(), class="EXP", file="NA.TXT"){
         s$data$attributes$policy$permissions$resource$id <- pid
         s$data$relationships$creators$data$id <- myid
         s$data$relationships$projects$data$id <- pid
-        s$data$relationships$assays$data$id <- aid            
+        s$data$relationships$assays$data$id <- aid
       }
-      , documents = {    
+      , documents = {
         document_title <- paste0("/",file)
         document_description <- getMeta(meta,"Description")
         content_type <- contentType(file)
@@ -1062,7 +1059,7 @@ fhCreate <- function (type = "assays", meta=list(), class="EXP", file="NA.TXT"){
         s$data$attributes$content_blobs
         s$data$attributes$other_creators <- ""
         s$data$attributes$tags <- c("pISA", tags)
-      }     
+      }
      )
      baseurl <- options()$fhub$baseurl
      uri <- modify_url(baseurl,path=s$data$type)
@@ -1087,7 +1084,7 @@ fhCreate <- function (type = "assays", meta=list(), class="EXP", file="NA.TXT"){
          )
      parsed <- fhParse(resp)
      fhLog( resp$headers$status, round(fht["elapsed"],2), parsed$url)
-# Upload file blob     
+# Upload file blob
      if(FALSE&&s$data$type %in% c("data_files", "documents")){
      fhLog("Upload file:", file)
      res <- parsed$content
@@ -1095,7 +1092,7 @@ fhCreate <- function (type = "assays", meta=list(), class="EXP", file="NA.TXT"){
      blob_link <- res$attributes$content_blobs[[1]]$link
      # Fill the content blob with data
      uri <- blob_link
-     fpath <- file.path(".",.aroot, file) 
+     fpath <- file.path(".",.aroot, file)
      if(file.exists(fpath)) {
      fhLog("fhUpload",uri)
      fht <- system.time(
@@ -1115,7 +1112,7 @@ fhCreate <- function (type = "assays", meta=list(), class="EXP", file="NA.TXT"){
     resp_blob <- paste("Error: File not found:" ,fpath)
     fhLog( resp_blob$headers$status
          , round(fht["elapsed"],2)
-         , parsed$url)  
+         , parsed$url)
      }
      }
      parsed
@@ -1141,14 +1138,17 @@ fhCreate <- function (type = "assays", meta=list(), class="EXP", file="NA.TXT"){
 #' @author Andrej Blejec \email{andrej.blejec@nib.si}
 #' @examples
 #'  iid <- 115
-#'  fhIni(prid = 26, pid=104, iid=iid, aid= test=TRUE)
+#'  sid <- 117
+#'  fhIni(prid = 26, pid=104, iid=iid, sid=sid, aid=400, test=TRUE)
 #' meta <- list(Title="Title", Description="Description")
 #' file <- dir()[1]
 #' file
 #' fhd <- fhCreate("documents",meta,file=file)
 #' fhd
-#' sda <- fhUpload(fhd, file)
-#' 
+#' fhUpload(fhd, file)
+#' # Try to upload Non-existent file
+#' fhUpload(fhd,"NonExistentFile.err")
+#'
 fhUpload <- function( object, file){
      if(object$content$type %in% c("data_files", "documents")){
      fhLog("Upload file:", file)
@@ -1172,16 +1172,18 @@ fhUpload <- function( object, file){
     , encode="json"
     , accept("*.*")
     ))
-    print(resp)
+    if(!exists("resp")) print("Error: no such file")
     fs <- round(as.numeric(rawToChar(resp$content))/1024^2,3)
     file_size <- paste0(fpath, " | ", fs,"MB")
-    } else {
-    resp_blob <- paste("Error: File not found:" ,fpath)
-    }
-    fhLog( resp$headers$status
+        fhLog( resp$headers$status
          , round(fht["elapsed"],2)
          , file_size
          , object$url)
+    } else {
+    resp <- paste("Error: File not found >" ,fpath)
+    fhLog(resp)
+    }
+
 }
   resp
 }

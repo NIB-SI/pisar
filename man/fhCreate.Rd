@@ -11,7 +11,7 @@ fhCreate(type = "assays", meta = list(), class = "EXP",
 \item{type}{Component name (e.g. 'people', 'projets', ...).}
 
 \item{meta}{Data frame with pISA metadata or
-a list with minimal information (Title, 
+a list with minimal information (Title,
 Description, *ToDo: add fields*).}
 
 \item{class}{Assay class key string.
@@ -85,6 +85,8 @@ options("fhub")
 astring <- "_p_Demo/_I_Test/_S_Show/_A_Work-R/"
 oldwd <- setwd(system.file("extdata",astring,package="pisar"))
 oldwd
+Initialize pISA
+pisa()
 .aname <- getLayer("A")
 .aroot <- getRoot("A")
 .ameta  <- readMeta()
@@ -105,7 +107,7 @@ if(interactive()) setwd(oldwd)
 getwd()
 res <- sdat$content
 item_link <- file.path(res$meta$base_url,res$links$self)
-if(interactive()) shell.exec(item_link) 
+if(interactive()) shell.exec(item_link)
 }
 }
 \seealso{

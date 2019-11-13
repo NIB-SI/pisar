@@ -24,13 +24,16 @@ of newly created component can be used. Check status code.
 }
 \examples{
  iid <- 115
- fhIni(prid = 26, pid=104, iid=iid, aid= test=TRUE)
+ sid <- 117
+ fhIni(prid = 26, pid=104, iid=iid, sid=sid, aid=400, test=TRUE)
 meta <- list(Title="Title", Description="Description")
 file <- dir()[1]
 file
 fhd <- fhCreate("documents",meta,file=file)
 fhd
-sda <- fhUpload(fhd, file)
+fhUpload(fhd, file)
+# Try to upload Non-existent file
+fhUpload(fhd,"NonExistentFile.err")
 
 }
 \seealso{

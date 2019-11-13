@@ -22,6 +22,9 @@ contentType("bla.tar.gz")
 contentType("bla.bla")
 
 }
+\seealso{
+\code{\link{fhUpload}}
+}
 \author{
 Andrej Blejec \email{andrej.blejec@nib.si}
 }

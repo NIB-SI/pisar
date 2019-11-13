@@ -127,7 +127,7 @@ childtxt <- paste(childtxt
     , output=file.path(pkgPath,"R",pkgFile[i])))
 }
 file.path(pkgPath,"R")
-dir(file.path(pkgPath,"R"))
+#dir(file.path(pkgPath,"R"))
 
 @
 \Sexpr{childtxt}

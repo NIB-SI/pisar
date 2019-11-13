@@ -18,6 +18,40 @@ A list with the minimal information structure.
 \description{
 Creates *fh* object with required structure.
 }
+\examples{
+\\donotrun{
+require(jsonlite)
+meta= list(Title = "Test layer", Description = "Some description")
+type = "projects"
+sp <- fhSkeleton( type = type
+  , meta= meta
+  )
+str(sp)
+type = "investigations"
+si <- fhSkeleton( type = type
+  , meta= meta
+  )
+str(si)
+type = "studies"
+ss <- fhSkeleton( type = type
+  , meta= meta
+  )
+str(ss)
+type = "assays"
+sa <- fhSkeleton( type = type
+  , meta= meta
+  )
+str(sa)
+
+type = "data_files"
+file =
+sdata <- fhSkeleton( type = type
+  , meta= meta
+  )
+str(sdata)
+
+}
+}
 \seealso{
 \code{\link{fhCreate}}
 }

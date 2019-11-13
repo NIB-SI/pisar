@@ -22,7 +22,6 @@
 #'     \item To enable use of metadata for reproducible documents.
 #'     \item To enable automated upload to external repository.
 #' (FAIRDOMhub).
-#' }
 #'
 #' @docType package
 #' @name pisar
@@ -115,12 +114,14 @@ fsummary(data.frame(x=rnorm(20),txt=sample(letters,20,rep=TRUE)))
 #' @author Andrej Blejec \email{andrej.blejec@nib.si}
 #' @examples
 #' getRoot("p", path="d:/_p_prj/_I_inv/_S_st/_A_asy/other/doc")
+#' getRoot("A", path="d:/_p_prj/_I_inv/_S_st/_A_asy")
 getRoot <- function(x="p",path=getwd(),...){
 dirs <- strsplit(path,"/")[[1]]
 nl <- length(dirs)-which(regexpr(paste0("_",x,"_"),dirs)>0)
 if(length(nl)<=0) stop(paste("Path is not within a pISA-tree:\n"
         , path))
-paste(rep("..",nl),collapse="/")
+if( nl > 0 ) rpath <- paste(rep("..",nl),collapse="/") else rpath="."
+rpath
 }
 
 
