@@ -974,7 +974,7 @@ contentType <- function(x){
 #'  #str(sa)
 #'  sa
 #' }
-#'
+#' if(TRUE){
 #' # Type: data_file
 #' astring <- "_p_Demo/_I_Test/_S_Show/_A_Work-R/"
 #' oldwd <- setwd(system.file("extdata",astring,package="pisar"))
@@ -1003,6 +1003,7 @@ contentType <- function(x){
 #' item_link <- file.path(res$meta$base_url,res$links$self)
 #' if(interactive()) shell.exec(item_link)
 #' }
+$' }
 fhCreate <- function (type = "assays", meta=list(), class="EXP", file="NA.TXT"){
      myid <- options()$fhub$myid
      prid <- options()$fhub$prid
