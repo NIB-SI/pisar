@@ -273,6 +273,59 @@ getMeta.list <- function(x,...){
 
 možno tudi
 \hyperref{takole}{https://stackoverflow.com/questions/7198758/roxygen2-how-to-properly-document-s3-methods/7199577}
+<<pasteMeta>>=
+#' Paste metadata values
+#'
+#' Paste metadata values into a strig.
+#' @param x Two column character data frame or with Key / Value pairs or
+#'    a list of Vales named by Keys.
+#' @param kvsep Key/Value separator (default is \t).
+#' @param nlsep line separator (default is new line \n).
+#' @return Character string with concatenated key values.
+#' @export
+#' @keywords pisa
+#' @author Andrej Blejec \email{andrej.blejec@nib.si}
+#' @examples
+#' \dontrun{
+#' astring <- "_p_Demo/_I_Test/_S_Show/_A_Work-R/other"
+#' oldwd <- setwd(system.file("extdata",astring,package="pisar"))
+#' oldwd
+#' .iroot <- getRoot("I")
+#' .imeta <- readMeta(.iroot)
+#' x <- pasteMeta(.imeta)
+#' x
+#' cat(x)
+#' # list
+#' listmeta <- list(Title = "My title"
+#'    , Description = "A longer description")
+#' x <- pasteMeta( listmeta)
+#' x
+#' cat(x)
+#' setwd(oldwd)
+#' }
+#' @rdname pasteMeta
+#' @export pasteMeta
+pasteMeta <- function (x, kvsep="\t", nlsep="\n") {
+   UseMethod("pasteMeta", x)
+ }
+#' @rdname pasteMeta
+#' @export pasteMeta.default
+pasteMeta.default <- function(x, kvsep="\t", nlsep="\n") {
+paste0(paste(apply(x, 1,
+            function(x) paste(x, collapse=kvsep) )
+            , collapse=nlsep)
+            ,nlsep)
+}
+#' @rdname getMeta
+#' @export getMeta.list
+pasteMeta.list <- function(x, kvsep=":\t", nlsep="\n"){
+   x <- data.frame(Key=names(x),Value=as.vector(unlist(x)))
+print(x)
+   pasteMeta(x, kvsep=kvsep,nlsep=nlsep)
+   }
+@
+
+
 
 
 <<eval=FALSE,purl=FALSE >>=

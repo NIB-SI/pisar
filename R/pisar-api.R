@@ -34,15 +34,17 @@ fhIni <- function(
     , iid = NULL
     , sid = NULL
     , aid = NULL
+    , myid = NULL
+    , crid = NULL
     , test=TRUE){
-mainurl <- "https://www.fairdomhub.org/"
+mainurl <- "https://fairdomhub.org/"
 testurl <- "https://testing.sysmo-db.org"
 # My personal ids
 my_main_id <- 808
 my_test_id <- 368
 # I will use the testing site for the development and experiments:
 baseurl <- ifelse(test, testurl, mainurl)
-myid <- ifelse(test, my_test_id, my_main_id)
+if(is.null(myid)) myid <- ifelse(test, my_test_id, my_main_id)
 usr <- ifelse(test, "ablejec", "ablejec")
 pwd <- ifelse(test, "testni.1234", "Abink.9912")
 tmp <- list(baseurl = baseurl
@@ -54,10 +56,36 @@ tmp <- list(baseurl = baseurl
    , iid = as.character(iid)
    , sid = as.character(sid)
    , aid = as.character(aid)
+   , crid = as.character(crid)
    )
    options(fhub = tmp)
 invisible(tmp)
 }
+
+
+## ----fhLog---------------------------------------------------------------
+#' Writes a note to a log file.
+#'
+#' @param ... Objects to form a line.
+#' @param file Log file name.
+#' @param append Control append/rewrite mode.
+#' @return System time of invoking..
+#' @export
+#' @keywords pisa
+#' @author Andrej Blejec \email{andrej.blejec@nib.si}
+#' @examples
+#' tst <- function(){
+#'   fhLog("Test", "writing to logfile", file="")
+#'   fht <- system.time(Sys.sleep(1))
+#'   fhLog( "Time:", round(fht["elapsed"],2), file="")
+#' }
+#' tst()
+#' rm(tst)
+#' @rdname fhLog
+#' @export fhLog
+fhLog <- function( ..., file="FAIRDOM.log",append=TRUE){
+   cat(paste(Sys.time(),..., "\n"), file=file, append=append)
+   }
 
 
 ## ----fhParse-------------------------------------------------------------
@@ -179,15 +207,15 @@ invisible(x)
 #' r$response$status_code
 #' status_code(r$response)
 #' r
-#' Non existent user
+#' #Non existent user
 #' fhGet("people",0)
 #' }
 fhGet <- function(type, id,
                    uri=options()$fhub$baseurl, ... ){
-#                  uri="https://www.fairdomhub.org", ... ){
+#                  uri="https://fairdomhub.org", ... ){
   if(!missing(type)) uri <- paste0(uri,"/",type)
   if(!missing(id)) uri <- paste0(uri,"/",id)
-  ua <- user_agent("https://github.com/ablejec/pisar")
+  ua <- httr::user_agent("https://github.com/ablejec/pisar")
   fhLog("fhGet", uri)
   fht <- system.time(
   resp <- GET(uri,
@@ -246,19 +274,19 @@ fhGet <- function(type, id,
 #' id <- d[[pmatch(myname,titles)]]$id
 #' id
 #' }
-fhData <- function(r, node, ...){
-  if(class(r)=="seek_api") r <- r$response
-  jsn <- "application/json"
-  if(missing(node)) invisible(content(r,"parsed",type=jsn)$data) else
-  invisible(content(r,"parsed",type=jsn)$data[[node]])
-}
+#fhData <- function(r, node, ...){
+#  if(class(r)=="seek_api") r <- r$response
+#  jsn <- "application/json"
+#  if(missing(node)) invisible(content(r,"parsed",type=jsn)$data) else
+#  invisible(content(r,"parsed",type=jsn)$data[[node]])
+#}
 fhData <- function(r, node, ...){
   if(class(r)=="seek_api") r <- r$content
   jsn <- "application/json"
   if(missing(node)) invisible(r) else
   invisible(r[[node]])
 }
-fhDatas <- fhData
+#fhDatas <- fhData
 
 
 ## ----fhFindId------------------------------------------------------------
@@ -287,19 +315,69 @@ fhDatas <- fhData
 #' projects <- fhFindId("projects")
 #' head(projects)
 #' }
+###fhFindId <- function(type, title){
+###     r <- fhGet(type)
+###     d <- fhData(r)
+###     titles <- t(sapply(d,function(x) c(id=x$id, type=x$type, title=x$attributes$title)))
+###     # Get FAIRDOMhub user id
+###     if(!missing(title)){
+###       id <- d[[pmatch(title,titles[,"title"])]]$id
+###       if(is.null(id)) id <- 0
+###       return(c(id=id,type=type, title=title))
+###     } else {
+###     return(titles)
+###     }
+###}
+#
 fhFindId <- function(type, title){
+     above <- switch(type,
+          "programmes" = c("","")
+        , "people" = c(""  ,"")
+        , "projects" = c("", "prid")
+        , "investigations" = c("projects", "pid")
+        , "studies" = c("investigation" , "iid")
+        , "assays" = c("study", "sid")
+        , "documents" = c("assay", "aid")
+        , "data_files" = c("assay", "aid")
+        )
      r <- fhGet(type)
      d <- fhData(r)
      titles <- t(sapply(d,function(x) c(id=x$id, type=x$type, title=x$attributes$title)))
+     #titles <- as.data.frame(titles)
      # Get FAIRDOMhub user id
      if(!missing(title)){
-       id <- d[[pmatch(title,titles[,"title"])]]$id
-       if(is.null(id)) id <- 0
+       titles <- titles[titles[,"title"]%in%title,, drop=FALSE]
+       if(length(titles)==0) return(c(id=0,type=type, title=title))
+#       if( length(titles) == 3 )  ids <- titles["id"] else
+       ids <- titles[,"id"]
+       if( above[1] !="") {
+       # check relationship
+       if(type %in% c("investigations", "projects")) {
+       abids <- sapply(as.numeric(titles[,"id"])
+         , function(x)
+         fhGet(type, x)$content$relations[[above[1]]]$data[[1]]$id
+         )} else {
+                abids <- sapply(as.numeric(titles[,"id"])
+         , function(x)
+         fhGet(type, x)$content$relations[[above[1]]]$data$id
+         )
+       }
+       if(length(options()$fhub[[above[2]]])==0) { warning("No '", above[1] ,"' id specified in options()$fhub.")
+       return(c(id=0,type=type, title=title)) }
+       titles <- titles[abids %in% options()$fhub[[above[2]]],, drop=FALSE]
+       }
+       id <- as.vector(titles[,"id"])
+       if(length(id)==0) id <- 0
        return(c(id=id,type=type, title=title))
      } else {
      return(titles)
      }
 }
+fhFindId("projects","_p_stRT")
+fhFindId("investigations","_I_STRT")
+fhFindId("studies","_S_04_stPanTr")
+fhFindId("assays","_A_04-MSA")
+fhFindId("assays","_A_04-MSAxx")
 
 
 ## ----fhFindTitle---------------------------------------------------------
@@ -805,34 +883,6 @@ return(sr)
 }
 
 
-## ----fhLog---------------------------------------------------------------
-#' Writes a note to a log file.
-#'
-#' @param ... Objects to form a line.
-#' @param file Log file name.
-#' @param append Control append/rewrite mode.
-#' @return System time of invoking..
-#' @export
-#' @keywords pisa
-#' @seealso \code{\link{fhGet}}
-#' @author Andrej Blejec \email{andrej.blejec@nib.si}
-#' @examples
-#' tst <- function(){
-#'   fhLog("Test", "writing to logfile", file="")
-#'   fht <- system.time(Sys.sleep(1))
-#'   fhLog( "Time:", round(fht["elapsed"],2))
-
-#' }
-#' tst()
-#' rm(tst)
-#'
-#' @rdname fhLog
-#' @export fhLog
-fhLog <- function( ..., file="FAIRDOM.log",append=TRUE){
-   cat(paste(Sys.time(),..., "\n"), file=file, append=append)
-   }
-
-
 ## ------------------------------------------------------------------------
 #' Determine MIME type for file.
 #'
@@ -947,7 +997,7 @@ contentType <- function(x){
 #'  #str(sa)
 #'  sa
 #' }
-#'
+#' if(TRUE){
 #' # Type: data_file
 #' astring <- "_p_Demo/_I_Test/_S_Show/_A_Work-R/"
 #' oldwd <- setwd(system.file("extdata",astring,package="pisar"))
@@ -976,6 +1026,7 @@ contentType <- function(x){
 #' item_link <- file.path(res$meta$base_url,res$links$self)
 #' if(interactive()) shell.exec(item_link)
 #' }
+#' }
 fhCreate <- function (type = "assays", meta=list(), class="EXP", file="NA.TXT"){
      myid <- options()$fhub$myid
      prid <- options()$fhub$prid
@@ -983,6 +1034,7 @@ fhCreate <- function (type = "assays", meta=list(), class="EXP", file="NA.TXT"){
      iid <-  options()$fhub$iid
      sid <-  options()$fhub$sid
      aid <-  options()$fhub$aid
+     crid <- options()$fhub$crid
      s <- fhSkeleton(type, meta)
 # Common fileds
      s$data$attributes$title  <-  getMeta(meta,"Title")
@@ -1064,6 +1116,7 @@ fhCreate <- function (type = "assays", meta=list(), class="EXP", file="NA.TXT"){
      baseurl <- options()$fhub$baseurl
      uri <- modify_url(baseurl,path=s$data$type)
      I <- toJSON(s, auto_unbox=TRUE, pretty=TRUE)
+     #print(I)
      #
      # For testing: list JSON object
      #     cat(I, "\n")
@@ -1080,6 +1133,7 @@ fhCreate <- function (type = "assays", meta=list(), class="EXP", file="NA.TXT"){
          , accept("application/json")
          , content_type_json()
          , ua
+         , verbose()
          )
          )
      parsed <- fhParse(resp)
