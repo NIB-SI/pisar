@@ -1,4 +1,4 @@
-## ----echo=FALSE----------------------------------------------------------
+## ----echo=FALSE-----------------------------------------------------
 ###############################################
 ##                                           ##
 ## (c) Andrej Blejec (andrej.blejec@nib.si)  ##
@@ -8,7 +8,7 @@
 
 
 
-## ----Package description1------------------------------------------------
+## ----Package description1-------------------------------------------
 #' pisar: pISA-tree support functions
 #'
 #' The package provides several functions for support
@@ -28,7 +28,7 @@
 NULL
 
 
-## ----fileName------------------------------------------------------------
+## ----fileName-------------------------------------------------------
 #' Extract file name
 #'
 #' Extract file name from a file path.
@@ -52,7 +52,7 @@ gsub("(.*)\\.(.*)","\\1",basename(x))
 }
 
 
-## ----fileType------------------------------------------------------------
+## ----fileType-------------------------------------------------------
 #' Extract file type
 #'
 #' Extract file type from a file path.
@@ -78,7 +78,7 @@ fileType("bla")
 fileType("./bla.Rnw")
 
 
-## ----fsummary------------------------------------------------------------
+## ----fsummary-------------------------------------------------------
 #' As factor summary of a data frame
 #'
 #' @param x Data frame.
@@ -99,7 +99,7 @@ fsummary <- function(x,...){
 fsummary(data.frame(x=rnorm(20),txt=sample(letters,20,rep=TRUE)))
 
 
-## ----getRoot-------------------------------------------------------------
+## ----getRoot--------------------------------------------------------
 #' Get root directory for pISA layer
 #'
 #' @param x Character characteristic for pISA layer (one of p, I, S, or A).
@@ -127,7 +127,7 @@ rpath
 
 
 
-## ----readMeta------------------------------------------------------------
+## ----readMeta-------------------------------------------------------
 #' Read metadata file from the given directory
 #'
 #' @param x File path to the pISA layer.
@@ -165,7 +165,7 @@ return(p)
 readMeta(.pISAloc)
 
 
-## ----print.pISAmeta------------------------------------------------------
+## ----print.pISAmeta-------------------------------------------------
 #' Print metadata object as Dlist
 #'
 #' @param x Metadata object, data.frame with two columns.
@@ -196,7 +196,7 @@ print.pISAmeta <- function(x, width = max(nchar(x[,1]))*3.5,  ...){
 
 
 
-## ----getMeta-------------------------------------------------------------
+## ----getMeta--------------------------------------------------------
 #' Get metadata value
 #'
 #' @param x Two column character data frame with Key / Value pairs.
@@ -245,7 +245,7 @@ getMeta.list <- function(x,...){
    }
 
 
-## ----pasteMeta-----------------------------------------------------------
+## ----pasteMeta------------------------------------------------------
 #' Paste metadata values
 #'
 #' Paste metadata values into a strig.
@@ -303,7 +303,7 @@ print(x)
 
 
 
-## ----getLayer------------------------------------------------------------
+## ----getLayer-------------------------------------------------------
 #' Get pISA layer name
 #'
 #' @param x Layer character (one of p, I, S, or A).
@@ -337,7 +337,7 @@ getLayer <- function(x, path=getwd()){
   }
 
 
-## ------------------------------------------------------------------------
+## -------------------------------------------------------------------
 #' Create output directory
 #'
 #' Create output directory, name it with appended arguments.
@@ -367,7 +367,7 @@ out.path <- function(out.dir="../out", args="", which=1:length(args)) {
 }
 
 
-## ----pisa----------------------------------------------------------------
+## ----pisa-----------------------------------------------------------
 #' Extract pISA-tree details
 #'
 #' Extract pISA-tree details: name, root and metadata

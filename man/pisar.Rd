@@ -3,7 +3,6 @@
 \docType{package}
 \name{pisar}
 \alias{pisar}
-\alias{pisar-package}
 \title{pisar: pISA-tree support functions}
 \description{
 The package provides several functions for support

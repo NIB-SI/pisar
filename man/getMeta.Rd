@@ -4,6 +4,7 @@
 \alias{getMeta}
 \alias{getMeta.default}
 \alias{getMeta.list}
+\alias{pasteMeta.list}
 \title{Get metadata value}
 \usage{
 getMeta(x, ...)
@@ -11,6 +12,8 @@ getMeta(x, ...)
 \method{getMeta}{default}(x, item, nl = TRUE)
 
 \method{getMeta}{list}(x, ...)
+
+\method{pasteMeta}{list}(x, kvsep = ":\\t", nlsep = "\\n")
 }
 \arguments{
 \item{x}{Two column character data frame with Key / Value pairs.}
