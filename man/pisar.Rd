@@ -13,9 +13,9 @@ and use of pISA-tree.
 pISA-tree is a standardized directory tree
 for storing projet information under ISA paradigm.
 The set of functions have two fold purpose:
-\enumerate
+\enumerate{
     \item To enable use of metadata for reproducible documents.
     \item To enable automated upload to external repository.
-(FAIRDOMhub).
+(e. g. FAIRDOMhub).}
 }
 

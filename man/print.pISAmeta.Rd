@@ -20,8 +20,10 @@ Print metadata object as Dlist
 Metadata table is printed in convenient Dlist form.
 }
 \examples{
+\dontrun{
 .pISAloc <- system.file("extdata","_p_Demo",package="pisar")
 readMeta(.pISAloc)
+}
 }
 \author{
 Andrej Blejec \email{andrej.blejec@nib.si}

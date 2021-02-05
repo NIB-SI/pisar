@@ -13,9 +13,9 @@ pasteMeta(x, kvsep = "\\t", nlsep = "\\n")
 \item{x}{Two column character data frame or with Key / Value pairs or
 a list of Vales named by Keys.}
 
-\item{kvsep}{Key/Value separator (default is \t).}
+\item{kvsep}{Key/Value separator (default is tab character).}
 
-\item{nlsep}{line separator (default is new line \n).}
+\item{nlsep}{line separator (default is new line).}
 }
 \value{
 Character string with concatenated key values.
