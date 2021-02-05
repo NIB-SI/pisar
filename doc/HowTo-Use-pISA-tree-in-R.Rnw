@@ -6,7 +6,7 @@
 %%
 %\VignetteIndexEntry{HowTo Use pISA-tree in R}
 %\VignetteDepends{}
-%VignetteBuilder{knitr}
+%\VignetteBuilder{knitr}
 %\VignetteEngine{knitr::knit}
 %\VignettePackage{pisar}
 %\VignetteEncoding{UTF-8}

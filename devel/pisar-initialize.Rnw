@@ -11,7 +11,7 @@
 ###############################################
 @
 \section{Functions}
-<<testing1,echo=FALSE, purl=FALSE>>=
+<<echo=FALSE, purl=FALSE>>=
 .testing <- FALSE
 @
 
@@ -27,10 +27,10 @@
 #' pISA-tree is a standardized directory tree
 #' for storing projet information under ISA paradigm.
 #' The set of functions have two fold purpose:
-#' \enumerate
+#' \enumerate{
 #'     \item To enable use of metadata for reproducible documents.
 #'     \item To enable automated upload to external repository.
-#' (FAIRDOMhub).
+#' (e. g. FAIRDOMhub).}
 #'
 #' @docType package
 #' @name pisar
@@ -174,7 +174,7 @@ d <- tolower(dir(x))
 d
 lfn <- d[regexpr(".*_metadata",d)>0]
 if(length(lfn)==0) warning("No metadata file found")
-if(length(lfn)>1) warning("More tha one metadata file found:", d)
+if(length(lfn)>1) warning("More than one metadata file found:", d)
 if(length(lfn)==1){
   p <- rio::import(file.path(x, lfn)
   ,sep="\t", stringsAsFactors=FALSE, col.names=c("Key","Value"))
@@ -183,8 +183,8 @@ class(p)<- c("pISAmeta", "Dlist", class(p))
 return(p)
 }
 ##
-.pISAloc <- system.file("extdata","_p_Demo",package="pisar")
-readMeta(.pISAloc)
+#.pISAloc <- system.file("extdata","_p_Demo",package="pisar")
+#readMeta(.pISAloc)
 @
 
 \subsection{print.pISAmeta}
@@ -200,8 +200,10 @@ readMeta(.pISAloc)
 #' @keywords package
 #' @author Andrej Blejec \email{andrej.blejec@nib.si}
 #' @examples
+#' \dontrun{
 #' .pISAloc <- system.file("extdata","_p_Demo",package="pisar")
 #' readMeta(.pISAloc)
+#' }
 print.pISAmeta <- function(x, width = max(nchar(x[,1]))*3.5,  ...){
     #if(inherits(x,"pISAmeta")
     #print(width)
@@ -279,8 +281,8 @@ možno tudi
 #' Paste metadata values into a strig.
 #' @param x Two column character data frame or with Key / Value pairs or
 #'    a list of Vales named by Keys.
-#' @param kvsep Key/Value separator (default is \t).
-#' @param nlsep line separator (default is new line \n).
+#' @param kvsep Key/Value separator (default is tab character).
+#' @param nlsep line separator (default is new line).
 #' @return Character string with concatenated key values.
 #' @export
 #' @keywords pisa
