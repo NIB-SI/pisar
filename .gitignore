@@ -10,8 +10,6 @@ packrat/lib*/
 .RData
 .Ruserdata
 inst/doc
-devel/
-doc/
 gitHeadInfo.gin
 # Windows image file caches
 Thumbs.db
