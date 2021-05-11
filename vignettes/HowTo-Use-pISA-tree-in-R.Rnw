@@ -211,14 +211,14 @@ In addition to usual data extraction methods (using square brackets), we can do 
 
 Get the title of the project:
 
-<<eval=FALSE>>=
+<<eval=!FALSE>>=
 getMeta(.pmeta,"Title")
 getMeta(.pmeta,"Title:")
 @
 
 As we can see, the requested item value can be used with or without the colon.
 
-<<eval=FALSE>>=
+<<eval=!FALSE>>=
 getMeta(.ameta,"Description")
 @
 

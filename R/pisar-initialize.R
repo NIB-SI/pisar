@@ -227,31 +227,18 @@ print.pISAmeta <- function(x, width = max(nchar(x[,1]))*3.5,  ...){
 #' }
 #' @rdname getMeta
 #' @export getMeta
-getMeta <- function (x, ...) {
-   UseMethod("getMeta", x)
- }
-#' @rdname getMeta
-#' @export getMeta.default
-getMeta.default <- function(x,item,nl=TRUE){
+getMeta <- function(x,item,nl=TRUE) {
+if (is.data.frame(x)) {
 item <- paste0(gsub(":","",item),":")
 ret <- unclass(x[match(item, x[,1]), 2])
 if(is.character(ret)&&nl) ret <- sub("\\\\n","\n",ret)
 return(ret)
 }
-#' @rdname getMeta
-#' @export getMeta.list
-getMeta.list <- function(x,...){
+if (is.list(x)) {
    nm <- paste0(gsub(":","",names(x)),":")
-   x <- data.frame(Key=nm,Value=unlist(x), stringsAsFactors=FALSE)
-   getMeta(x, ...)
+   xd <- data.frame(Key=nm,Value=unlist(x), stringsAsFactors=FALSE)
+   getMeta(xd, item, nl)
    }
-#' @rdname getMeta
-#' @export getMeta.pISAmeta
-getMeta.pISAmeta <- function(x,item,nl=TRUE){
-item <- paste0(gsub(":","",item),":")
-ret <- unclass(x[match(item, x[,1]), 2])
-if(is.character(ret)&&nl) ret <- sub("\\\\n","\n",ret)
-return(ret)
 }
 
 
@@ -298,8 +285,8 @@ paste0(paste(apply(x, 1,
             , collapse=nlsep)
             ,nlsep)
 }
-#' @rdname getMeta
-#' @export getMeta.list
+#' @rdname pasteMeta
+#' @export pasteMeta.list
 pasteMeta.list <- function(x, kvsep=":\t", nlsep="\n"){
    x <- data.frame(Key=names(x),Value=as.vector(unlist(x)))
 print(x)

@@ -3,11 +3,14 @@
 \name{pasteMeta}
 \alias{pasteMeta}
 \alias{pasteMeta.default}
+\alias{pasteMeta.list}
 \title{Paste metadata values}
 \usage{
 pasteMeta(x, kvsep = "\\t", nlsep = "\\n")
 
 \method{pasteMeta}{default}(x, kvsep = "\\t", nlsep = "\\n")
+
+\method{pasteMeta}{list}(x, kvsep = ":\\t", nlsep = "\\n")
 }
 \arguments{
 \item{x}{Two column character data frame or with Key / Value pairs or
