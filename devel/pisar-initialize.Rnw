@@ -271,6 +271,14 @@ getMeta.list <- function(x,...){
    x <- data.frame(Key=nm,Value=unlist(x), stringsAsFactors=FALSE)
    getMeta(x, ...)
    }
+#' @rdname getMeta
+#' @export getMeta.pISAmeta
+getMeta.pISAmeta <- function(x,item,nl=TRUE){
+item <- paste0(gsub(":","",item),":")
+ret <- unclass(x[match(item, x[,1]), 2])
+if(is.character(ret)&&nl) ret <- sub("\\\\n","\n",ret)
+return(ret)
+}
 @
 
 možno tudi

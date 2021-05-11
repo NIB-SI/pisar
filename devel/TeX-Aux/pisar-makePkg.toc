@@ -4,5 +4,5 @@
 \contentsline {subsection}{\numberline {2.2}Documentation}{6}{subsection.2.2}%
 \contentsline {subsection}{\numberline {2.3}Check}{7}{subsection.2.3}%
 \contentsline {subsection}{\numberline {2.4}Check results}{8}{subsection.2.4}%
-\contentsline {subsection}{\numberline {2.5}Build a package}{11}{subsection.2.5}%
-\contentsline {section}{\numberline {3}PDF documentation}{13}{section.3}%
+\contentsline {subsection}{\numberline {2.5}Build a package}{10}{subsection.2.5}%
+\contentsline {section}{\numberline {3}PDF documentation}{12}{section.3}%

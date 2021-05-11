@@ -193,7 +193,6 @@ Indentation of the Value part depends on the line widths and we will set it to s
 
 <<projectmeta>>=
 .pmeta
-
 @
 
 We can get other metadata information:
@@ -202,7 +201,6 @@ We can get other metadata information:
 (.imeta <- readMeta(.iroot))
 (.smeta <- readMeta(.sroot))
 (.ameta <- readMeta(.aroot))
-
 @
 
 \section{Getting specific parts from the metadata object}
@@ -211,14 +209,14 @@ In addition to usual data extraction methods (using square brackets), we can do 
 
 Get the title of the project:
 
-<<>>=
+<<eval=FALSE>>=
 getMeta(.pmeta,"Title")
 getMeta(.pmeta,"Title:")
 @
 
 As we can see, the requested item value can be used with or without the colon.
 
-<<>>=
+<<eval=FALSE>>=
 getMeta(.ameta,"Description")
 @
 

@@ -4,6 +4,7 @@
 \alias{getMeta}
 \alias{getMeta.default}
 \alias{getMeta.list}
+\alias{getMeta.pISAmeta}
 \alias{pasteMeta.list}
 \title{Get metadata value}
 \usage{
@@ -12,6 +13,8 @@ getMeta(x, ...)
 \method{getMeta}{default}(x, item, nl = TRUE)
 
 \method{getMeta}{list}(x, ...)
+
+\method{getMeta}{pISAmeta}(x, ...)
 
 \method{pasteMeta}{list}(x, kvsep = ":\\t", nlsep = "\\n")
 }
