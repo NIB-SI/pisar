@@ -2,24 +2,18 @@
 % Please edit documentation in R/pisar-initialize.R
 \name{getMeta}
 \alias{getMeta}
-\alias{getMeta.default}
-\alias{getMeta.list}
 \title{Get metadata value}
 \usage{
-getMeta(x, ...)
-
-\method{getMeta}{default}(x, item, nl = TRUE)
-
-\method{getMeta}{list}(x, ...)
+getMeta(x, item, nl = TRUE)
 }
 \arguments{
 \item{x}{Two column character data frame with Key / Value pairs.}
 
-\item{...}{Any other arguments (not used at the moment).}
-
 \item{item}{String, item name.}
 
 \item{nl}{Logical, expand backslash character for new lines.}
+
+\item{...}{Any other arguments (not used at the moment).}
 }
 \value{
 Character string with key value.

@@ -64,7 +64,7 @@ opts_chunk$set(fig.path='./figs/pisar-',concordance=TRUE,tidy=TRUE)
 options(width=70)
 library(knitr)
 library(devtools)
-
+#library(httr)
 @
 
 \clearpage
@@ -82,7 +82,7 @@ dir(pkgPath)
 dir(file.path(pkgPath,"R"))
 fctFile <- c(
       "pisar-initialize.Rnw"
-    , "pisar-api.Rnw")
+    )
 (pkgFile <- gsub("\\.Rnw$","\\.R",fctFile))
 @
 
@@ -126,7 +126,9 @@ childtxt <- paste(childtxt
     , purl(file.path("../devel",fctFile[i])
     , output=file.path(pkgPath,"R",pkgFile[i])))
 }
-dir(file.path(pkgPath,"R"))
+file.path(pkgPath,"R")
+#dir(file.path(pkgPath,"R"))
+
 @
 \Sexpr{childtxt}
 
@@ -139,8 +141,8 @@ usethis::use_package("knitr")
 usethis::use_package("rio")
 usethis::use_package("tools")
 usethis::use_package('RCurl')
-usethis::use_package('httr')
-usethis::use_package('jsonlite')
+#usethis::use_package('httr')
+#usethis::use_package('jsonlite')
 usethis::use_build_ignore(c("devel"))
 @
 \clearpage
@@ -202,14 +204,12 @@ dir(pattern=pkgName)
 
 <<>>=
 help(package=(pkgName), help_type="pdf")
-
 @
 
 Send package to R Windows builder
 
 <<eval=FALSE>>=
 devtools::build_win(pkgPath)
-
 @
 
 %<<child='encChild2.Rnw'>>=

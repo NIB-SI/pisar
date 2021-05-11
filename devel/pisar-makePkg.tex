@@ -67,7 +67,14 @@
 % ----------------------------------------------------------------
 \tableofcontents
 
-
+\begin{Schunk}
+\begin{Soutput}
+Warning: package 'devtools' was built under R version 4.0.3
+\end{Soutput}
+\begin{Soutput}
+Warning: package 'usethis' was built under R version 4.0.3
+\end{Soutput}
+\end{Schunk}
 
 \clearpage
 \section{Preparation}
@@ -81,13 +88,13 @@ Set package source directory
 > (pkgPath <- gsub("/R/", "/R/!packages/", dirname(getwd())))
 \end{Sinput}
 \begin{Soutput}
-[1] "D:/OMIKE/pisar"
+[1] "C:/__D/OMIKE/pisar"
 \end{Soutput}
 \begin{Sinput}
 > (pkgPath <- gsub("/R/", "/R/!packages/", dirname(getwd())))
 \end{Sinput}
 \begin{Soutput}
-[1] "D:/OMIKE/pisar"
+[1] "C:/__D/OMIKE/pisar"
 \end{Soutput}
 \begin{Sinput}
 > (pkgName <- basename(dirname(getwd())))
@@ -99,35 +106,33 @@ Set package source directory
 > dir(pkgPath)
 \end{Sinput}
 \begin{Soutput}
- [1] "_pkgdown.yml"  "DESCRIPTION"   "devel"         "doc"          
- [5] "docs"          "inst"          "man"           "Meta"         
- [9] "NAMESPACE"     "NAMESPACE.bak" "out"           "pisar.prj"    
-[13] "pisar.prj.bak" "pisar.Rproj"   "R"             "README.md"    
-[17] "vignettes"    
+ [1] "_COPYRIGHT"      "_DESCRIPTION"    "_pkgdown.yml"   
+ [4] "_VERSION"        "data"            "DESCRIPTION"    
+ [7] "devel"           "doc"             "docs"           
+[10] "FAIRDOM.log"     "gitHeadInfo.gin" "inst"           
+[13] "man"             "NAMESPACE"       "out"            
+[16] "pisar.prj"       "pisar.prj.bak"   "pisar.Rproj"    
+[19] "R"               "README.md"       "vignettes"      
 \end{Soutput}
 \begin{Sinput}
 > dir(file.path(pkgPath, "R"))
 \end{Sinput}
 \begin{Soutput}
-[1] "pisar-api-concordance.tex"       
-[2] "pisar-api.R"                     
-[3] "pisar-initialize-concordance.tex"
-[4] "pisar-initialize.R"              
-[5] "pisar.pdf"                       
+[1] "pisar-initialize.R" "README.md"         
 \end{Soutput}
 \begin{Sinput}
-> fctFile <- c("pisar-initialize.Rnw", "pisar-api.Rnw")
+> fctFile <- c("pisar-initialize.Rnw")
 > (pkgFile <- gsub("\\.Rnw$", "\\.R", fctFile))
 \end{Sinput}
 \begin{Soutput}
-[1] "pisar-initialize.R" "pisar-api.R"       
+[1] "pisar-initialize.R"
 \end{Soutput}
 \end{Schunk}
 
 Files and directories:\\[12pt]
-Original R source file(s): \url{pisar-initialize.Rnw, pisar-api.Rnw}\\
-Package directory: \url{D:/OMIKE/pisar}\\
-Package source file(s): \url{pisar-initialize.R, pisar-api.R}
+Original R source file(s): \url{pisar-initialize.Rnw}\\
+Package directory: \url{C:/__D/OMIKE/pisar}\\
+Package source file(s): \url{pisar-initialize.R}
 
 %\section{Function definitions}
 \clearpage
@@ -178,37 +183,22 @@ pisar-initialize.Rnw
 processing file: ../devel/pisar-initialize.Rnw
 \end{Soutput}
 \begin{Soutput}
-  |                                                                         |                                                                 |   0%  |                                                                         |..                                                               |   3%  |                                                                         |....                                                             |   6%  |                                                                         |......                                                           |   9%  |                                                                         |........                                                         |  12%  |                                                                         |..........                                                       |  15%  |                                                                         |............                                                     |  18%  |                                                                         |..............                                                   |  21%  |                                                                         |................                                                 |  24%  |                                                                         |..................                                               |  27%  |                                                                         |....................                                             |  30%  |                                                                         |......................                                           |  33%  |                                                                         |........................                                         |  36%  |                                                                         |..........................                                       |  39%  |                                                                         |............................                                     |  42%  |                                                                         |..............................                                   |  45%  |                                                                         |................................                                 |  48%  |                                                                         |.................................                                |  52%  |                                                                         |...................................                              |  55%  |                                                                         |.....................................                            |  58%  |                                                                         |.......................................                          |  61%  |                                                                         |.........................................                        |  64%  |                                                                         |...........................................                      |  67%  |                                                                         |.............................................                    |  70%  |                                                                         |...............................................                  |  73%  |                                                                         |.................................................                |  76%  |                                                                         |...................................................              |  79%  |                                                                         |.....................................................            |  82%  |                                                                         |.......................................................          |  85%  |                                                                         |.........................................................        |  88%  |                                                                         |...........................................................      |  91%  |                                                                         |.............................................................    |  94%  |                                                                         |...............................................................  |  97%  |                                                                         |.................................................................| 100%
+  |                                                                    |                                                            |   0%  |                                                                    |..                                                          |   3%  |                                                                    |...                                                         |   5%  |                                                                    |.....                                                       |   8%  |                                                                    |......                                                      |  11%  |                                                                    |........                                                    |  14%  |                                                                    |..........                                                  |  16%  |                                                                    |...........                                                 |  19%  |                                                                    |.............                                               |  22%  |                                                                    |...............                                             |  24%  |                                                                    |................                                            |  27%  |                                                                    |..................                                          |  30%  |                                                                    |...................                                         |  32%  |                                                                    |.....................                                       |  35%  |                                                                    |.......................                                     |  38%  |                                                                    |........................                                    |  41%  |                                                                    |..........................                                  |  43%  |                                                                    |............................                                |  46%  |                                                                    |.............................                               |  49%  |                                                                    |...............................                             |  51%  |                                                                    |................................                            |  54%  |                                                                    |..................................                          |  57%  |                                                                    |....................................                        |  59%  |                                                                    |.....................................                       |  62%  |                                                                    |.......................................                     |  65%  |                                                                    |.........................................                   |  68%  |                                                                    |..........................................                  |  70%  |                                                                    |............................................                |  73%  |                                                                    |.............................................               |  76%  |                                                                    |...............................................             |  78%  |                                                                    |.................................................           |  81%  |                                                                    |..................................................          |  84%  |                                                                    |....................................................        |  86%  |                                                                    |......................................................      |  89%  |                                                                    |.......................................................     |  92%  |                                                                    |.........................................................   |  95%  |                                                                    |..........................................................  |  97%  |                                                                    |............................................................| 100%
 \end{Soutput}
 \begin{Soutput}
-output file: D:/OMIKE/pisar/R/pisar-initialize.R
-\end{Soutput}
-\begin{Soutput}
-pisar-api.Rnw 
-\end{Soutput}
-\begin{Soutput}
-
-
-processing file: ../devel/pisar-api.Rnw
-\end{Soutput}
-\begin{Soutput}
-  |                                                                         |                                                                 |   0%  |                                                                         |................                                                 |  25%  |                                                                         |................................                                 |  50%  |                                                                         |.................................................                |  75%  |                                                                         |.................................................................| 100%
-\end{Soutput}
-\begin{Soutput}
-output file: D:/OMIKE/pisar/R/pisar-api.R
+output file: C:/__D/OMIKE/pisar/R/pisar-initialize.R
 \end{Soutput}
 \begin{Sinput}
-> dir(file.path(pkgPath, "R"))
+> file.path(pkgPath, "R")
 \end{Sinput}
 \begin{Soutput}
-[1] "pisar-api-concordance.tex"       
-[2] "pisar-api.R"                     
-[3] "pisar-initialize-concordance.tex"
-[4] "pisar-initialize.R"              
-[5] "pisar.pdf"                       
+[1] "C:/__D/OMIKE/pisar/R"
 \end{Soutput}
+\begin{Sinput}
+> # dir(file.path(pkgPath,'R'))
+\end{Sinput}
 \end{Schunk}
- D:/OMIKE/pisar/R/pisar-initialize.R D:/OMIKE/pisar/R/pisar-api.R
+ C:/__D/OMIKE/pisar/R/pisar-initialize.R
 
 \clearpage
 \subsection{Documentation}
@@ -221,22 +211,20 @@ Probably not needed if we do the check?
 Updating pisar documentation
 \end{Soutput}
 \begin{Soutput}
-Warning: @section [D:\OMIKE\pisar\R\pisar-initialize.R#18]: mismatched braces or quotes
-\end{Soutput}
-\begin{Soutput}
-Writing NAMESPACE
-\end{Soutput}
-\begin{Soutput}
 Loading pisar
 \end{Soutput}
 \begin{Soutput}
+Warning in setup_ns_exports(path, export_all, export_imports): Objects listed as exports, but not present in namespace: getMeta.list
+\end{Soutput}
+\begin{Soutput}
+Writing NAMESPACE
 Writing NAMESPACE
 \end{Soutput}
 \begin{Sinput}
 > usethis::use_package("knitr")
 \end{Sinput}
 \begin{Soutput}
-<U+221A> Setting active project to 'D:/OMIKE/pisar'
+√ Setting active project to 'C:/__D/OMIKE/pisar'
 \end{Soutput}
 \begin{Soutput}
 Warning in if (delta < 0) {: the condition has length > 1 and only the first element will be used
@@ -259,6 +247,16 @@ Warning in if (delta > 0) {: the condition has length > 1 and only the first ele
 \begin{Soutput}
 * Refer to functions with `tools::fun()`
 \end{Soutput}
+\begin{Sinput}
+> usethis::use_package("RCurl")
+\end{Sinput}
+\begin{Soutput}
+* Refer to functions with `RCurl::fun()`
+\end{Soutput}
+\begin{Sinput}
+> # usethis::use_package('httr') usethis::use_package('jsonlite')
+> usethis::use_build_ignore(c("devel"))
+\end{Sinput}
 \end{Schunk}
 \clearpage
 \subsection{Check}
@@ -271,8 +269,11 @@ Warning in if (delta > 0) {: the condition has length > 1 and only the first ele
 Loading pisar
 \end{Soutput}
 \begin{Soutput}
+Warning in setup_ns_exports(path, export_all, export_imports): Objects listed as exports, but not present in namespace: getMeta.list
+\end{Soutput}
+\begin{Soutput}
    user  system elapsed 
-   0.50    0.17    0.87 
+   0.33    0.05    0.38 
 \end{Soutput}
 \end{Schunk}
 \clearpage
@@ -285,209 +286,102 @@ Loading pisar
 Updating pisar documentation
 \end{Soutput}
 \begin{Soutput}
-Warning: @section [D:\OMIKE\pisar\R\pisar-initialize.R#18]: mismatched braces or quotes
-\end{Soutput}
-\begin{Soutput}
-Writing NAMESPACE
-\end{Soutput}
-\begin{Soutput}
 Loading pisar
 \end{Soutput}
 \begin{Soutput}
+Warning in setup_ns_exports(path, export_all, export_imports): Objects listed as exports, but not present in namespace: getMeta.list
+\end{Soutput}
+\begin{Soutput}
 Writing NAMESPACE
--- Building ------------------------------------------------- pisar --
+Writing NAMESPACE
+-- Building --------------------------------------------------------------------------------------------------- pisar --
 Setting env vars:
 * CFLAGS    : -Wall -pedantic
 * CXXFLAGS  : -Wall -pedantic
 * CXX11FLAGS: -Wall -pedantic
-----------------------------------------------------------------------
-         checking for file 'D:\OMIKE\pisar/DESCRIPTION' ...     checking for file 'D:\OMIKE\pisar/DESCRIPTION' ...   <U+221A>  checking for file 'D:\OMIKE\pisar/DESCRIPTION' (786ms)
-      -  preparing 'pisar': (1.5s)
+------------------------------------------------------------------------------------------------------------------------
+      <U+221A>  checking for file 'C:\__D\OMIKE\pisar/DESCRIPTION' (403ms)
+      -  preparing 'pisar':
    checking DESCRIPTION meta-information ...     checking DESCRIPTION meta-information ...   <U+221A>  checking DESCRIPTION meta-information
       -  installing the package to build vignettes
-         creating vignettes ...     creating vignettes ...   <U+221A>  creating vignettes (35.6s)
-      -  excluding invalid files (1.4s)
-   Subdirectory 'R' contains invalid file names:
-     'pisar-api-concordance.tex' 'pisar-initialize-concordance.tex'
-     'pisar.pdf'
-      -  checking for LF line-endings in source and make files and shell scripts
-      -  checking for empty or unneeded directories
-  Removed empty directory      Removed empty directory 'pisar/devel/TeX-Aux/TeX-Aux/Bkp'
-     Removed empty directory 'pisar/devel/TeX-Aux/TeX-Aux'
-  Removed empty directory      Removed empty directory 'pisar/devel/figs'
-  Removed empty directory      Removed empty directory 'pisar/inst/extdata/_p_Demo/_I_Test/_S_Show/_A_Work-R/output/Interactive'
-  Removed empty directory      Removed empty directory 'pisar/out'
-  Removed empty directory      Removed empty directory 'pisar/vignettes/TeX-Aux/Bkp'
-  Removed empty directory      Removed empty directory 'pisar/vignettes/TeX-Aux/TeX-Aux/Bkp'
-  Removed empty directory      Removed empty directory 'pisar/vignettes/TeX-Aux/TeX-Aux'
-      -  building 'pisar_0.1.0.9000.tar.gz'
-     
--- Checking ------------------------------------------------- pisar --
-Setting env vars:
-* _R_CHECK_CRAN_INCOMING_USE_ASPELL_: TRUE
-* _R_CHECK_CRAN_INCOMING_REMOTE_    : FALSE
-* _R_CHECK_CRAN_INCOMING_           : FALSE
-* _R_CHECK_FORCE_SUGGESTS_          : FALSE
--- R CMD check -------------------------------------------------------
-  Loading from R_PROFILE_USER [     Loading from R_PROFILE_USER [ C:\Users\ablejec\AppData\Local\Temp\RtmpmCSM3H\file6d241a883abf ]
-   native.enc 
-      -  using log directory 'C:/Users/ablejec/AppData/Local/Temp/RtmpmCSM3H/pisar.Rcheck'
--  using R version 3.5.3 (2019-03-11)
--  using platform: x86_64-w64-mingw32 (64-bit)
-  -  using session charset: CP1250
-      -  using options '--no-manual --as-cran' (351ms)
-  <U+221A>  checking for file 'pisar/DESCRIPTION'
--  checking extension type ... Package
--  this is package 'pisar' version '0.1.0.9000'
--  package encoding: UTF-8
-  <U+221A>  checking package namespace information
-   checking package dependencies ...     checking package dependencies ...   <U+221A>  checking package dependencies (2.8s)
-   checking if this is a source package ...     checking if this is a source package ...   <U+221A>  checking if this is a source package
-<U+221A>  checking if there is a namespace
-         checking for executable files ...     checking for executable files ...   <U+221A>  checking for executable files (772ms)
-   checking for hidden files and directories ...     checking for hidden files and directories ...   <U+221A>  checking for hidden files and directories
-   checking for portable file names ...     checking for portable file names ...   W  checking for portable file names
-   Found the following file with a non-portable file name:
-       devel/_Welcome · R packages.URL
-     These are not fully portable file names.
-   See section 'Package structure' in the 'Writing R Extensions' manual.
-      <U+221A>  checking serialization versions
-     checking whether package 'pisar' can be installed ...     checking whether package 'pisar' can be installed ...   <U+221A>  checking whether package 'pisar' can be installed (5.1s)
-   checking installed package size ...     checking installed package size ...   <U+221A>  checking installed package size (740ms)
-      <U+221A>  checking package directory (621ms)
-  <U+221A>  checking 'build' directory
-   checking DESCRIPTION meta-information ...     checking DESCRIPTION meta-information ...   N  checking DESCRIPTION meta-information (698ms)
-   Package listed in more than one of Depends, Imports, Suggests, Enhances:
-     'knitr'
-   A package should be listed in only one of these fields.
-  N  checking top-level files
-   Non-standard file/directory found at top level:
-     'devel'
-   checking for left-over files ...     checking for left-over files ...   <U+221A>  checking for left-over files
-   checking index information ...     checking index information ...   <U+221A>  checking index information (763ms)
-         checking      checking package subdirectories     checking package subdirectories ...     checking package subdirectories ...   <U+221A>  checking package subdirectories (707ms)
-   checking R files for non-ASCII characters ...     checking R files for non-ASCII characters ...   <U+221A>  checking R files for non-ASCII characters
-   checking R files for syntax errors ...     checking R files for syntax errors ...   <U+221A>  checking R files for syntax errors
-   checking whether the package can be loaded ...     checking whether the package can be loaded ...   <U+221A>  checking whether the package can be loaded
-   checking whether the package can be loaded with stated dependencies ...     checking whether the package can be loaded with stated dependencies ...   <U+221A>  checking whether the package can be loaded with stated dependencies
-   checking whether the package can be unloaded cleanly ...     checking whether the package can be unloaded cleanly ...   <U+221A>  checking whether the package can be unloaded cleanly
-   checking whether the namespace can be loaded with stated dependencies ...     checking whether the namespace can be loaded with stated dependencies ...   <U+221A>  checking whether the namespace can be loaded with stated dependencies
-   checking whether the namespace can be unloaded cleanly ...     checking whether the namespace can be unloaded cleanly ...   <U+221A>  checking whether the namespace can be unloaded cleanly (421ms)
-   checking loading without being on the library search path ...     checking loading without being on the library search path ...   <U+221A>  checking loading without being on the library search path (563ms)
-   checking dependencies in R code ...     checking dependencies in R code ...   <U+221A>  checking dependencies in R code (1.1s)
-   checking S3 generic/method consistency ...     checking S3 generic/method consistency ...   <U+221A>  checking S3 generic/method consistency (1.1s)
-   checking replacement functions ...     checking replacement functions ...   <U+221A>  checking replacement functions
-   checking foreign function calls ...     checking foreign function calls ...   <U+221A>  checking foreign function calls
-   checking R code for possible problems ...     checking R code for possible problems ...   N  checking R code for possible problems (4.7s)
-   pisa: no visible binding for global variable '.proot'
-   pisa: no visible binding for global variable '.iroot'
-   pisa: no visible binding for global variable '.sroot'
-   pisa: no visible binding for global variable '.aroot'
-   pisa: no visible binding for global variable '.imeta'
-   pisa: no visible binding for global variable '.ameta'
-   pisa: no visible binding for global variable '.outfn'
-   pisa: no visible binding for global variable '.reproot'
-   pisa: no visible binding for global variable '.pname'
-   pisa: no visible binding for global variable '.iname'
-   pisa: no visible binding for global variable '.sname'
-   pisa: no visible binding for global variable '.aname'
-   pisa: no visible binding for global variable '.pmeta'
-   pisa: no visible binding for global variable '.smeta'
-   pisa: no visible binding for global variable '.inroot'
-   pisa: no visible binding for global variable '.pfn'
-   pisa: no visible binding for global variable '.ffn'
-   pisa: no visible binding for global variable '.rnwfn'
-   Undefined global functions or variables:
-     .ameta .aname .aroot .ffn .imeta .iname .inroot .iroot .outfn .pfn
-     .pmeta .pname .proot .reproot .rnwfn .smeta .sname .sroot
-   checking Rd files ...     checking Rd files ...   <U+221A>  checking Rd files
-   checking Rd metadata ...     checking Rd metadata ...   <U+221A>  checking Rd metadata
-   checking Rd line widths ...     checking Rd line widths ...   <U+221A>  checking Rd line widths
-   checking Rd cross-references ...     checking Rd cross-references ...   <U+221A>  checking Rd cross-references
-   checking for missing documentation entries ...     checking for missing documentation entries ...   <U+221A>  checking for missing documentation entries
-   checking for code/documentation mismatches ...     checking for code/documentation mismatches ...   <U+221A>  checking for code/documentation mismatches (966ms)
-   checking Rd \usage sections ...     checking Rd \usage sections ...   <U+221A>  checking Rd \usage sections (1.4s)
-   checking Rd contents ...     checking Rd contents ...   <U+221A>  checking Rd contents
-   checking for unstated dependencies in examples ...     checking for unstated dependencies in examples ...   <U+221A>  checking for unstated dependencies in examples
-         checking sizes of PDF files under 'inst/doc' ...     checking sizes of PDF files under 'inst/doc' ...   <U+221A>  checking sizes of PDF files under 'inst/doc' (1.6s)
-   checking installed files from 'inst/doc' ...     checking installed files from 'inst/doc' ...   <U+221A>  checking installed files from 'inst/doc'
-   checking files in 'vignettes' ...     checking files in 'vignettes' ...   <U+221A>  checking files in 'vignettes'
-   checking examples ...     checking examples ...   <U+221A>  checking examples (1.7s)
-         checking for unstated dependencies in vignettes ...     checking for unstated dependencies in vignettes ...   N  checking for unstated dependencies in vignettes (661ms)
-   'library' or 'require' calls not declared from:
-     'RCurl' 'httr' 'jsonlite'
-   checking package vignettes in 'inst/doc' ...     checking package vignettes in 'inst/doc' ...   <U+221A>  checking package vignettes in 'inst/doc'
-         checking re-building of vignette outputs ...     checking re-building of vignette outputs ...   W  checking re-building of vignette outputs (1.6s)
-   Error in re-building vignettes:
-     ...
-   Quitting from lines 77-78 (FAIRdom-and-R.Rmd) 
-   Error: processing vignette 'FAIRdom-and-R.Rmd' failed with diagnostics:
-   there is no package called 'RCurl'
+           -----------------------------------
+  -  installing *source* package 'pisar' ...
+   ** using staged installation
+   ** R
+   ** data
+   *** moving datasets to lazyload DB
+   ** inst
+   ** byte-compile and prepare package for lazy loading
+   ** help
+   *** installing help indices
+     converting help for package 'pisar'
+       finding HTML links ... done
+       fileName                                html  
+       fileType                                html  
+       fsummary                                html  
+       getLayer                                html  
+       getMeta                                 html  
+       getRoot                                 html  
+       out.path                                html  
+       pasteMeta                               html  
+       pisa                                    html  
+       pisar                                   html  
+       print.pISAmeta                          html  
+       readMeta                                html  
+   ** building package indices
+   ** installing vignettes
+   ** testing if installed package can be loaded from temporary location
+   Error: package or namespace load failed for 'pisar' in namespaceExport(ns, exports):
+    undefined exports: getMeta.list
+   Error: loading failed
    Execution halted
-   
-     
-   See
-     'C:/Users/ablejec/AppData/Local/Temp/RtmpmCSM3H/pisar.Rcheck/00check.log'
-   for details.
-   
-   
--- R CMD check results ------------------------- pisar 0.1.0.9000 ----
-Duration: 34.2s
-
-> checking for portable file names ... WARNING
-  Found the following file with a non-portable file name:
-    devel/_Welcome · R packages.URL
-  These are not fully portable file names.
-  See section 'Package structure' in the 'Writing R Extensions' manual.
-
-> checking re-building of vignette outputs ... WARNING
-  Error in re-building vignettes:
-    ...
-  Quitting from lines 77-78 (FAIRdom-and-R.Rmd) 
-  Error: processing vignette 'FAIRdom-and-R.Rmd' failed with diagnostics:
-  there is no package called 'RCurl'
-  Execution halted
-
-> checking DESCRIPTION meta-information ... NOTE
-  Package listed in more than one of Depends, Imports, Suggests, Enhances:
-    'knitr'
-  A package should be listed in only one of these fields.
-
-> checking top-level files ... NOTE
-  Non-standard file/directory found at top level:
-    'devel'
-
-> checking R code for possible problems ... NOTE
-  pisa: no visible binding for global variable '.proot'
-  pisa: no visible binding for global variable '.iroot'
-  pisa: no visible binding for global variable '.sroot'
-  pisa: no visible binding for global variable '.aroot'
-  pisa: no visible binding for global variable '.imeta'
-  pisa: no visible binding for global variable '.ameta'
-  pisa: no visible binding for global variable '.outfn'
-  pisa: no visible binding for global variable '.reproot'
-  pisa: no visible binding for global variable '.pname'
-  pisa: no visible binding for global variable '.iname'
-  pisa: no visible binding for global variable '.sname'
-  pisa: no visible binding for global variable '.aname'
-  pisa: no visible binding for global variable '.pmeta'
-  pisa: no visible binding for global variable '.smeta'
-  pisa: no visible binding for global variable '.inroot'
-  pisa: no visible binding for global variable '.pfn'
-  pisa: no visible binding for global variable '.ffn'
-  pisa: no visible binding for global variable '.rnwfn'
-  Undefined global functions or variables:
-    .ameta .aname .aroot .ffn .imeta .iname .inroot .iroot .outfn .pfn
-    .pmeta .pname .proot .reproot .rnwfn .smeta .sname .sroot
-
-> checking for unstated dependencies in vignettes ... NOTE
-  'library' or 'require' calls not declared from:
-    'RCurl' 'httr' 'jsonlite'
-
-0 errors <U+221A> | 2 warnings x | 4 notes x
+   ERROR: loading failed
+-  removing 'C:/Users/ablejec/AppData/Local/Temp/Rtmp8cqwOg/Rinst29748419e4de4/pisar'
+         -----------------------------------
+   ERROR: package installation failed
+
 \end{Soutput}
 \begin{Soutput}
-Error: R CMD check found WARNINGs
+Error in (function (command = NULL, args = character(), error_on_status = TRUE, : System command 'Rcmd.exe' failed, exit status: 1, stdout + stderr:
+E> * checking for file 'C:\__D\OMIKE\pisar/DESCRIPTION' ... OK
+E> * preparing 'pisar':
+E> * checking DESCRIPTION meta-information ... OK
+E> * installing the package to build vignettes
+E>       -----------------------------------
+E> * installing *source* package 'pisar' ...
+E> ** using staged installation
+E> ** R
+E> ** data
+E> *** moving datasets to lazyload DB
+E> ** inst
+E> ** byte-compile and prepare package for lazy loading
+E> ** help
+E> *** installing help indices
+E>   converting help for package 'pisar'
+E>     finding HTML links ... done
+E>     fileName                                html  
+E>     fileType                                html  
+E>     fsummary                                html  
+E>     getLayer                                html  
+E>     getMeta                                 html  
+E>     getRoot                                 html  
+E>     out.path                                html  
+E>     pasteMeta                               html  
+E>     pisa                                    html  
+E>     pisar                                   html  
+E>     print.pISAmeta                          html  
+E>     readMeta                                html  
+E> ** building package indices
+E> ** installing vignettes
+E> ** testing if installed package can be loaded from temporary location
+E> Error: package or namespace load failed for 'pisar' in namespaceExport(ns, exports):
+E>  undefined exports: getMeta.list
+E> Error: loading failed
+E> Execution halted
+E> ERROR: loading failed
+E> * removing 'C:/Users/ablejec/AppData/Local/Temp/Rtmp8cqwOg/Rinst29748419e4de4/pisar'
+E>       -----------------------------------
+E> ERROR: package installation failed
 \end{Soutput}
 \end{Schunk}
 \clearpage
@@ -500,37 +394,97 @@ Build the package
 > devtools::build(pkgPath, manual = TRUE, quiet = FALSE)
 \end{Sinput}
 \begin{Soutput}
-         checking for file 'D:\OMIKE\pisar/DESCRIPTION' ...  <U+221A>  checking for file 'D:\OMIKE\pisar/DESCRIPTION' (619ms)
-      -  preparing 'pisar': (1.3s)
-   checking      checking DESCRIPTION meta-information ...     checking DESCRIPTION meta-information ...   <U+221A>  checking DESCRIPTION meta-information
+         checking for file 'C:\__D\OMIKE\pisar/DESCRIPTION' ...  <U+221A>  checking for file 'C:\__D\OMIKE\pisar/DESCRIPTION' (377ms)
+      -  preparing 'pisar':
+   checking DESCRIPTION meta-information ...     checking DESCRIPTION meta-information ...   <U+221A>  checking DESCRIPTION meta-information
       -  installing the package to build vignettes
-         creating vignettes ...     creating vignettes ...   <U+221A>  creating vignettes (33.4s)
-      -  excluding invalid files (1.2s)
-   Subdirectory 'R' contains invalid file names:
-     'pisar-api-concordance.tex' 'pisar-initialize-concordance.tex'
-     'pisar.pdf'
-      -  checking for LF line-endings in source and make files and shell scripts
-      -  checking for empty or unneeded directories
-  Removed empty directory      Removed empty directory 'pisar/devel/TeX-Aux/TeX-Aux/Bkp'
-     Removed empty directory 'pisar/devel/TeX-Aux/TeX-Aux'
-  Removed empty directory      Removed empty directory 'pisar/devel/figs'
-  Removed empty directory      Removed empty directory 'pisar/inst/extdata/_p_Demo/_I_Test/_S_Show/_A_Work-R/output/Interactive'
-  Removed empty directory      Removed empty directory 'pisar/out'
-  Removed empty directory      Removed empty directory 'pisar/vignettes/TeX-Aux/Bkp'
-  Removed empty directory      Removed empty directory 'pisar/vignettes/TeX-Aux/TeX-Aux/Bkp'
-     Removed empty directory 'pisar/vignettes/TeX-Aux/TeX-Aux'
-      -  building 'pisar_0.1.0.9000.tar.gz'
-     
+           -----------------------------------
+  -  installing *source* package 'pisar' ...
+   ** using staged installation
+   ** R
+   ** data
+   *** moving datasets to lazyload DB
+   ** inst
+   ** byte-compile and prepare package for lazy loading
+   ** help
+   *** installing help indices
+     converting help for package 'pisar'
+       finding HTML links ... done
+       fileName                                html  
+       fileType                                html  
+       fsummary                                html  
+       getLayer                                html  
+       getMeta                                 html  
+       getRoot                                 html  
+       out.path                                html  
+       pasteMeta                               html  
+       pisa                                    html  
+       pisar                                   html  
+       print.pISAmeta                          html  
+       readMeta                                html  
+   ** building package indices
+   ** installing vignettes
+   ** testing if installed package can be loaded from temporary location
+   Error: package or namespace load failed for 'pisar' in namespaceExport(ns, exports):
+    undefined exports: getMeta.list
+   Error: loading failed
+   Execution halted
+   ERROR: loading failed
+-  removing 'C:/Users/ablejec/AppData/Local/Temp/RtmpU9wiG7/Rinst2a6ac20e31259/pisar'
+         -----------------------------------
+   ERROR: package installation failed
 
 \end{Soutput}
 \begin{Soutput}
-[1] "D:/OMIKE/pisar_0.1.0.9000.tar.gz"
+Error in (function (command = NULL, args = character(), error_on_status = TRUE, : System command 'Rcmd.exe' failed, exit status: 1, stdout + stderr:
+E> * checking for file 'C:\__D\OMIKE\pisar/DESCRIPTION' ... OK
+E> * preparing 'pisar':
+E> * checking DESCRIPTION meta-information ... OK
+E> * installing the package to build vignettes
+E>       -----------------------------------
+E> * installing *source* package 'pisar' ...
+E> ** using staged installation
+E> ** R
+E> ** data
+E> *** moving datasets to lazyload DB
+E> ** inst
+E> ** byte-compile and prepare package for lazy loading
+E> ** help
+E> *** installing help indices
+E>   converting help for package 'pisar'
+E>     finding HTML links ... done
+E>     fileName                                html  
+E>     fileType                                html  
+E>     fsummary                                html  
+E>     getLayer                                html  
+E>     getMeta                                 html  
+E>     getRoot                                 html  
+E>     out.path                                html  
+E>     pasteMeta                               html  
+E>     pisa                                    html  
+E>     pisar                                   html  
+E>     print.pISAmeta                          html  
+E>     readMeta                                html  
+E> ** building package indices
+E> ** installing vignettes
+E> ** testing if installed package can be loaded from temporary location
+E> Error: package or namespace load failed for 'pisar' in namespaceExport(ns, exports):
+E>  undefined exports: getMeta.list
+E> Error: loading failed
+E> Execution halted
+E> ERROR: loading failed
+E> * removing 'C:/Users/ablejec/AppData/Local/Temp/RtmpU9wiG7/Rinst2a6ac20e31259/pisar'
+E>       -----------------------------------
+E> ERROR: package installation failed
 \end{Soutput}
 \begin{Sinput}
 > devtools::load_all()
 \end{Sinput}
 \begin{Soutput}
 Loading pisar
+\end{Soutput}
+\begin{Soutput}
+Warning in setup_ns_exports(path, export_all, export_imports): Objects listed as exports, but not present in namespace: getMeta.list
 \end{Soutput}
 \end{Schunk}
 
@@ -543,27 +497,37 @@ Install
 > devtools::install(pkgPath)
 \end{Sinput}
 \begin{Soutput}
-data.table (1.12.4 -> 1.12.6) [CRAN]
-digest     (0.6.21 -> 0.6.22) [CRAN]
+utf8       (1.1.4    -> 1.2.1   ) [CRAN]
+crayon     (1.3.4    -> 1.4.1   ) [CRAN]
+cli        (2.2.0    -> 2.5.0   ) [CRAN]
+vctrs      (0.3.6    -> 0.3.8   ) [CRAN]
+rlang      (0.4.10   -> 0.4.11  ) [CRAN]
+pillar     (1.4.7    -> 1.6.0   ) [CRAN]
+lifecycle  (0.2.0    -> 1.0.0   ) [CRAN]
+ellipsis   (0.3.1    -> 0.3.2   ) [CRAN]
+stringi    (1.5.3    -> 1.6.1   ) [CRAN]
+Rcpp       (1.0.5    -> 1.0.6   ) [CRAN]
+tibble     (3.0.4    -> 3.1.1   ) [CRAN]
+cpp11      (0.2.5    -> 0.2.7   ) [CRAN]
+tidyselect (1.1.0    -> 1.1.1   ) [CRAN]
+forcats    (0.5.0    -> 0.5.1   ) [CRAN]
+mime       (0.9      -> 0.10    ) [CRAN]
+xfun       (0.19     -> 0.22    ) [CRAN]
+openssl    (1.4.3    -> 1.4.4   ) [CRAN]
+curl       (4.3      -> 4.3.1   ) [CRAN]
+bitops     (1.0-6    -> 1.0-7   ) [CRAN]
+data.table (1.13.2   -> 1.14.0  ) [CRAN]
+haven      (2.3.1    -> 2.4.1   ) [CRAN]
+highr      (0.8      -> 0.9     ) [CRAN]
+RCurl      (1.98-1.2 -> 1.98-1.3) [CRAN]
+rio        (0.5.16   -> 0.5.26  ) [CRAN]
+knitr      (1.30     -> 1.33    ) [CRAN]
 \end{Soutput}
 \begin{Soutput}
-Installing 2 packages: data.table, digest
+Installing 25 packages: utf8, crayon, cli, vctrs, rlang, pillar, lifecycle, ellipsis, stringi, Rcpp, tibble, cpp11, tidyselect, forcats, mime, xfun, openssl, curl, bitops, data.table, haven, highr, RCurl, rio, knitr
 \end{Soutput}
 \begin{Soutput}
-Installing packages into 'D:/RUSER/R/win-library/3.5'
-(as 'lib' is unspecified)
-\end{Soutput}
-\begin{Soutput}
-
-  There is a binary version available but the source version
-  is later:
-       binary source needs_compilation
-digest 0.6.21 0.6.22              TRUE
-
-package 'data.table' successfully unpacked and MD5 sums checked
-\end{Soutput}
-\begin{Soutput}
-Error: (converted from warning) cannot remove prior installation of package 'data.table'
+Error: (converted from warning) package 'knitr' is in use and will not be installed
 \end{Soutput}
 \begin{Sinput}
 > ## str(out)(shell(paste( file.path(R.home('bin'),'Rcmd.exe'), ' INSTALL
@@ -579,6 +543,9 @@ Load
 \begin{Soutput}
 Loading pisar
 \end{Soutput}
+\begin{Soutput}
+Warning in setup_ns_exports(path, export_all, export_imports): Objects listed as exports, but not present in namespace: getMeta.list
+\end{Soutput}
 \begin{Sinput}
 > cat("Package:", pkgName, "\n")
 \end{Sinput}
@@ -589,6 +556,9 @@ Package: pisar
 > library(pkgName, character.only = TRUE)
 > help(package = (pkgName))
 \end{Sinput}
+\begin{Soutput}
+Warning in file.show(outFile, delete.file = TRUE, title = gettextf("Documentation for package %s", : '"C:\Program Files (x86)\EmEditor\EmEditor.exe"' not found
+\end{Soutput}
 \end{Schunk}
 
 \section{PDF documentation}
@@ -604,25 +574,25 @@ Package: pisar
 > (instPath <- find.package(pkgName))
 \end{Sinput}
 \begin{Soutput}
-[1] "D:/OMIKE/pisar"
+[1] "C:/__D/OMIKE/pisar"
 \end{Soutput}
 \begin{Sinput}
 > pdfFile <- file.path(getwd(), paste(pkgName, "pdf", sep = "."))
 > if (file.exists(pdfFile)) file.remove(pdfFile)
+> system(paste(shQuote(file.path(R.home("bin"), "R")), "CMD", "Rd2pdf", shQuote(instPath)))
 \end{Sinput}
 \begin{Soutput}
-[1] TRUE
+[1] 1
 \end{Soutput}
 \begin{Sinput}
-> system(paste(shQuote(file.path(R.home("bin"), "R")), "CMD", "Rd2pdf", shQuote(instPath)))
 > dir(pattern = pkgName)
 \end{Sinput}
 \begin{Soutput}
- [1] "pisar-api.Rnw"                  "pisar-functions.Rnw"           
- [3] "pisar-initialize.Rnw"           "pisar-initialize.synctex(busy)"
- [5] "pisar-initialize.tex"           "pisar-makePkg.pdf"             
- [7] "pisar-makePkg.Rnw"              "pisar-makePkg.synctex"         
- [9] "pisar-makePkg.tex"              "pisar.pdf"                     
+[1] "pisar-functions.Rnw"            "pisar-initialize.Rnw"          
+[3] "pisar-initialize.synctex(busy)" "pisar-initialize.tex"          
+[5] "pisar-makePkg.log"              "pisar-makePkg.pdf"             
+[7] "pisar-makePkg.Rnw"              "pisar-makePkg.synctex"         
+[9] "pisar-makePkg.tex"             
 \end{Soutput}
 \end{Schunk}
 
@@ -630,6 +600,9 @@ Package: pisar
 \begin{Sinput}
 > help(package = (pkgName), help_type = "pdf")
 \end{Sinput}
+\begin{Soutput}
+Warning in file.show(outFile, delete.file = TRUE, title = gettextf("Documentation for package %s", : '"C:\Program Files (x86)\EmEditor\EmEditor.exe"' not found
+\end{Soutput}
 \end{Schunk}
 
 Send package to R Windows builder
@@ -657,10 +630,34 @@ Send package to R Windows builder
 \clearpage
 \section*{SessionInfo}
 {\small
-Windows 10 x64 (build 17134) 
-Warning in FUN(X[[i]], ...): DESCRIPTION file of package 'data.table' is missing or broken
-Error in FUN(X[[i]], ...): subscript out of bounds
-Project path:\verb' D:/OMIKE/pisar '\\
+Windows 10 x64 (build 19042) 
+\begin{itemize}\raggedright
+  \item R version 4.0.2 (2020-06-22), \verb|x86_64-w64-mingw32|
+  \item Locale: \verb|LC_COLLATE=Slovenian_Slovenia.1250|, \verb|LC_CTYPE=Slovenian_Slovenia.1250|, \verb|LC_MONETARY=Slovenian_Slovenia.1250|, \verb|LC_NUMERIC=C|, \verb|LC_TIME=Slovenian_Slovenia.1250|
+  \item Running under: \verb|Windows 10 x64 (build 19042)|
+  \item Matrix products: default
+  \item Base packages: base, datasets, graphics, grDevices,
+    methods, stats, utils
+  \item Other packages: devtools~2.3.2, knitr~1.30,
+    pisar~0.1.0.9000, usethis~2.0.0
+  \item Loaded via a namespace (and not attached):
+    assertthat~0.2.1, bitops~1.0-6, callr~3.5.1,
+    cellranger~1.1.0, cli~2.2.0, compiler~4.0.2, crayon~1.3.4,
+    curl~4.3, data.table~1.13.2, desc~1.2.0, digest~0.6.27,
+    ellipsis~0.3.1, evaluate~0.14, fansi~0.4.2, forcats~0.5.0,
+    foreign~0.8-80, formatR~1.7, fs~1.5.0, glue~1.4.2,
+    haven~2.3.1, hms~1.0.0, httr~1.4.2, jsonlite~1.7.2,
+    lifecycle~0.2.0, magrittr~2.0.1, memoise~1.1.0,
+    openxlsx~4.2.3, pillar~1.4.7, pkgbuild~1.2.0,
+    pkgconfig~2.0.3, pkgload~1.1.0, prettyunits~1.1.1,
+    processx~3.4.5, ps~1.5.0, purrr~0.3.4, R6~2.5.0,
+    Rcpp~1.0.5, RCurl~1.98-1.2, readxl~1.3.1, remotes~2.2.0,
+    rio~0.5.16, rlang~0.4.10, roxygen2~7.1.1, rprojroot~2.0.2,
+    rstudioapi~0.13, sessioninfo~1.1.1, stringi~1.5.3,
+    stringr~1.4.0, testthat~3.0.1, tibble~3.0.4, tools~4.0.2,
+    vctrs~0.3.6, withr~2.3.0, xfun~0.19, xml2~1.3.2, zip~2.1.1
+\end{itemize}
+Project path:\verb' C:/__D/OMIKE/pisar '\\
 Main file :\verb' ../devel/pisar-makePkg.Rnw '
 
 

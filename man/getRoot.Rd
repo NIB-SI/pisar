@@ -26,6 +26,7 @@ The path should be compliant with the pISA-tree structure.
 }
 \examples{
 getRoot("p", path="d:/_p_prj/_I_inv/_S_st/_A_asy/other/doc")
+getRoot("A", path="d:/_p_prj/_I_inv/_S_st/_A_asy")
 }
 \author{
 Andrej Blejec \email{andrej.blejec@nib.si}

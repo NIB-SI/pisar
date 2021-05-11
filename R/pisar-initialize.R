@@ -1,4 +1,4 @@
-## ----author, echo=FALSE--------------------------------------------------
+## ----echo=FALSE-----------------------------------------------------
 ###############################################
 ##                                           ##
 ## (c) Andrej Blejec (andrej.blejec@nib.si)  ##
@@ -8,7 +8,7 @@
 
 
 
-## ----Package description-------------------------------------------------
+## ----Package description1-------------------------------------------
 #' pisar: pISA-tree support functions
 #'
 #' The package provides several functions for support
@@ -18,18 +18,17 @@
 #' pISA-tree is a standardized directory tree
 #' for storing projet information under ISA paradigm.
 #' The set of functions have two fold purpose:
-#' \enumerate
+#' \enumerate{
 #'     \item To enable use of metadata for reproducible documents.
 #'     \item To enable automated upload to external repository.
-#' (FAIRDOMhub).
-#' }
+#' (e. g. FAIRDOMhub).}
 #'
 #' @docType package
 #' @name pisar
 NULL
 
 
-## ----fileName------------------------------------------------------------
+## ----fileName-------------------------------------------------------
 #' Extract file name
 #'
 #' Extract file name from a file path.
@@ -53,7 +52,7 @@ gsub("(.*)\\.(.*)","\\1",basename(x))
 }
 
 
-## ----fileType------------------------------------------------------------
+## ----fileType-------------------------------------------------------
 #' Extract file type
 #'
 #' Extract file type from a file path.
@@ -79,7 +78,7 @@ fileType("bla")
 fileType("./bla.Rnw")
 
 
-## ----fsummary------------------------------------------------------------
+## ----fsummary-------------------------------------------------------
 #' As factor summary of a data frame
 #'
 #' @param x Data frame.
@@ -100,7 +99,7 @@ fsummary <- function(x,...){
 fsummary(data.frame(x=rnorm(20),txt=sample(letters,20,rep=TRUE)))
 
 
-## ----getRoot-------------------------------------------------------------
+## ----getRoot--------------------------------------------------------
 #' Get root directory for pISA layer
 #'
 #' @param x Character characteristic for pISA layer (one of p, I, S, or A).
@@ -115,18 +114,20 @@ fsummary(data.frame(x=rnorm(20),txt=sample(letters,20,rep=TRUE)))
 #' @author Andrej Blejec \email{andrej.blejec@nib.si}
 #' @examples
 #' getRoot("p", path="d:/_p_prj/_I_inv/_S_st/_A_asy/other/doc")
+#' getRoot("A", path="d:/_p_prj/_I_inv/_S_st/_A_asy")
 getRoot <- function(x="p",path=getwd(),...){
 dirs <- strsplit(path,"/")[[1]]
 nl <- length(dirs)-which(regexpr(paste0("_",x,"_"),dirs)>0)
 if(length(nl)<=0) stop(paste("Path is not within a pISA-tree:\n"
         , path))
-paste(rep("..",nl),collapse="/")
+if( nl > 0 ) rpath <- paste(rep("..",nl),collapse="/") else rpath="."
+rpath
 }
 
 
 
 
-## ----readMeta------------------------------------------------------------
+## ----readMeta-------------------------------------------------------
 #' Read metadata file from the given directory
 #'
 #' @param x File path to the pISA layer.
@@ -151,7 +152,7 @@ d <- tolower(dir(x))
 d
 lfn <- d[regexpr(".*_metadata",d)>0]
 if(length(lfn)==0) warning("No metadata file found")
-if(length(lfn)>1) warning("More tha one metadata file found:", d)
+if(length(lfn)>1) warning("More than one metadata file found:", d)
 if(length(lfn)==1){
   p <- rio::import(file.path(x, lfn)
   ,sep="\t", stringsAsFactors=FALSE, col.names=c("Key","Value"))
@@ -160,11 +161,11 @@ class(p)<- c("pISAmeta", "Dlist", class(p))
 return(p)
 }
 ##
-.pISAloc <- system.file("extdata","_p_Demo",package="pisar")
-readMeta(.pISAloc)
+#.pISAloc <- system.file("extdata","_p_Demo",package="pisar")
+#readMeta(.pISAloc)
 
 
-## ----print.pISAmeta------------------------------------------------------
+## ----print.pISAmeta-------------------------------------------------
 #' Print metadata object as Dlist
 #'
 #' @param x Metadata object, data.frame with two columns.
@@ -175,8 +176,10 @@ readMeta(.pISAloc)
 #' @keywords package
 #' @author Andrej Blejec \email{andrej.blejec@nib.si}
 #' @examples
+#' \dontrun{
 #' .pISAloc <- system.file("extdata","_p_Demo",package="pisar")
 #' readMeta(.pISAloc)
+#' }
 print.pISAmeta <- function(x, width = max(nchar(x[,1]))*3.5,  ...){
     #if(inherits(x,"pISAmeta")
     #print(width)
@@ -195,7 +198,7 @@ print.pISAmeta <- function(x, width = max(nchar(x[,1]))*3.5,  ...){
 
 
 
-## ----getMeta-------------------------------------------------------------
+## ----getMeta--------------------------------------------------------
 #' Get metadata value
 #'
 #' @param x Two column character data frame with Key / Value pairs.
@@ -224,23 +227,70 @@ print.pISAmeta <- function(x, width = max(nchar(x[,1]))*3.5,  ...){
 #' }
 #' @rdname getMeta
 #' @export getMeta
-getMeta <- function (x, ...) {
-   UseMethod("getMeta", x)
- }
-#' @rdname getMeta
-#' @export getMeta.default
-getMeta.default <- function(x,item,nl=TRUE){
+getMeta <- function(x,item,nl=TRUE) {
+if (is.data.frame(x)) {
 item <- paste0(gsub(":","",item),":")
 ret <- unclass(x[match(item, x[,1]), 2])
 if(is.character(ret)&&nl) ret <- sub("\\\\n","\n",ret)
 return(ret)
 }
-#' @rdname getMeta
-#' @export getMeta.list
-getMeta.list <- function(x,...){
+if (is.list(x)) {
    nm <- paste0(gsub(":","",names(x)),":")
-   x <- data.frame(Key=nm,Value=unlist(x), stringsAsFactors=FALSE)
-   getMeta(x, ...)
+   xd <- data.frame(Key=nm,Value=unlist(x), stringsAsFactors=FALSE)
+   getMeta(xd, item, nl)
+   }
+}
+
+
+## ----pasteMeta------------------------------------------------------
+#' Paste metadata values
+#'
+#' Paste metadata values into a strig.
+#' @param x Two column character data frame or with Key / Value pairs or
+#'    a list of Vales named by Keys.
+#' @param kvsep Key/Value separator (default is tab character).
+#' @param nlsep line separator (default is new line).
+#' @return Character string with concatenated key values.
+#' @export
+#' @keywords pisa
+#' @author Andrej Blejec \email{andrej.blejec@nib.si}
+#' @examples
+#' \dontrun{
+#' astring <- "_p_Demo/_I_Test/_S_Show/_A_Work-R/other"
+#' oldwd <- setwd(system.file("extdata",astring,package="pisar"))
+#' oldwd
+#' .iroot <- getRoot("I")
+#' .imeta <- readMeta(.iroot)
+#' x <- pasteMeta(.imeta)
+#' x
+#' cat(x)
+#' # list
+#' listmeta <- list(Title = "My title"
+#'    , Description = "A longer description")
+#' x <- pasteMeta( listmeta)
+#' x
+#' cat(x)
+#' setwd(oldwd)
+#' }
+#' @rdname pasteMeta
+#' @export pasteMeta
+pasteMeta <- function (x, kvsep="\t", nlsep="\n") {
+   UseMethod("pasteMeta", x)
+ }
+#' @rdname pasteMeta
+#' @export pasteMeta.default
+pasteMeta.default <- function(x, kvsep="\t", nlsep="\n") {
+paste0(paste(apply(x, 1,
+            function(x) paste(x, collapse=kvsep) )
+            , collapse=nlsep)
+            ,nlsep)
+}
+#' @rdname pasteMeta
+#' @export pasteMeta.list
+pasteMeta.list <- function(x, kvsep=":\t", nlsep="\n"){
+   x <- data.frame(Key=names(x),Value=as.vector(unlist(x)))
+print(x)
+   pasteMeta(x, kvsep=kvsep,nlsep=nlsep)
    }
 
 
@@ -250,7 +300,7 @@ getMeta.list <- function(x,...){
 
 
 
-## ----getLayer------------------------------------------------------------
+## ----getLayer-------------------------------------------------------
 #' Get pISA layer name
 #'
 #' @param x Layer character (one of p, I, S, or A).
@@ -269,6 +319,8 @@ getMeta.list <- function(x,...){
 #' getLayer("I")
 #' getLayer("S")
 #' getLayer("A")
+#' if(interactive()) setwd(oldwd)
+#' getwd()
 #' }
 getLayer <- function(x, path=getwd()){
   loc <- strsplit(path,"/")[[1]]
@@ -282,7 +334,7 @@ getLayer <- function(x, path=getwd()){
   }
 
 
-## ------------------------------------------------------------------------
+## -------------------------------------------------------------------
 #' Create output directory
 #'
 #' Create output directory, name it with appended arguments.
@@ -312,7 +364,7 @@ out.path <- function(out.dir="../out", args="", which=1:length(args)) {
 }
 
 
-## ----pisa----------------------------------------------------------------
+## ----pisa-----------------------------------------------------------
 #' Extract pISA-tree details
 #'
 #' Extract pISA-tree details: name, root and metadata
@@ -360,7 +412,7 @@ out.path <- function(out.dir="../out", args="", which=1:length(args)) {
 #' dir(pisa$p$root)
 #' # Set pisa options
 #' options(pisa=pisa(global=FALSE))
-#' # Access details with $ 
+#' # Access details with $
 #' options()$pisa$p$root
 #' setwd(oldwd)
 #' }
