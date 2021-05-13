@@ -272,26 +272,13 @@ if (is.list(x)) {
 #' cat(x)
 #' setwd(oldwd)
 #' }
-#' @rdname pasteMeta
-#' @export pasteMeta
 pasteMeta <- function (x, kvsep="\t", nlsep="\n") {
-   UseMethod("pasteMeta", x)
- }
-#' @rdname pasteMeta
-#' @export pasteMeta.default
-pasteMeta.default <- function(x, kvsep="\t", nlsep="\n") {
-paste0(paste(apply(x, 1,
+   if(!is.data.frame(x)&is.list(x)) x <- data.frame(Key=names(x),Value=as.vector(unlist(x)))
+   paste0(paste(apply(x, 1,
             function(x) paste(x, collapse=kvsep) )
             , collapse=nlsep)
             ,nlsep)
 }
-#' @rdname pasteMeta
-#' @export pasteMeta.list
-pasteMeta.list <- function(x, kvsep=":\t", nlsep="\n"){
-   x <- data.frame(Key=names(x),Value=as.vector(unlist(x)))
-print(x)
-   pasteMeta(x, kvsep=kvsep,nlsep=nlsep)
-   }
 
 
 
