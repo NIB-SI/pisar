@@ -4,12 +4,12 @@
 \alias{getMeta}
 \title{Get metadata value}
 \usage{
-getMeta(x, item, nl = TRUE)
+getMeta(x, key, nl = TRUE)
 }
 \arguments{
 \item{x}{Two column character data frame with Key / Value pairs.}
 
-\item{item}{String, item name.}
+\item{key}{String, key name. Trailing colon can be omitted.}
 
 \item{nl}{Logical, expand backslash character for new lines.}
 

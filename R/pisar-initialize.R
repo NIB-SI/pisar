@@ -202,7 +202,7 @@ print.pISAmeta <- function(x, width = max(nchar(x[,1]))*3.5,  ...){
 #' Get metadata value
 #'
 #' @param x Two column character data frame with Key / Value pairs.
-#' @param item String, item name.
+#' @param key String, key name. Trailing colon can be omitted.
 #' @param nl Logical, expand backslash character for new lines.
 #' @param ... Any other arguments (not used at the moment).
 #' @return Character string with key value.
@@ -227,17 +227,17 @@ print.pISAmeta <- function(x, width = max(nchar(x[,1]))*3.5,  ...){
 #' }
 #' @rdname getMeta
 #' @export getMeta
-getMeta <- function(x,item,nl=TRUE) {
+getMeta <- function(x,key,nl=TRUE) {
 if (is.data.frame(x)) {
-item <- paste0(gsub(":","",item),":")
-ret <- unclass(x[match(item, x[,1]), 2])
+key <- paste0(gsub(":","",key),":")
+ret <- unclass(x[match(key, x[,1]), 2])
 if(is.character(ret)&&nl) ret <- sub("\\\\n","\n",ret)
 return(ret)
 }
 if (is.list(x)) {
    nm <- paste0(gsub(":","",names(x)),":")
    xd <- data.frame(Key=nm,Value=unlist(x), stringsAsFactors=FALSE)
-   getMeta(xd, item, nl)
+   getMeta(xd, key, nl)
    }
 }
 
