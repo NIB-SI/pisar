@@ -11,7 +11,7 @@ if (!require(devtools)) {
     install.packages("devtools")
     require(devtools)
 }
-devtools::install_github("ablejec/pisar", build_vignettes = TRUE)
+devtools::install_github("NIB-SI/pisar", build_vignettes = TRUE)
 ```
 
 ## Webpage
