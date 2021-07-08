@@ -6,7 +6,7 @@
 %%
 %\VignetteIndexEntry{HowTo Use pISA-tree in R}
 %\VignetteDepends{}
-%VignetteBuilder{knitr}
+%\VignetteBuilder{knitr}
 %\VignetteEngine{knitr::knit}
 %\VignettePackage{pisar}
 %\VignetteEncoding{UTF-8}
@@ -27,6 +27,7 @@
 \usepackage{Sweave}
 
 
+%\documentclass[article,shortnames,nojss]{jss}
 %\usepackage[slovene]{babel}
 \usepackage[utf8]{inputenc} %% must be here for Sweave encoding check
 \providecommand\code{\bgroup\@codex}
@@ -110,8 +111,7 @@ First you need to load the \pkg{pisar} package.
 \end{Sinput}
 \end{Schunk}
 
-A data analysis report usually starts from a directory, that is
-included in an Assay layer, with class \code{DRY} and type \code{R}.
+A data analysis report usually starts in an R working directory, that should be included in an Assay layer, typically with class \code{DRY} and type \code{R}.
 The \pkg{pisar} package comes with a pISA directory tree that can be
 used for demonstration:
 
@@ -121,7 +121,7 @@ used for demonstration:
 \end{Sinput}
 \end{Schunk}
 
-We have a project \code{'Demo'}, an Investigation \code{Test} with Study \code{Show}  and Assay \code{Work}. In our case, we will use the folder \file{other} as R session working directory.
+We have a project \code{'Demo'}, an Investigation \code{Test} with Study \code{Show}  and Assay \code{Work}. In our case, we will use the folder \file{/other} as the R session working directory. As noted above, the R working directory should be in or below the Assay directory.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -157,9 +157,9 @@ We can check the content of the working directory, that contains at least a \fil
 \end{Soutput}
 \end{Schunk}
 
-\section{Layer's root directory}
+\section{Layer's root directories}
 
-For navigation around the pISA tree, we can rely on layered structure. All layers are somewhere above the working directory. This enablesrelative paths: read two dots (..) as 'parent' and one dot (.) as 'here'.
+For navigation around the pISA tree, we can rely on layered structure. All layers are somewhere above the working directory. This enables relative paths: read two dots (..) as 'parent' and one dot (.) as 'here'.
 
 Let's see the relative paths to the layers and check existence of the metadata files:
 
@@ -233,10 +233,12 @@ Assay:
 
 \section{Metadata files}
 
-Metadata files contain Key/Value pair lines with detailed information about the layer. We can read them with the function \fct{readMeta}:
+Metadata files contain lines with Key/Value pairs
+giving detailed information about the layer. We can read them with the function \fct{readMeta}:
 
 \begin{Schunk}
 \begin{Sinput}
+> # read project metadata file
 > .proot
 \end{Sinput}
 \begin{Soutput}
@@ -348,9 +350,24 @@ We can get other metadata information:
 
 \section{Getting specific parts from the metadata object}
 
-In addition to usual data extraction methods (using square brackets), we can do it with a function \fct{getMeta}:
+In addition to usual data extraction methods (using the square brackets), we can get the key values with a function \fct{getMeta}.
 
-Get the title of the project:
+To get the project title, we go to the project metadata object \code{.pmeta} and look for the value of the key \code{Title:}
+
+\begin{Schunk}
+\begin{Sinput}
+> .pmeta[1:3, ]
+\end{Sinput}
+\begin{Soutput}
+ Key          Value
+ ---          -----
+ Short Name:  Demo
+ Title:       Project demonstration
+ Description: This is a demo project for R package 'pisar'.
+\end{Soutput}
+\end{Schunk}
+
+
 
 \begin{Schunk}
 \begin{Sinput}
@@ -367,7 +384,7 @@ Get the title of the project:
 \end{Soutput}
 \end{Schunk}
 
-As we can see, the requested item value can be used with or without the colon.
+As we can see, the requested key name can be used with or without the trailing colon.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -385,13 +402,62 @@ All metadata information and some additional useful directory path strings can b
 \begin{Schunk}
 \begin{Sinput}
 > p <- pisa()
+> names(p)
 \end{Sinput}
+\begin{Soutput}
+ [1] "p"          "I"          "S"          "A"          "oroot"     
+ [6] "inroot"     "reproot"    "outputFile" "args"       "pfn"       
+[11] "ffn"        "outfn"      "rnwfn"     
+\end{Soutput}
 \end{Schunk}
 
 The result is a list with metadata information. The elements are described in the function's help file \code{`?pisa`}.
 
-Access the individual parts is as usual:
+\begin{Schunk}
+\begin{Sinput}
+> str(p)
+\end{Sinput}
+\begin{Soutput}
+List of 13
+ $ p         :List of 3
+  ..$ name: chr "_p_Demo"
+  ..$ root: chr "../../../.."
+  ..$ meta:Classes 'pISAmeta', 'Dlist' and 'data.frame':	16 obs. of  2 variables:
+  .. ..$ Key  : chr [1:16] "Short Name:" "Title:" "Description:" "pISA projects path:" ...
+  .. ..$ Value: chr [1:16] "Demo" "Project demonstration" "This is a demo project for R package 'pisar'." "D:/OMIKE/pISA" ...
+ $ I         :List of 3
+  ..$ name: chr "_I_Test"
+  ..$ root: chr "../../.."
+  ..$ meta:Classes 'pISAmeta', 'Dlist' and 'data.frame':	10 obs. of  2 variables:
+  .. ..$ Key  : chr [1:10] "Short Name:" "Title:" "Description:" "Phenodata:" ...
+  .. ..$ Value: chr [1:10] "Test" "Test investigation" "Investigation - for demonstration purposes." "./phenodata_20191015.txt" ...
+ $ S         :List of 3
+  ..$ name: chr "_S_Show"
+  ..$ root: chr "../.."
+  ..$ meta:Classes 'pISAmeta', 'Dlist' and 'data.frame':	10 obs. of  2 variables:
+  .. ..$ Key  : chr [1:10] "Short Name:" "Title:" "Description:" "Raw Data:" ...
+  .. ..$ Value: chr [1:10] "Show" "Testing study" "Test study for demonstration only." "" ...
+ $ A         :List of 3
+  ..$ name: chr "_A_Work-R"
+  ..$ root: chr ".."
+  ..$ meta:Classes 'pISAmeta', 'Dlist' and 'data.frame':	11 obs. of  2 variables:
+  .. ..$ Key  : chr [1:11] "Short Name:" "Assay Class:" "Assay Type:" "Title:" ...
+  .. ..$ Value: chr [1:11] "Work-R" "DRY" "R" "Working in assay" ...
+ $ oroot     : chr "../output/HowTo-Use-pISA-tree-in-R"
+ $ inroot    : chr "../input"
+ $ reproot   : chr "../reports"
+ $ outputFile: chr "../reports/HowTo-Use-pISA-tree-in-R.pdf"
+ $ args      : chr "HowTo-Use-pISA-tree-in-R.Rnw"
+ $ pfn       : chr "./phenodata_20191015.txt"
+ $ ffn       : chr ""
+ $ outfn     : chr "HowTo-Use-pISA-tree-in-R"
+ $ rnwfn     : chr "HowTo-Use-pISA-tree-in-R.Rnw"
+\end{Soutput}
+\end{Schunk}
 
+Access of individual parts is as for any list.
+
+Information about the Assay layer:
 \begin{Schunk}
 \begin{Sinput}
 > p$A
@@ -445,17 +511,93 @@ In addition, we get  dot-named objects (similar as above) in the global environm
 \end{Soutput}
 \end{Schunk}
 
-
-\clearpage
-\section{To end}
-Reset working directory, if needed.
+Dotted values have equivalents in the pISA list. We can check if the structures are the same:
 
 \begin{Schunk}
 \begin{Sinput}
-> opts_knit$set(root.dir = oldwd)
-> if (interactive()) setwd(oldwd)
+> all(.ameta == p$A$meta)
 \end{Sinput}
+\begin{Soutput}
+[1] TRUE
+\end{Soutput}
+\begin{Sinput}
+> .sroot == p$S$root
+\end{Sinput}
+\begin{Soutput}
+[1] TRUE
+\end{Soutput}
 \end{Schunk}
+
+
+For convenience, some useful path names and strings are set to default values or values taken from the metadata files.
+
+\begin{Schunk}
+\begin{Sinput}
+> # input direcotry
+> .inroot
+\end{Sinput}
+\begin{Soutput}
+[1] "../input"
+\end{Soutput}
+\begin{Sinput}
+> # output directory
+> .oroot
+\end{Sinput}
+\begin{Soutput}
+[1] "../output/HowTo-Use-pISA-tree-in-R"
+\end{Soutput}
+\begin{Sinput}
+> # report directory
+> .reproot
+\end{Sinput}
+\begin{Soutput}
+[1] "../reports"
+\end{Soutput}
+\begin{Sinput}
+> # phenodata file (note the relative path)
+> .pfn
+\end{Sinput}
+\begin{Soutput}
+[1] "./phenodata_20191015.txt"
+\end{Soutput}
+\begin{Sinput}
+> # featuredata file
+> .ffn
+\end{Sinput}
+\begin{Soutput}
+[1] ""
+\end{Soutput}
+\begin{Sinput}
+> # output file name, based on arguments of a call
+> p$args
+\end{Sinput}
+\begin{Soutput}
+[1] "HowTo-Use-pISA-tree-in-R.Rnw"
+\end{Soutput}
+\begin{Sinput}
+> .outfn
+\end{Sinput}
+\begin{Soutput}
+[1] "HowTo-Use-pISA-tree-in-R"
+\end{Soutput}
+\begin{Sinput}
+> # script file name
+> .rnwfn
+\end{Sinput}
+\begin{Soutput}
+[1] "HowTo-Use-pISA-tree-in-R.Rnw"
+\end{Soutput}
+\end{Schunk}
+
+
+
+\clearpage
+\section{To end}
+% Reset working directory, if needed.
+
+Use of metadata and consistent directory structure contributes to the  reproducibility of the analyses. With \pkg{pisar} the code does not depend on hard coded strings, and scripts can be reused without changes if the metadata are updated or the assay is copied or relocated into another study.
+
+
 
 
 %% knitr child handling
