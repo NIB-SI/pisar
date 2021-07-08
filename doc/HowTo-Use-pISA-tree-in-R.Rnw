@@ -137,7 +137,7 @@ dir()
 readLines("README.MD")
 @
 
-\section{Layer's root directory}
+\section{Layer's root directories}
 
 For navigation around the pISA tree, we can rely on layered structure. All layers are somewhere above the working directory. This enables relative paths: read two dots (..) as 'parent' and one dot (.) as 'here'.
 
@@ -173,7 +173,7 @@ dir(.aroot,pattern=glob2rx("*.TXT"))
 
 \section{Metadata files}
 
-Metadata files contain lines with Key/Value pairs 
+Metadata files contain lines with Key/Value pairs
 giving detailed information about the layer. We can read them with the function \fct{readMeta}:
 
 <<readMeta1>>=
@@ -205,17 +205,22 @@ We can get other metadata information:
 
 \section{Getting specific parts from the metadata object}
 
-In addition to usual data extraction methods (using square brackets), we can do it with a function \fct{getMeta}:
+In addition to usual data extraction methods (using the square brackets), we can get the key values with a function \fct{getMeta}.
 
-Get the title of the project:
+To get the project title, we go to the project metadata object \code{.pmeta} and look for the value of the key \code{Title:}
+
+<<>>=
+.pmeta[1:3,]
+@
+
+
 
 <<eval=!FALSE>>=
 getMeta(.pmeta,"Title")
 getMeta(.pmeta,"Title:")
-.pmeta[2,]
 @
 
-As we can see, the requested item value can be used with or without the colon.
+As we can see, the requested key name can be used with or without the trailing colon.
 
 <<eval=!FALSE>>=
 getMeta(.ameta,"Description")
@@ -263,7 +268,7 @@ all(.ameta == p$A$meta)
 @
 
 
-For convenience, some useful path names and strings are set to default values or values taken from the metadata files. 
+For convenience, some useful path names and strings are set to default values or values taken from the metadata files.
 
 <<>>=
 # input direcotry
@@ -274,7 +279,7 @@ For convenience, some useful path names and strings are set to default values or
 .reproot
 # phenodata file (note the relative path)
 .pfn
-# featuredata file 
+# featuredata file
 .ffn
 # output file name, based on arguments of a call
 p$args
@@ -288,6 +293,8 @@ p$args
 \clearpage
 \section{To end}
 % Reset working directory, if needed.
+
+Use of metadata and consistent directory structure contributes to the  reproducibility of the analyses. With \pkg{pisar} the code does not depend on hard coded strings, and scripts can be reused without changes if the metadata are updated or the assay is copied or relocated into another study.
 
 <<echo = FALSE>>=
 opts_knit$set(root.dir = oldwd)
