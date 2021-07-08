@@ -1,0 +1,650 @@
+ %\VignetteEngine{knitr::knitr}
+% -*- TeX:Rnw:UTF-8 -*-
+% ----------------------------------------------------------------
+% .R knitr file  ************************************************
+% ----------------------------------------------------------------
+%%
+%\VignetteIndexEntry{HowTo Use pISA-tree in R}
+%\VignetteDepends{}
+%\VignetteBuilder{knitr}
+%\VignetteEngine{knitr::knit}
+%\VignettePackage{pisar}
+%\VignetteEncoding{UTF-8}
+
+\documentclass[a4paper,12pt]{article}\usepackage[]{graphicx}\usepackage[]{color}
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\usepackage{Sweave}
+
+
+%\documentclass[article,shortnames,nojss]{jss}
+%\usepackage[slovene]{babel}
+\usepackage[utf8]{inputenc} %% must be here for Sweave encoding check
+\providecommand\code{\bgroup\@codex}
+\def\@codex#1{{\normalfont\ttfamily\hyphenchar\font=-1  #1}\egroup}
+\providecommand{\codei}[1]{\code{#1}\index{\code{#1}}}
+\providecommand{\NA}{\code{NA}}
+\providecommand{\file}{\code}
+\providecommand{\kbd}[1]{{\normalfont\texttt{#1}}}
+\providecommand{\key}[1]{{\normalfont\texttt{\uppercase{#1}}}}
+\providecommand{\var}[1]{{\normalfont\textsl{#1}}}
+\providecommand{\fct}[1]{{\ttfamily\textbf{#1}()}}
+\newcommand{\ii}[1]{{\it #1}} % for index page reference in italic
+\providecommand{\fcti}[1]{\fct{#1}\index{#1@{\fct{#1}}}}
+\providecommand{\strong}[1]{{\normalfont\fontseries{b}\selectfont  #1}}
+\let\pkg=\strong
+\providecommand{\email}[1]{\href{mailto:#1}{\normalfont\small\texttt{#1}}}
+
+%%\input{abpkg}
+%%\input{abcmd}
+%%\input{abpage}
+%%\usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
+%%\usepackage{amsmath,amssymb}
+%%\usepackage{colortbl}
+%%
+%%\input{mysweave}
+
+
+\setkeys{Gin}{width=0.8\textwidth}  % set graphicx parameter
+\usepackage{lmodern}
+%%\input{abfont}
+
+% ----------------------------------------------------------------
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+%% Sweave settings for includegraphics default plot size (Sweave default is 0.8)
+%% notice this must be after begin{document}
+%%% \setkeys{Gin}{width=0.9\textwidth}
+% ----------------------------------------------------------------
+\title{HowTo Use pISA-tree in R}
+\author{Andrej Blejec\\
+National Institute of Biology\\
+Ljubljana, Slovenia\\
+%\address{}%
+\small{Email: \code{andrej.blejec@nib.si}}
+}%
+%
+%\thanks{}%
+%\subjclass{}%
+%\keywords{}%
+
+%\date{}%
+%\dedicatory{}%
+%\commby{}%
+\maketitle
+% ----------------------------------------------------------------
+%\begin{abstract}
+%
+%\end{abstract}
+% ----------------------------------------------------------------
+\tableofcontents
+
+
+
+\section{Introduction}
+The package \pkg{pisar} implements functions that can be used to
+use pISA-tree metadata and pISA-tree standardized directory tree in R.
+The benefit for making reports reproducible is to get all details about the
+file positions from the pISA metadata.
+
+pISA-tree is a system to organize research data in a structured way.
+
+\emph{Enter the pISA-tree description here}
+
+\section{Get the pISA-tree information}
+
+First you need to load the \pkg{pisar} package.
+
+\begin{Schunk}
+\begin{Sinput}
+> library(pisar)
+\end{Sinput}
+\end{Schunk}
+
+A data analysis report usually starts in an R working directory, that should be included in an Assay layer, typically with class \code{DRY} and type \code{R}.
+The \pkg{pisar} package comes with a pISA directory tree that can be
+used for demonstration:
+
+\begin{Schunk}
+\begin{Sinput}
+> astring <- "_p_Demo/_I_Test/_S_Show/_A_Work-R/other"
+\end{Sinput}
+\end{Schunk}
+
+We have a project \code{'Demo'}, an Investigation \code{Test} with Study \code{Show}  and Assay \code{Work}. In our case, we will use the folder \file{/other} as the R session working directory. As noted above, the R working directory should be in or below the Assay directory.
+
+\begin{Schunk}
+\begin{Sinput}
+> .pisaPath <- system.file("extdata", astring, package = "pisar")
+> oldwd <- getwd()
+> if (interactive()) {
++     oldwd <- setwd(.pisaPath)
++     strsplit(getwd(), "/")
++ }
+\end{Sinput}
+\end{Schunk}
+
+If you are working with knitr, use:
+\begin{Schunk}
+\begin{Sinput}
+> opts_knit$set(root.dir = .pisaPath)
+\end{Sinput}
+\end{Schunk}
+
+We can check the content of the working directory, that contains at least a \file{README.MD} file:
+\begin{Schunk}
+\begin{Sinput}
+> dir()
+\end{Sinput}
+\begin{Soutput}
+[1] "_outputFile.R" "README.MD"    
+\end{Soutput}
+\begin{Sinput}
+> readLines("README.MD")
+\end{Sinput}
+\begin{Soutput}
+[1] "# Other files for assay Work-R "
+\end{Soutput}
+\end{Schunk}
+
+\section{Layer's root directories}
+
+For navigation around the pISA tree, we can rely on layered structure. All layers are somewhere above the working directory. This enables relative paths: read two dots (..) as 'parent' and one dot (.) as 'here'.
+
+Let's see the relative paths to the layers and check existence of the metadata files:
+
+Project:
+\begin{Schunk}
+\begin{Sinput}
+> .proot <- getRoot("p")
+> .proot
+\end{Sinput}
+\begin{Soutput}
+[1] "../../../.."
+\end{Soutput}
+\begin{Sinput}
+> dir(.proot, pattern = glob2rx("*.TXT"))
+\end{Sinput}
+\begin{Soutput}
+[1] "_PROJECT_METADATA.TXT"
+\end{Soutput}
+\end{Schunk}
+
+Investigation:
+\begin{Schunk}
+\begin{Sinput}
+> .iroot <- getRoot("I")
+> .iroot
+\end{Sinput}
+\begin{Soutput}
+[1] "../../.."
+\end{Soutput}
+\begin{Sinput}
+> dir(.iroot, pattern = glob2rx("*.TXT"))
+\end{Sinput}
+\begin{Soutput}
+[1] "_INVESTIGATION_METADATA.TXT"
+\end{Soutput}
+\end{Schunk}
+
+Study:
+\begin{Schunk}
+\begin{Sinput}
+> .sroot <- getRoot("S")
+> .sroot
+\end{Sinput}
+\begin{Soutput}
+[1] "../.."
+\end{Soutput}
+\begin{Sinput}
+> dir(.sroot, pattern = glob2rx("*.TXT"))
+\end{Sinput}
+\begin{Soutput}
+[1] "_STUDY_METADATA.TXT"
+\end{Soutput}
+\end{Schunk}
+
+Assay:
+\begin{Schunk}
+\begin{Sinput}
+> .aroot <- getRoot("A")
+> .aroot
+\end{Sinput}
+\begin{Soutput}
+[1] ".."
+\end{Soutput}
+\begin{Sinput}
+> dir(.aroot, pattern = glob2rx("*.TXT"))
+\end{Sinput}
+\begin{Soutput}
+[1] "_Assay_METADATA.TXT"
+\end{Soutput}
+\end{Schunk}
+
+\section{Metadata files}
+
+Metadata files contain lines with Key/Value pairs
+giving detailed information about the layer. We can read them with the function \fct{readMeta}:
+
+\begin{Schunk}
+\begin{Sinput}
+> # read project metadata file
+> .proot
+\end{Sinput}
+\begin{Soutput}
+[1] "../../../.."
+\end{Soutput}
+\begin{Sinput}
+> .pmeta <- readMeta(.proot)
+\end{Sinput}
+\end{Schunk}
+
+In addition to read the metadata information as a \code{data.frame}, function
+\fct{readMeta} sets two additional class values, which enables nicer printing:
+
+\begin{Schunk}
+\begin{Sinput}
+> str(.pmeta)
+\end{Sinput}
+\begin{Soutput}
+Classes 'pISAmeta', 'Dlist' and 'data.frame':	16 obs. of  2 variables:
+ $ Key  : chr  "Short Name:" "Title:" "Description:" "pISA projects path:" ...
+ $ Value: chr  "Demo" "Project demonstration" "This is a demo project for R package 'pisar'." "D:/OMIKE/pISA" ...
+\end{Soutput}
+\end{Schunk}
+
+Indentation of the Value part depends on the line widths and we will set it to some higher value.
+
+\begin{Schunk}
+\begin{Sinput}
+> .pmeta
+\end{Sinput}
+\begin{Soutput}
+ Key                           Value
+ ---                           -----
+ Short Name:                   Demo
+ Title:                        Project demonstration
+ Description:                  This is a demo project for R package 'pisar'.
+ pISA projects path:           D:/OMIKE/pISA
+ Local pISA-tree organisation: NIB
+ pISA project creation date:   2019-10-15
+ pISA project creator:         AB
+ Project funding code:         *
+ Project coordinator:          *
+ Project partners:             *
+ Project start date:           2018-01-01
+ Project end date:             2021-12-31
+ Principal investigator:       *
+ License:                      CC BY 4.0
+ Sharing permission:           Private
+ Upload to FAIRDOMHub:         Yes
+\end{Soutput}
+\end{Schunk}
+
+We can get other metadata information:
+
+\begin{Schunk}
+\begin{Sinput}
+> (.imeta <- readMeta(.iroot))
+\end{Sinput}
+\begin{Soutput}
+ Key                               Value
+ ---                              -----
+ Short Name:                       Test
+ Title:                            Test investigation
+ Description:                      Investigation - for demonstration purposes.
+ Phenodata:                        ./phenodata_20191015.txt
+ pISA Investigation creation date: 2019-10-15
+ pISA Investigation creator:       AB
+ Principal investigator:           *
+ License:                          CC BY 4.0
+ Sharing permission:               Private
+ Upload to FAIRDOMHub:             Yes
+\end{Soutput}
+\begin{Sinput}
+> (.smeta <- readMeta(.sroot))
+\end{Sinput}
+\begin{Soutput}
+ Key                       Value
+ ---                       -----
+ Short Name:               Show
+ Title:                    Testing study
+ Description:              Test study for demonstration only.
+ Raw Data:                 
+ pISA Study creation date: 2019-10-15
+ pISA Study creator:       AB
+ Principal investigator:   *
+ License:                  CC BY 4.0
+ Sharing permission:       Private
+ Upload to FAIRDOMHub:     Yes
+\end{Soutput}
+\begin{Sinput}
+> (.ameta <- readMeta(.aroot))
+\end{Sinput}
+\begin{Soutput}
+ Key                       Value
+ ---                       -----
+ Short Name:               Work-R
+ Assay Class:              DRY
+ Assay Type:               R
+ Title:                    Working in assay
+ Description:              Not really working, just testing :)
+ pISA Assay creation date: 2019-10-15
+ pISA Assay creator:       AB
+ Analyst:                  AB
+ Phenodata:                ../../phenodata_20191015.txt
+ Featuredata:              
+ Data:                     
+\end{Soutput}
+\end{Schunk}
+
+\section{Getting specific parts from the metadata object}
+
+In addition to usual data extraction methods (using the square brackets), we can get the key values with a function \fct{getMeta}.
+
+To get the project title, we go to the project metadata object \code{.pmeta} and look for the value of the key \code{Title:}
+
+\begin{Schunk}
+\begin{Sinput}
+> .pmeta[1:3, ]
+\end{Sinput}
+\begin{Soutput}
+ Key          Value
+ ---          -----
+ Short Name:  Demo
+ Title:       Project demonstration
+ Description: This is a demo project for R package 'pisar'.
+\end{Soutput}
+\end{Schunk}
+
+
+
+\begin{Schunk}
+\begin{Sinput}
+> getMeta(.pmeta, "Title")
+\end{Sinput}
+\begin{Soutput}
+[1] "Project demonstration"
+\end{Soutput}
+\begin{Sinput}
+> getMeta(.pmeta, "Title:")
+\end{Sinput}
+\begin{Soutput}
+[1] "Project demonstration"
+\end{Soutput}
+\end{Schunk}
+
+As we can see, the requested key name can be used with or without the trailing colon.
+
+\begin{Schunk}
+\begin{Sinput}
+> getMeta(.ameta, "Description")
+\end{Sinput}
+\begin{Soutput}
+[1] "Not really working, just testing :)"
+\end{Soutput}
+\end{Schunk}
+
+\section{All together}
+
+All metadata information and some additional useful directory path strings can be extracted with the function \fct{pisa}:
+
+\begin{Schunk}
+\begin{Sinput}
+> p <- pisa()
+> names(p)
+\end{Sinput}
+\begin{Soutput}
+ [1] "p"          "I"          "S"          "A"          "oroot"     
+ [6] "inroot"     "reproot"    "outputFile" "args"       "pfn"       
+[11] "ffn"        "outfn"      "rnwfn"     
+\end{Soutput}
+\end{Schunk}
+
+The result is a list with metadata information. The elements are described in the function's help file \code{`?pisa`}.
+
+\begin{Schunk}
+\begin{Sinput}
+> str(p)
+\end{Sinput}
+\begin{Soutput}
+List of 13
+ $ p         :List of 3
+  ..$ name: chr "_p_Demo"
+  ..$ root: chr "../../../.."
+  ..$ meta:Classes 'pISAmeta', 'Dlist' and 'data.frame':	16 obs. of  2 variables:
+  .. ..$ Key  : chr [1:16] "Short Name:" "Title:" "Description:" "pISA projects path:" ...
+  .. ..$ Value: chr [1:16] "Demo" "Project demonstration" "This is a demo project for R package 'pisar'." "D:/OMIKE/pISA" ...
+ $ I         :List of 3
+  ..$ name: chr "_I_Test"
+  ..$ root: chr "../../.."
+  ..$ meta:Classes 'pISAmeta', 'Dlist' and 'data.frame':	10 obs. of  2 variables:
+  .. ..$ Key  : chr [1:10] "Short Name:" "Title:" "Description:" "Phenodata:" ...
+  .. ..$ Value: chr [1:10] "Test" "Test investigation" "Investigation - for demonstration purposes." "./phenodata_20191015.txt" ...
+ $ S         :List of 3
+  ..$ name: chr "_S_Show"
+  ..$ root: chr "../.."
+  ..$ meta:Classes 'pISAmeta', 'Dlist' and 'data.frame':	10 obs. of  2 variables:
+  .. ..$ Key  : chr [1:10] "Short Name:" "Title:" "Description:" "Raw Data:" ...
+  .. ..$ Value: chr [1:10] "Show" "Testing study" "Test study for demonstration only." "" ...
+ $ A         :List of 3
+  ..$ name: chr "_A_Work-R"
+  ..$ root: chr ".."
+  ..$ meta:Classes 'pISAmeta', 'Dlist' and 'data.frame':	11 obs. of  2 variables:
+  .. ..$ Key  : chr [1:11] "Short Name:" "Assay Class:" "Assay Type:" "Title:" ...
+  .. ..$ Value: chr [1:11] "Work-R" "DRY" "R" "Working in assay" ...
+ $ oroot     : chr "../output/HowTo-Use-pISA-tree-in-R"
+ $ inroot    : chr "../input"
+ $ reproot   : chr "../reports"
+ $ outputFile: chr "../reports/HowTo-Use-pISA-tree-in-R.pdf"
+ $ args      : chr "HowTo-Use-pISA-tree-in-R.Rnw"
+ $ pfn       : chr "./phenodata_20191015.txt"
+ $ ffn       : chr ""
+ $ outfn     : chr "HowTo-Use-pISA-tree-in-R"
+ $ rnwfn     : chr "HowTo-Use-pISA-tree-in-R.Rnw"
+\end{Soutput}
+\end{Schunk}
+
+Access of individual parts is as for any list.
+
+Information about the Assay layer:
+\begin{Schunk}
+\begin{Sinput}
+> p$A
+\end{Sinput}
+\begin{Soutput}
+$name
+[1] "_A_Work-R"
+
+$root
+[1] ".."
+
+$meta
+ Key                       Value
+ ---                       -----
+ Short Name:               Work-R
+ Assay Class:              DRY
+ Assay Type:               R
+ Title:                    Working in assay
+ Description:              Not really working, just testing :)
+ pISA Assay creation date: 2019-10-15
+ pISA Assay creator:       AB
+ Analyst:                  AB
+ Phenodata:                ../../phenodata_20191015.txt
+ Featuredata:              
+ Data:                     
+\end{Soutput}
+\end{Schunk}
+
+Path to Study level:
+
+\begin{Schunk}
+\begin{Sinput}
+> p$S$root
+\end{Sinput}
+\begin{Soutput}
+[1] "../.."
+\end{Soutput}
+\end{Schunk}
+
+In addition, we get  dot-named objects (similar as above) in the global environment. For details, see help for function \fct{pisa}. The dot-named objects are hidden, so we need to list them as
+
+\begin{Schunk}
+\begin{Sinput}
+> ls(pattern = "^\\.", all.names = TRUE)
+\end{Sinput}
+\begin{Soutput}
+ [1] ".ameta"    ".aname"    ".aroot"    ".ffn"      ".imeta"   
+ [6] ".iname"    ".inroot"   ".iroot"    ".oroot"    ".outfn"   
+[11] ".pfn"      ".pisaPath" ".pmeta"    ".pname"    ".proot"   
+[16] ".reproot"  ".rnwfn"    ".smeta"    ".sname"    ".sroot"   
+\end{Soutput}
+\end{Schunk}
+
+Dotted values have equivalents in the pISA list. We can check if the structures are the same:
+
+\begin{Schunk}
+\begin{Sinput}
+> all(.ameta == p$A$meta)
+\end{Sinput}
+\begin{Soutput}
+[1] TRUE
+\end{Soutput}
+\begin{Sinput}
+> .sroot == p$S$root
+\end{Sinput}
+\begin{Soutput}
+[1] TRUE
+\end{Soutput}
+\end{Schunk}
+
+
+For convenience, some useful path names and strings are set to default values or values taken from the metadata files.
+
+\begin{Schunk}
+\begin{Sinput}
+> # input direcotry
+> .inroot
+\end{Sinput}
+\begin{Soutput}
+[1] "../input"
+\end{Soutput}
+\begin{Sinput}
+> # output directory
+> .oroot
+\end{Sinput}
+\begin{Soutput}
+[1] "../output/HowTo-Use-pISA-tree-in-R"
+\end{Soutput}
+\begin{Sinput}
+> # report directory
+> .reproot
+\end{Sinput}
+\begin{Soutput}
+[1] "../reports"
+\end{Soutput}
+\begin{Sinput}
+> # phenodata file (note the relative path)
+> .pfn
+\end{Sinput}
+\begin{Soutput}
+[1] "./phenodata_20191015.txt"
+\end{Soutput}
+\begin{Sinput}
+> # featuredata file
+> .ffn
+\end{Sinput}
+\begin{Soutput}
+[1] ""
+\end{Soutput}
+\begin{Sinput}
+> # output file name, based on arguments of a call
+> p$args
+\end{Sinput}
+\begin{Soutput}
+[1] "HowTo-Use-pISA-tree-in-R.Rnw"
+\end{Soutput}
+\begin{Sinput}
+> .outfn
+\end{Sinput}
+\begin{Soutput}
+[1] "HowTo-Use-pISA-tree-in-R"
+\end{Soutput}
+\begin{Sinput}
+> # script file name
+> .rnwfn
+\end{Sinput}
+\begin{Soutput}
+[1] "HowTo-Use-pISA-tree-in-R.Rnw"
+\end{Soutput}
+\end{Schunk}
+
+
+
+\clearpage
+\section{To end}
+% Reset working directory, if needed.
+
+Use of metadata and consistent directory structure contributes to the  reproducibility of the analyses. With \pkg{pisar} the code does not depend on hard coded strings, and scripts can be reused without changes if the metadata are updated or the assay is copied or relocated into another study.
+
+
+
+
+%% knitr child handling
+%%
+%<<child='child_file.Rnw'>>=
+%@
+%<<result="hide">>=
+%out <- ""
+%for ( linija in levels(phenodata$Celicna.linija))
+%out <- paste(out,knit_child("child_file.rnw",quiet=TRUE))
+%@
+%out
+%%
+% ----------------------------------------------------------------
+%\bibliographystyle{chicago}
+%\addcontentsline{toc}{section}{\refname}
+%\bibliography{ab-general}
+%--------------------------------------------------------------
+
+%\clearpage
+%\appendix
+%\phantomsection\addcontentsline{toc}{section}{\appendixname}
+%\section{\R\ funkcije}
+%\input{}
+
+\clearpage
+\section*{SessionInfo}
+Windows 10 x64 (build 19042) 
+\begin{itemize}\raggedright
+  \item R version 4.0.2 (2020-06-22), \verb|x86_64-w64-mingw32|
+  \item Locale: \verb|LC_COLLATE=Slovenian_Slovenia.1250|, \verb|LC_CTYPE=Slovenian_Slovenia.1250|, \verb|LC_MONETARY=Slovenian_Slovenia.1250|, \verb|LC_NUMERIC=C|, \verb|LC_TIME=Slovenian_Slovenia.1250|
+  \item Running under: \verb|Windows 10 x64 (build 19042)|
+  \item Matrix products: default
+  \item Base packages: base, datasets, graphics, grDevices,
+    methods, stats, utils
+  \item Other packages: knitr~1.30, pisar~0.1.0.9000
+  \item Loaded via a namespace (and not attached):
+    cellranger~1.1.0, compiler~4.0.2, crayon~1.3.4, curl~4.3,
+    data.table~1.13.2, ellipsis~0.3.1, evaluate~0.14,
+    forcats~0.5.0, foreign~0.8-80, formatR~1.7, haven~2.3.1,
+    hms~1.0.0, lifecycle~0.2.0, magrittr~2.0.1,
+    openxlsx~4.2.3, pillar~1.4.7, pkgconfig~2.0.3, Rcpp~1.0.5,
+    readxl~1.3.1, rio~0.5.16, rlang~0.4.10, stringi~1.5.3,
+    stringr~1.4.0, tibble~3.0.4, tools~4.0.2, vctrs~0.3.6,
+    xfun~0.19, zip~2.1.1
+\end{itemize}
+
+
+\end{document}
+% ----------------------------------------------------------------

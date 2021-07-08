@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2020.7.29)  12 MAY 2021 00:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2021.7.9)  9 JUL 2021 00:02
 entering extended mode
 **C:/__D/OMIKE/pisar/vignettes/HowTo-Use-pISA-tree-in-R.tex
 (C:/__D/OMIKE/pisar/vignettes/HowTo-Use-pISA-tree-in-R.tex
@@ -53,7 +53,7 @@ File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: pdftex.def on input line 147.
 )
-(C:/__D/_Y/localtexmf\tex/latex\Sweave\Sweave.sty
+(C:/__D/_Y/localtexmf\tex/latex/Sweave\Sweave.sty
 Package: Sweave 
 
 ("C:\Program Files\MiKTeX\tex/latex/base\ifthen.sty"
@@ -68,7 +68,7 @@ Package: fancyvrb 2020/05/03 v3.6 verbatim text (tvz,hv)
 \FV@StepNumber=\count178
 \FV@OutFile=\write3
 )
-(C:/__D/_Y/localtexmf\tex/latex\Sweave\upquote.sty
+(C:/__D/_Y/localtexmf\tex/latex/Sweave\upquote.sty
 Package: upquote 2003/08/11 v1.1 Covington's upright-quote modification to verb
 atim and verb
 
@@ -129,24 +129,24 @@ File: l3backend-pdfmode.def 2020-06-29 L3 backend support: PDF mode
 \l__kernel_color_stack_int=\count179
 \l__pdf_internal_box=\box46
 )
-(C:/__D/OMIKE/pisar/vignettes/HowTo-Use-pISA-tree-in-R.aux)
+(C:\__D\OMIKE\pisar\VIGNET~1\TeX-Aux\HowTo-Use-pISA-tree-in-R.aux)
 \openout1 = `HowTo-Use-pISA-tree-in-R.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 63.
-LaTeX Font Info:    ... okay on input line 63.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 63.
-LaTeX Font Info:    ... okay on input line 63.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 63.
-LaTeX Font Info:    ... okay on input line 63.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 63.
-LaTeX Font Info:    ... okay on input line 63.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 63.
-LaTeX Font Info:    ... okay on input line 63.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 63.
-LaTeX Font Info:    ... okay on input line 63.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 63.
-LaTeX Font Info:    ... okay on input line 63.
-LaTeX Font Info:    Trying to load font information for T1+lmr on input line 63
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 64
 .
 
 ("C:\Program Files\MiKTeX\tex/latex/lm\t1lmr.fd"
@@ -171,42 +171,42 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 85.
 )
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 8
-3.
+4.
 
 ("C:\Program Files\MiKTeX\tex/latex/lm\ot1lmr.fd"
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 8
-3.
+4.
 
 ("C:\Program Files\MiKTeX\tex/latex/lm\omllmm.fd"
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-83.
+84.
 
 ("C:\Program Files\MiKTeX\tex/latex/lm\omslmsy.fd"
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-83.
+84.
 
 ("C:\Program Files\MiKTeX\tex/latex/lm\omxlmex.fd"
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 83.
+(Font)              <14.4> on input line 84.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 83.
+(Font)              <10> on input line 84.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 83.
+(Font)              <7> on input line 84.
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 8
-3.
+4.
 
 ("C:\Program Files\MiKTeX\tex/latex/lm\t1lmtt.fd"
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-(C:/__D/OMIKE/pisar/vignettes/HowTo-Use-pISA-tree-in-R.toc)
+(C:\__D\OMIKE\pisar\VIGNET~1\TeX-Aux\HowTo-Use-pISA-tree-in-R.toc)
 \tf@toc=\write4
 \openout4 = `HowTo-Use-pISA-tree-in-R.toc'.
 
@@ -214,47 +214,46 @@ File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 
 {C:/Users/ablejec/AppData/Local/MiKTeX/pdftex/config/pdftex.map}] [2]
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <12> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 236.
- [3]
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 237.
 LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 
-258.
+260.
 
 ("C:\Program Files\MiKTeX\tex/latex/lm\ts1lmtt.fd"
 File: ts1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [4] [5] [6] [7] [8
+) [3] [4] [5] [6] [7]
+[8] [9] [10
 
 ]
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 4
-88.
-
-("C:\Program Files\MiKTeX\tex/latex/lm\ts1lmr.fd"
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 6
+30.
+ ("C:\Program Files\MiKTeX\tex/latex/lm\ts1lmr.fd"
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [9
+) [11
 
 ]
-(C:/__D/OMIKE/pisar/vignettes/HowTo-Use-pISA-tree-in-R.aux) ) 
+(C:\__D\OMIKE\pisar\VIGNET~1\TeX-Aux\HowTo-Use-pISA-tree-in-R.aux) ) 
 Here is how much of TeX's memory you used:
- 2173 strings out of 481225
- 32151 string characters out of 2915922
- 267468 words of memory out of 3000000
- 17711 multiletter control sequences out of 15000+200000
- 577423 words of font info for 56 fonts, out of 3000000 for 9000
+ 2181 strings out of 481225
+ 32326 string characters out of 2915923
+ 266572 words of memory out of 3000000
+ 17719 multiletter control sequences out of 15000+200000
+ 574425 words of font info for 55 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,7n,33p,310b,349s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Program Files/
-MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}{C:/Program Files/MiKTeX/fonts/enc/dvips/l
-m/lm-ec.enc}<C:/Program Files/MiKTeX/fonts/type1/public/lm/lmb10.pfb><C:/Progra
-m Files/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Program Files/MiKTeX/fonts/
-type1/public/lm/lmr10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/lm/lmr12.
-pfb><C:/Program Files/MiKTeX/fonts/type1/public/lm/lmr17.pfb><C:/Program Files/
-MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Program Files/MiKTeX/fonts/type1/pu
-blic/lm/lmtk10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C
-:/Program Files/MiKTeX/fonts/type1/public/lm/lmtt12.pfb><C:/Program Files/MiKTe
-X/fonts/type1/public/lm/lmtto10.pfb>
-Output written on C:\__D\OMIKE\pisar\VIGNET~1\HowTo-Use-pISA-tree-in-R.pdf (9 p
-ages, 267712 bytes).
+ 36i,7n,33p,368b,349s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Program
+ Files/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}{C:/Program Files/MiKTeX/fonts/enc/
+dvips/lm/lm-ec.enc}<C:/Program Files/MiKTeX/fonts/type1/public/lm/lmb10.pfb><C:
+/Program Files/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Program Files/MiKTeX
+/fonts/type1/public/lm/lmr10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/lm
+/lmr12.pfb><C:/Program Files/MiKTeX/fonts/type1/public/lm/lmr17.pfb><C:/Program
+ Files/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Program Files/MiKTeX/fonts/t
+ype1/public/lm/lmtk10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/lm/lmtt10
+.pfb><C:/Program Files/MiKTeX/fonts/type1/public/lm/lmtt12.pfb><C:/Program File
+s/MiKTeX/fonts/type1/public/lm/lmtto10.pfb>
+Output written on C:\__D\OMIKE\pisar\VIGNET~1\HowTo-Use-pISA-tree-in-R.pdf (11 
+pages, 271964 bytes).
 PDF statistics:
- 78 PDF objects out of 1000 (max. 8388607)
+ 84 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

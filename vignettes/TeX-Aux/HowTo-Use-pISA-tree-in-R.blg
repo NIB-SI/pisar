@@ -1,12 +1,18 @@
 This is BibTeX, Version 0.99d
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: HowTo-Use-pISA-tree-in-R.aux
+Reallocating 'name_of_file' (item size: 1) to 4 items.
+I couldn't open style file jss.bst
+---line 3 of file HowTo-Use-pISA-tree-in-R.aux
+ : \bibstyle{jss
+ :              }
+I'm skipping whatever remains of this command
 I found no \citation commands---while reading file HowTo-Use-pISA-tree-in-R.aux
 I found no \bibdata command---while reading file HowTo-Use-pISA-tree-in-R.aux
-I found no \bibstyle command---while reading file HowTo-Use-pISA-tree-in-R.aux
+I found no style file---while reading file HowTo-Use-pISA-tree-in-R.aux
 You've used 0 entries,
             0 wiz_defined-function locations,
-            83 strings with 522 characters,
+            84 strings with 525 characters,
 and the built_in function-call counts, 0 in all, are:
 = -- 0
 > -- 0
@@ -45,4 +51,4 @@ warning$ -- 0
 while$ -- 0
 width$ -- 0
 write$ -- 0
-(There were 3 error messages)
+(There were 4 error messages)

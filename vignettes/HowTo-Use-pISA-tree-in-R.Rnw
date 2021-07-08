@@ -12,6 +12,7 @@
 %\VignetteEncoding{UTF-8}
 
 \documentclass[a4paper,12pt]{article}
+%\documentclass[article,shortnames,nojss]{jss}
 %\usepackage[slovene]{babel}
 \usepackage[utf8]{inputenc} %% must be here for Sweave encoding check
 \providecommand\code{\bgroup\@codex}

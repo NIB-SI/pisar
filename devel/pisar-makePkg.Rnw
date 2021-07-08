@@ -177,11 +177,8 @@ Install locally
 location <- pmatch(paste0("package:",pkgName),search())
 location
 if(!is.na(location)) detach(pos=location)
-# devtools::install(pkgPath) # not producing vignettes
-remotes::install_local(pkgPath
-    , force=TRUE
-    , build_vignettes = TRUE
-    , upgrade="never")
+devtools::install(pkgPath, force=TRUE, build_vignettes = TRUE, upgrade="never")
+#remotes::install_local(pkgPath, force=TRUE, build_vignettes = TRUE, upgrade="never")
 ## str(out)(shell(paste(
 ## file.path(R.home("bin"),"Rcmd.exe"),
 ## " INSTALL --no-multiarch --with-keep.source",
