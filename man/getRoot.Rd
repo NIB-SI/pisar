@@ -7,7 +7,7 @@
 getRoot(x = "p", path = getwd(), ...)
 }
 \arguments{
-\item{x}{Character characteristic for pISA layer (one of p, I, S, or A).}
+\item{x}{Character characteristic for pISA layer (one of "p", "I", "S", or "A").}
 
 \item{path}{Path within the pISA-tree.}
 

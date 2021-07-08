@@ -16,13 +16,13 @@ getMeta(x, key, nl = TRUE)
 \item{...}{Any other arguments (not used at the moment).}
 }
 \value{
-Character string with key value.
+Key value (character string or number).
 }
 \description{
 Get metadata value
 }
 \note{
-Parameter item is matched exactly to the item names.
+Argument key is matched exactly to the key names.
 }
 \examples{
 \dontrun{

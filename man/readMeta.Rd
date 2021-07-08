@@ -12,7 +12,7 @@ readMeta(x = ".", ...)
 \item{...}{Any other arguments.}
 }
 \value{
-Data frame with Key/value pairs with class 'pISAmeta'.
+Data frame with Key/Value pairs with class 'pISAmeta'.
 }
 \description{
 Read metadata file from the given directory

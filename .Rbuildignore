@@ -2,6 +2,7 @@
 .*/devel/
 ^\.Rprofile$
 #
+.Rdata
 ^.*\.Rproj.*$
 ^\.Rproj\.user$
 ^notes$

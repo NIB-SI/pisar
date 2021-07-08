@@ -7,10 +7,10 @@
 pasteMeta(x, kvsep = "\\t", nlsep = "\\n")
 }
 \arguments{
-\item{x}{Two column character data frame or with Key / Value pairs or
+\item{x}{Two column character data frame with Key / Value pairs or
 a list of Vales named by Keys.}
 
-\item{kvsep}{Key/Value separator (default is tab character).}
+\item{kvsep}{Key/Value separator (default is a tab character).}
 
 \item{nlsep}{line separator (default is new line).}
 }
@@ -18,7 +18,7 @@ a list of Vales named by Keys.}
 Character string with concatenated key values.
 }
 \description{
-Paste metadata values into a strig.
+Paste metadata values into a string.
 }
 \examples{
 \dontrun{
@@ -33,7 +33,7 @@ cat(x)
 # list
 listmeta <- list(Title = "My title"
    , Description = "A longer description")
-x <- pasteMeta( listmeta)
+x <- pasteMeta( listmeta )
 x
 cat(x)
 setwd(oldwd)

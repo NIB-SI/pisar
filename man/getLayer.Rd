@@ -7,7 +7,7 @@
 getLayer(x, path = getwd())
 }
 \arguments{
-\item{x}{Layer character (one of p, I, S, or A).}
+\item{x}{Layer character (one of "p", "I", "S", or "A").}
 
 \item{path}{Directory path, defaults to working directory.}
 }

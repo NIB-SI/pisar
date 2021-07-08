@@ -12,7 +12,7 @@ fileType(x, ...)
 \item{...}{Any other arguments.}
 }
 \value{
-File type (string).
+File type (character string).
 }
 \description{
 Extract file type from a file path.

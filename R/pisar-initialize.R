@@ -16,12 +16,9 @@
 #'
 #' @section Usage:
 #' pISA-tree is a standardized directory tree
-#' for storing projet information under ISA paradigm.
-#' The set of functions have two fold purpose:
-#' \enumerate{
-#'     \item To enable use of metadata for reproducible documents.
-#'     \item To enable automated upload to external repository.
-#' (e. g. FAIRDOMhub).}
+#' for storing project information under ISA paradigm.
+#' This set of functions 
+#' enables use of metadata for reproducible documents.
 #'
 #' @docType package
 #' @name pisar
@@ -33,9 +30,9 @@ NULL
 #'
 #' Extract file name from a file path.
 #'
-#' @param x Complete file path or  file.type name.
+#' @param x Complete file path or  file name.
 #' @param ... Any other arguments.
-#' @return File name (string).
+#' @return File name (character string).
 #' @export
 #' @note Parameter ... is ignored at this time.
 #' @keywords file
@@ -59,7 +56,7 @@ gsub("(.*)\\.(.*)","\\1",basename(x))
 #'
 #' @param x Complete file path or  file name.
 #' @param ... Any other arguments.
-#' @return File type (string).
+#' @return File type (character string).
 #' @export
 #' @note Parameter ... is ignored at this time.
 #' @keywords file
@@ -102,7 +99,7 @@ fsummary(data.frame(x=rnorm(20),txt=sample(letters,20,rep=TRUE)))
 ## ----getRoot--------------------------------------------------------
 #' Get root directory for pISA layer
 #'
-#' @param x Character characteristic for pISA layer (one of p, I, S, or A).
+#' @param x Character characteristic for pISA layer (one of "p", "I", "S", or "A").
 #' @param path Path within the pISA-tree.
 #' @param ... Any other arguments.
 #' @return Relative path to the layer directory (from working directory).
@@ -132,7 +129,7 @@ rpath
 #'
 #' @param x File path to the pISA layer.
 #' @param ... Any other arguments.
-#' @return Data frame with Key/value pairs with class 'pISAmeta'.
+#' @return Data frame with Key/Value pairs with class 'pISAmeta'.
 #' @export
 #' @note Metadata table gets the class 'Dlist' to inherit a convenient print.
 #' @keywords pISA
@@ -205,9 +202,9 @@ print.pISAmeta <- function(x, width = max(nchar(x[,1]))*3.5,  ...){
 #' @param key String, key name. Trailing colon can be omitted.
 #' @param nl Logical, expand backslash character for new lines.
 #' @param ... Any other arguments (not used at the moment).
-#' @return Character string with key value.
+#' @return Key value (character string or number).
 #' @export
-#' @note Parameter item is matched exactly to the item names.
+#' @note Argument key is matched exactly to the key names.
 #' @keywords pisa
 #' @author Andrej Blejec \email{andrej.blejec@nib.si}
 #' @examples
@@ -245,10 +242,10 @@ if (is.list(x)) {
 ## ----pasteMeta------------------------------------------------------
 #' Paste metadata values
 #'
-#' Paste metadata values into a strig.
-#' @param x Two column character data frame or with Key / Value pairs or
+#' Paste metadata values into a string.
+#' @param x Two column character data frame with Key / Value pairs or
 #'    a list of Vales named by Keys.
-#' @param kvsep Key/Value separator (default is tab character).
+#' @param kvsep Key/Value separator (default is a tab character).
 #' @param nlsep line separator (default is new line).
 #' @return Character string with concatenated key values.
 #' @export
@@ -267,7 +264,7 @@ if (is.list(x)) {
 #' # list
 #' listmeta <- list(Title = "My title"
 #'    , Description = "A longer description")
-#' x <- pasteMeta( listmeta)
+#' x <- pasteMeta( listmeta )
 #' x
 #' cat(x)
 #' setwd(oldwd)
@@ -290,7 +287,7 @@ pasteMeta <- function (x, kvsep="\t", nlsep="\n") {
 ## ----getLayer-------------------------------------------------------
 #' Get pISA layer name
 #'
-#' @param x Layer character (one of p, I, S, or A).
+#' @param x Layer character (one of "p", "I", "S", or "A").
 #' @param path Directory path, defaults to working directory.
 #' @return Character string with layer name.
 #' @export

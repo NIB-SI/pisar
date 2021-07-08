@@ -166,25 +166,29 @@ Build the package
 
 <<build package,eval=purl>>=
 devtools::build(pkgPath,manual=TRUE,quiet=FALSE)
-devtools::load_all()
-@
-
-<<>>=
-tools::buildVignettes(dir = ".", tangle=TRUE)
 @
 
 
 
-Install
+Install locally
 
 <<install,eval=purl>>=
-devtools::install(pkgPath)
+# detach package
+location <- pmatch(paste0("package:",pkgName),search())
+location
+if(!is.na(location)) detach(pos=location)
+# devtools::install(pkgPath) # not producing vignettes
+remotes::install_local(pkgPath
+    , force=TRUE
+    , build_vignettes = TRUE
+    , upgrade="never")
 ## str(out)(shell(paste(
 ## file.path(R.home("bin"),"Rcmd.exe"),
 ## " INSTALL --no-multiarch --with-keep.source",
 ## pkgPath)
 ## ,intern=FALSE))
 @
+
 
 Load
 <<load,eval=purl>>=
