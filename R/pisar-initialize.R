@@ -17,7 +17,7 @@
 #' @section Usage:
 #' pISA-tree is a standardized directory tree
 #' for storing project information under ISA paradigm.
-#' This set of functions 
+#' This set of functions
 #' enables use of metadata for reproducible documents.
 #'
 #' @docType package
@@ -152,7 +152,7 @@ if(length(lfn)==0) warning("No metadata file found")
 if(length(lfn)>1) warning("More than one metadata file found:", d)
 if(length(lfn)==1){
   p <- rio::import(file.path(x, lfn)
-  ,sep="\t", stringsAsFactors=FALSE, col.names=c("Key","Value"))
+  ,sep="\t", stringsAsFactors=FALSE, col.names=c("Key","Value"), header=FALSE)
 class(p)<- c("pISAmeta", "Dlist", class(p))
 } else {p = ""}
 return(p)
