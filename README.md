@@ -16,5 +16,4 @@ if (!require(devtools)) {
 devtools::install_github("NIB-SI/pisar", build_vignettes = TRUE)
 ```
 
-## Webpage
-[https://ablejec.github.io/pisar/](https://ablejec.github.io/pisar/)
+
