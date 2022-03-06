@@ -169,12 +169,12 @@ getRoot("A", path="d:/_p_prj/_I_inv/_S_st/_A_asy/other/doc")
 readMeta <- function(x=".",  ...){
 d <- tolower(dir(x))
 d
-lfn <- d[regexpr(".*_metadata",d)>0]
+lfn <- d[regexpr("^_[pisa].*_metadata.txt", d)>0]
 if(length(lfn)==0) warning("No metadata file found")
 if(length(lfn)>1) warning("More than one metadata file found:", d)
 if(length(lfn)==1){
-  p <- rio::import(file.path(x, lfn)
-  ,sep="\t", stringsAsFactors=FALSE, col.names=c("Key","Value"), header=FALSE)
+  p <- read.table(file.path(x, lfn)
+  ,sep="\t", stringsAsFactors=FALSE, col.names=c("Key","Value"), header=FALSE, comment.char="#", fill=TRUE,blank.lines.skip=TRUE)
 class(p)<- c("pISAmeta", "Dlist", class(p))
 } else {p = ""}
 return(p)
