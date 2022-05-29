@@ -13,6 +13,6 @@ and use of pISA-tree.
 pISA-tree is a standardized directory tree
 for storing project information under ISA paradigm.
 This set of functions
-enables use of metadata for reproducible documents.
+enables use of metadata for reproducible documents. Export of investigations to ISA-tab format is also provided.
 }
 

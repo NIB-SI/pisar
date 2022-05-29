@@ -1,0 +1,92 @@
+isa_key	value	layer	sublayer	status	file	pisa_key	default
+ONTOLOGY SOURCE REFERENCE		I		0	add predefined header/separator in UPPERCASE		
+Term Source Name		I		5			";"
+Term Source File		I		5			";"
+Term Source Version		I		5			";"
+Term Source Description		I		5			";"
+INVESTIGATION		I		0	add predefined header/separator in UPPERCASE		
+Investigation Identifier	BII-S-7	I		1	_INVESTIGATION_METADATA.TXT	Investigation	
+Investigation Title	Raca plava po Dravi, po Dravi, 	I		1	_INVESTIGATION_METADATA.TXT	Title	
+Investigation Description	korpu nese na glavi	I		1	_INVESTIGATION_METADATA.TXT	Description	
+Investigation Submission Date		I					
+Investigation Public Release Date		I					
+INVESTIGATION PUBLICATIONS		I		0	add predefined header/separator in UPPERCASE		
+Investigation PubMed ID		I					
+Investigation Publication DOI		I					
+Investigation Publication Author List		I					
+Investigation Publication Title		I					
+Investigation Publication Status		I					
+Investigation Publication Status Term Accession Number		I					
+Investigation Publication Status Term Source REF		I					
+INVESTIGATION CONTACTS		IC		0	add predefined header/separator in UPPERCASE		
+Investigation Person Last Name		IC		5			Miha
+Investigation Person First Name		IC		5			Mihav
+Investigation Person Mid Initials		IC		5			";"
+Investigation Person Email		IC					
+Investigation Person Phone		IC					
+Investigation Person Fax		IC					
+Investigation Person Address		IC					
+Investigation Person Affiliation		IC					
+Investigation Person Roles		IC					
+Investigation Person Roles Term Accession Number		IC					
+Investigation Person Roles Term Source REF		IC					
+STUDY		S		0	add predefined header/separator in UPPERCASE		
+Study Identifier	BII-S-7	S		1	_STUDY_METADATA.TXT	Study	
+Study Title	? ej, haj, to leto,	S		1	_STUDY_METADATA.TXT	Title	
+Study Description	da nam ro??ice cveto	S		1	_STUDY_METADATA.TXT	Description	
+Study Submission Date		S					
+Study Public Release Date		S					
+Study File Name	s_BII-S-7.xxx.txt	S		2	"rewrite phenodata file as s_*.txt; obligatory columns: Sample Name Source Name"		
+STUDY DESIGN DESCRIPTORS		S		0	add predefined header/separator in UPPERCASE		
+Study Design Type		S		1	_STUDY_METADATA.TXT	Study Design Type	other
+Study Design Type Term Accession Number		S		5			";"
+Study Design Type Term Source REF		S		5			";"
+STUDY PUBLICATIONS		S		0	add predefined header/separator in UPPERCASE		
+Study PubMed ID		S					
+Study Publication DOI		S					
+Study Publication Author List		S					
+Study Publication Title		S					
+Study Publication Status		S					
+Study Publication Status Term Accession Number		S					
+Study Publication Status Term Source REF		S					
+STUDY FACTORS		S		0	add predefined header/separator in UPPERCASE		
+Study Factor Name	avokado diet	S		5			";"
+Study Factor Type	jedes sve osim avokada	S		5			";"
+Study Factor Type Term Accession Number		S		5			";"
+Study Factor Type Term Source REF		S		5			";"
+STUDY ASSAYS		SA		0	add predefined header/separator in UPPERCASE		
+Study Assay File Name	a_matteo-assay-Gx.xxx.txt	SA		2	"rewrite phenodata file as a_*.txt; obligatory columns: Sample Name Source Name"		
+Study Assay Measurement Type	metabolite profiling	SA		1	_ASSAY_METADATA.txt	Measurement Type	other
+Study Assay Measurement Type Term Accession Number		SA					
+Study Assay Measurement Type Term Source REF		SA					
+Study Assay Technology Type	nmr spectroscopy	SA		1	_ASSAY_METADATA.txt	Technology Type	other
+Study Assay Technology Type Term Accession Number		SA					
+Study Assay Technology Type Term Source REF		SA					
+Study Assay Technology Platform		SA					
+STUDY PROTOCOLS		SP		0	add predefined header/separator in UPPERCASE		
+Study Protocol Name		SP					
+Study Protocol Type		SP					
+Study Protocol Type Term Accession Number		SP					
+Study Protocol Type Term Source REF		SP					
+Study Protocol Description		SP					
+Study Protocol URI		SP					
+Study Protocol Version		SP					
+Study Protocol Parameters Name		SP					
+Study Protocol Parameters Name Term Accession Number		SP					
+Study Protocol Parameters Name Term Source REF		SP					
+Study Protocol Components Name		SP					
+Study Protocol Components Type		SP					
+Study Protocol Components Type Term Accession Number		SP					
+Study Protocol Components Type Term Source REF		SP					
+STUDY CONTACTS		SC		0	add predefined header/separator in UPPERCASE		
+Study Person Last Name		SC					
+Study Person First Name		SC					
+Study Person Mid Initials		SC		5			";"
+Study Person Email		SC					
+Study Person Phone		SC					
+Study Person Fax		SC					
+Study Person Address		SC					
+Study Person Affiliation		SC					
+Study Person Roles		SC					
+Study Person Roles Term Accession Number		SC					
+Study Person Roles Term Source REF		SC					

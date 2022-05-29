@@ -1,0 +1,43 @@
+Assay:	_A_a-GCMS
+Assay Class:	WET
+Assay Type:	GCMS
+Title:	*
+Description:	*
+pISA Assay creation date:	2022-03-17
+pISA Assay creator:	*
+Measurement Type:	metabolite profiling
+Technology Type:	gas chromatography-mass spectrometry
+Lab manager:	*
+Sample collection protocol (file path, link or citation):	*
+Extraction protocol (file path, link or citation):	*
+Chromatography protocol (file path, link or citation):	*
+Mass spectrometry protocol (file path, link or citation):	*
+Phenodata:	../../phenodata_20220317.txt
+Featuredata:	
+Creation date:	2022-03-17
+Extract ID:	$_extr
+Extraction Method:	*
+Date Extraction:	2022-03-17
+Derivatization or Labelling:	sylilation
+Date Derivatization or Labelling:	2022-03-17
+Derivatized or labeled Extract ID:	$_extrD
+Other Post Extraction Procedures:	
+Storage:	
+Date GC-MS Run:	2022-03-17
+GC Instrument:	*
+GC Autosampler Model:	
+GC Column model:	*
+GC Column type:	*
+Guard Column:	
+MS Scan polarity:	positive
+MS Scan mz range:	*
+MS Instrument:	*
+MS Ion source:	electron ionization (EI)
+Mass analyzer:	quadrupole mass filter
+Operator:	*
+Notes :	
+Data:	
+Principal investigator:	*
+License:	CC BY 4.0
+Sharing permission:	Public
+Upload to FAIRDOMHub:	Yes

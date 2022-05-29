@@ -1,0 +1,3 @@
+SampleID	SampleName	_A_a-RNAisol	RNA_ID	ng/ul	260/280	260/230	Homogenisation_protocol	Date_Homogenisation	Isolation_Protocol	Date_Isolation	Storage_RNA	Dnase_treatment_protocol	Dnase_ID	Date_DNAse_treatment	Storage_DNAse_treated	Operator	cDNA_ID	DateRT	Notes  
+SMPL001	Sample_001	1	SMPL001_RNA	"" 	"" 	"" 	fastPrep	2022-03-17	Rneasy_Plant	2022-03-17	CU0369	*	SMPL001_DNase	2022-03-17	CU0370	*	SMPL001_cDNA	2022-03-17	 
+SMPL003	Sample_003	1	SMPL003_RNA	"" 	"" 	"" 	fastPrep	2022-03-17	Rneasy_Plant	2022-03-17	CU0369	*	SMPL003_DNase	2022-03-17	CU0370	*	SMPL003_cDNA	2022-03-17	 

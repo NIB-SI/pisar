@@ -1,0 +1,10 @@
+Investigation:	_I_i
+Title:	*
+Description:	*
+Phenodata:	./phenodata_20220317.txt
+pISA Investigation creation date:	2022-03-17
+pISA Investigation creator:	*
+Principal investigator:	*
+License:	CC BY 4.0
+Sharing permission:	Public
+Upload to FAIRDOMHub:	Yes

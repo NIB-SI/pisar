@@ -1,0 +1,35 @@
+Assay:	_A_a-qPCR
+Assay Class:	WET
+Assay Type:	qPCR
+Title:	*
+Description:	*
+pISA Assay creation date:	2022-03-17
+pISA Assay creator:	*
+Measurement Type:	transcriptional profiling
+Technology Type:	quantitative PCR
+Lab manager:	*
+Assay chemistry:	TaqMan Probe
+Assay optimisation protocol (file path, link or citation):	*
+Pippeting:	liquid handling station
+Reaction volume:	*
+qPCR platform:	HT7900 Fast, ABI (SDS)
+qPCR protocol (file path, link or citation):	*
+One-step RT-PCR (RNA as input):	No
+Well format:	384
+MasterMix:	FastStart Universal Probe Master (ROX), Roche (4914058001)
+No. sample technical replicates:	*
+No. sample dilutions:	*
+PCR controls used:	NTC only
+No. standard curve dilutions (if using):	
+Operator:	*
+Cq value determination software (if different from PCR platform):	
+Quantification software:	quantGenius
+qPCR quantification method:	relative standard curve
+Notes:	
+Phenodata:	../../phenodata_20220317.txt
+Featuredata:	
+Data:	
+Principal investigator:	*
+License:	CC BY 4.0
+Sharing permission:	Public
+Upload to FAIRDOMHub:	Yes
