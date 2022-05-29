@@ -1,0 +1,25 @@
+Assay:	_A_a-ONTSeq
+Assay Class:	WET
+Assay Type:	ONTSeq
+Title:	*
+Description:	*
+pISA Assay creation date:	2022-03-17
+pISA Assay creator:	*
+Measurement Type:	nucleic acid sequencing
+Technology Type:	Oxford Nanopore Technologies sequencing
+Lab manager:	*
+Sequencing platform:	MinION
+Flow cell:	Flongle
+Sequencing kit (sample type):	SQK-LSK109 (DNA)
+Barcoding kit:	None
+MinKNOW version:	*
+Basecaller software and version:	*
+Operator:	*
+Notes:	
+Phenodata:	../../phenodata_20220317.txt
+Featuredata:	
+Data:	
+Principal investigator:	*
+License:	CC BY 4.0
+Sharing permission:	Public
+Upload to FAIRDOMHub:	Yes

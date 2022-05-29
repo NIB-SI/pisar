@@ -1,0 +1,31 @@
+Assay:	_A_a-RNAisol
+Assay Class:	WET
+Assay Type:	RNAisol
+Title:	*
+Description:	*
+pISA Assay creation date:	2022-03-17
+pISA Assay creator:	*
+Measurement Type:	sample preprocessing with quality control
+Technology Type:	RNA isolation and reverse transcription
+Lab manager:	*
+Phenodata:	../../phenodata_20220317.txt
+Featuredata:	
+RNA ID:	$_RNA
+Homogenisation protocol:	fastPrep
+Date Homogenisation:	2022-03-17
+Isolation Protocol:	Rneasy_Plant
+Date Isolation:	2022-03-17
+Storage RNA:	CU0369
+Dnase treatment protocol:	*
+Dnase ID:	$_DNase
+Date DNAse_treatment:	2022-03-17
+Storage_DNAse_treated:	CU0370
+Operator:	*
+cDNA ID:	$_cDNA
+DateRT:	2022-03-17
+Notes:	
+Data:	
+Principal investigator:	*
+License:	CC BY 4.0
+Sharing permission:	Public
+Upload to FAIRDOMHub:	Yes

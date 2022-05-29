@@ -1,0 +1,41 @@
+Assay:	_A_a-LUM
+Assay Class:	WET
+Assay Type:	LUM
+Title:	*
+Description:	*
+pISA Assay creation date:	2022-03-17
+pISA Assay creator:	*
+Measurement Type:	promoter activity detection by reporter gene assay
+Technology Type:	microplate reader
+Lab manager:	ACR
+Operator:	*
+Link to SynBio DM:	*
+Link to protocols:	*
+Additional Notes:	
+Phenodata:	../../phenodata_20220317.txt
+Featuredata:	
+Plate ID:	PS001
+DNA introduction system:	agrobacteria mediated transient transformation
+SynBio GenotypeID(s):	*
+Date of transformation/transfection:	2022-03-17
+Treatment:	none
+Date of treatment:	2022-03-17
+Date of sampling:	2022-03-17
+Date of luminescence assay start:	2022-03-17
+Time of luminescence assay start:	10:06
+Luminometer:	BioTek Synergy Mx
+Protocol (luminometer setup):	Long Kinetic Experiment
+Time [min] between two measurements (luminometer setup):	10
+Sensitivity (luminometer setup):	100
+Integration time [ms] (luminometer setup):	300
+Temperature (luminometer) at start of the experiment [degrees Celsius]:	23
+Temperature (luminometer) at the end of the experiment [degrees Celsius]:	27
+Time between start of sampling and start of experiment [min]:	30
+Final concentration of luciferin [uM]:	35
+Silencing supressor added:	none
+Notes:	
+Data:	
+Principal investigator:	*
+License:	CC BY 4.0
+Sharing permission:	Public
+Upload to FAIRDOMHub:	Yes

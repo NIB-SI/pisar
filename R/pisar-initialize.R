@@ -17,12 +17,18 @@
 #' @section Usage:
 #' pISA-tree is a standardized directory tree
 #' for storing project information under ISA paradigm.
-#' This set of functions 
-#' enables use of metadata for reproducible documents.
+#' This set of functions
+#' enables use of metadata for reproducible documents. Export of investigations to ISA-tab format is also provided.
 #'
 #' @docType package
 #' @name pisar
 NULL
+
+
+## -------------------------------------------------------------------
+#' @importFrom utils choose.files read.table write.table
+NULL
+#> NULL
 
 
 ## ----fileName-------------------------------------------------------
@@ -147,12 +153,12 @@ rpath
 readMeta <- function(x=".",  ...){
 d <- tolower(dir(x))
 d
-lfn <- d[regexpr(".*_metadata",d)>0]
+lfn <- d[regexpr("^_[pisa].*_metadata.txt", d)>0]
 if(length(lfn)==0) warning("No metadata file found")
 if(length(lfn)>1) warning("More than one metadata file found:", d)
 if(length(lfn)==1){
-  p <- rio::import(file.path(x, lfn)
-  ,sep="\t", stringsAsFactors=FALSE, col.names=c("Key","Value"))
+  p <- read.table(file.path(x, lfn)
+  ,sep="\t", stringsAsFactors=FALSE, col.names=c("Key","Value"), header=FALSE, comment.char="#", fill=TRUE,blank.lines.skip=TRUE)
 class(p)<- c("pISAmeta", "Dlist", class(p))
 } else {p = ""}
 return(p)
@@ -201,7 +207,6 @@ print.pISAmeta <- function(x, width = max(nchar(x[,1]))*3.5,  ...){
 #' @param x Two column character data frame with Key / Value pairs.
 #' @param key String, key name. Trailing colon can be omitted.
 #' @param nl Logical, expand backslash character for new lines.
-#' @param ... Any other arguments (not used at the moment).
 #' @return Key value (character string or number).
 #' @export
 #' @note Argument key is matched exactly to the key names.
@@ -476,5 +481,293 @@ pisa$outfn <- .outfn
 pisa$rnwfn <- .rnwfn
 #
 invisible(pisa)
+}
+
+
+## ----createISAtab---------------------------------------------------
+#' Export to ISA-tab
+#'
+#' Export pISA-tree investigation into ISA-tab files.
+#'
+#' @param iroot path to investigation. If missing, a interactively navigate
+#'        to the desired investigation and select investigation metadata
+#'        file.
+#' @param files a vector of assay metadata file names
+#'        (with study and assay path) to export. If missing,
+#'        all assays in selected investigation will be processed.
+#' @param path path to the exported files, default is /ISA-tab/ folder in the
+#'       investigation path.
+#' @param zip controls creation of zip file, created if TRUE.
+#' @param isamap path and name of the file with mapping of
+#'       pISA-tree and ISA-tab keys.
+#'       If missing, the mapping file that comes with
+#'       the package pisar is used.
+#' @return character vector, names of created files.
+#' @export
+#' @keywords pISA-tree, ISA-tab
+#' @author Andrej Blejec \email{andrej.blejec@nib.si}
+#' @examples
+#' \dontrun{
+#' # interactively select investigation metadata file for export.
+#' isafiles <- createISAtab()
+#' # export one assay from the demonstrative investigation
+#' iroot <- file.path(find.package("pisar"),"extdata/_p_Test-pISA-tab/_I_i")
+#' files <- "_S_s/_A_a-GCMS/_ASSAY_METADATA.TXT"
+#' path <- "./ISA-tab"
+#' createISAtab(iroot, files, path)
+#' }
+createISAtab <- function(iroot, files,  path, zip=TRUE, isamap){
+if(missing(iroot)) {
+     Filtr <- t(matrix(c("Investigation metadata file","_INVESTIGATION_METADATA.TXT")))
+     ifile <- choose.files(
+        caption = "Select investigation metadata file",
+        filters = Filtr,
+        multi = FALSE)
+     iroot <- dirname(ifile)
+     }
+if(missing(files)) {
+     files <- dir(iroot, pattern="^_A.*_METADATA.TXT", recursive=TRUE)
+     }
+if(missing(isamap)) {
+    mfn <- "ISA_pISA_mapping.txt"
+    mfn <- file.path(find.package("pisar"),"extdata",mfn)
+    isamap <- read.table( mfn, sep="\t", header=TRUE)
+    isamap$status[is.na(isamap$status)] <- 4
+    }
+if(missing(path)) path <- file.path(iroot,"ISA-tab")
+files <- sort(files)
+isa <- NULL
+test <- function(...) {cat("---\n",deparse(substitute(...)),"\n",unlist(...),"\n---\n")}
+if(!dir.exists(path)) dir.create(path)
+###########################
+# Investigation lines
+layer <- "I"
+imeta <- read.table(file.path(iroot,"_INVESTIGATION_METADATA.TXT"), sep="\t", header=FALSE)
+iname <-  basename(iroot)
+ind <- which(isamap$layer==layer)
+for(i in ind){
+  line <- isamap[i,]
+  if (line$status==0) isa <- c(isa, line$isa_key)
+  if (line$status==1) {
+  value <- imeta[ imeta[,1]==paste0(line$pisa_key,":"),2]
+  if( length(value)==0) value <- line$default
+  isa <- c(isa, paste(line$isa_key, value, sep="\t"))
+  }
+  if (line$status==4) isa <- c(isa, line$isa_key)
+  if (line$status==5) isa <- c(isa, paste(line$isa_key,line$default, sep="\t"))
+  }
+###########################
+# Investigation Contacts lines
+layer <- "IC"
+ind <- which(isamap$layer==layer)
+persons <- isamap[ind,]$isa_key
+i <- which( persons=="Investigation Person Address" )
+# Get person address
+info <- imeta[grep("Person Address",imeta[,1]),2]
+persons[i] <- paste( persons[i],
+    paste(info,  collapse="\t" ), sep="\t")
+i <- which( persons=="Investigation Person Last Name" )
+persons[i] <- paste( persons[i],
+    paste(rep("See ORCID",length(info)),  collapse="\t" ), sep="\t")
+i <- which( persons=="Investigation Person First Name" )
+persons[i] <- paste( persons[i],
+    paste(rep("See ORCID", length(info)),  collapse="\t" ), sep="\t")
+i <- which( persons=="Investigation Person Mid Initials" )
+persons[i] <- paste( persons[i],
+    paste(rep(";",length(info)),  collapse="\t" ), sep="\t")
+isa <- c(isa, persons)
+## STUDIES
+# Step through metadata files list
+lvls <- t(as.data.frame(sapply(files,strsplit,"/")))
+colnames(lvls) <- c("Study","Assay","file")
+###########################
+# Study lines
+isas <- NULL
+oldsname <- ""
+lin <- 1
+snames <- unique(lvls[,"Study"])
+for( sname in snames ){
+.sroot <- file.path(iroot,sname)
+layer <- "S"
+smeta <- read.table(file.path(.sroot,"_STUDY_METADATA.TXT"), sep="\t", header=FALSE)
+#
+ind <- which(isamap$layer==layer)
+for(i in ind){
+  line <- isamap[i,]
+  if (line$status==0) isa <- c(isa, line$isa_key )
+  if (line$status==1) {
+  value <- smeta[ smeta[,1]==paste0(line$pisa_key,":"),2]
+  if( length(value)==0) value <- line$default
+  isa <- c(isa, paste(line$isa_key, value, sep="\t"))
+  }
+  if (line$status==2) {
+       phname <- dir(iroot,pattern="phenodata")[1]
+       sfname <- paste0("s_",sname,"-",phname)
+       pdata <- read.table(file.path(iroot,phname),sep="\t",header=TRUE)
+       names(pdata)[1] <- "Sample Name"
+       pdata$source <- "pISA-tree"
+       names(pdata)[ncol(pdata)] <- "Source Name"
+       names(pdata)
+       write.table(pdata, file=file.path(path, sfname), sep="\t", row.names=FALSE)
+
+       isa <- c(isa, paste(line$isa_key, sfname, sep="\t"))
+       }
+  if (line$status==3) isa <- c(isa, paste0(line$isa_key,"\t",line$file ))
+  if (line$status==4) isa<-c(isa, line$isa_key)
+  if (line$status==5) isa<-c(isa, paste(line$isa_key, line$default, sep="\t"))
+
+  }
+
+###########################
+# Study Assay lines
+layer <- "SA"
+ind <- which(isamap$layer==layer)
+filter <- which(lvls[,"Study"]==sname)
+anames <- unique(lvls[filter,"Assay"])
+assays <- isamap[ind,]$isa_key
+       amap <- isamap[ind,]
+       amap <- amap[amap[,"status"]==1,]
+       amap$index <- which(assays %in% amap$isa_key)
+       ifn <- which( assays=="Study Assay File Name" )
+       imt <- which( assays=="Study Assay Measurement Type" )
+       itt <- which( assays=="Study Assay Technology Type" )
+
+for (aname in anames) {
+       phname <- dir(iroot,pattern="phenodata")[1]
+       afname <- paste0("a_",sname,"-",aname,"-",phname)
+       pdata <- read.table(file.path(iroot,phname),sep="\t",header=TRUE)
+              ameta <- read.table(file.path(.sroot,aname,"_ASSAY_METADATA.TXT"), sep="\t", header=FALSE)
+# Type one fields
+          for(j in 1:length(amap$isa_key)){
+          line <- amap[j,]
+          ii <- line$index
+          info <- ameta[ ameta[,1]==paste0(line$pisa_key,":"),2]
+          if(length(info)==0) info <- line$default
+          assays[ii] <- paste( assays[ii], info[1], sep="\t")
+           }
+# Prepare assay file
+              ameta[,1] <- gsub(":","",ameta[,1])
+              ameta[,1] <- gsub("\\(.*\\)","",ameta[,1])
+              ameta[,1] <- gsub(" *$","",ameta[,1])
+       # check Analytes.txt
+       if(file.exists(file.path(.sroot,aname,"Analytes.txt"))){
+           analytes <- read.table(file.path(.sroot,aname,"Analytes.txt"), sep="\t", header=TRUE)
+           colnames(analytes) <-gsub("\\_"," ",colnames(analytes))
+           pd <- pdata[match( analytes[,1],pdata[,1]),]
+           if(!all(pd[,1]==analytes[,1])) warning("Layer SA: SampleID mismatch in phenodata and analytes")
+           ameta <- ameta[!ameta[,1]%in%colnames(analytes),]
+           } else {
+              analytes <- NULL
+              pd <- pdata
+              }
+
+       # add metadata rows to pdata
+
+
+       if(!is.null(analytes)) pd <- cbind(pd,t(ameta[,2]),analytes) else
+           pd <- cbind(pd,t(ameta[,2]))
+       colnames(pd)[ncol(pdata)+(1:nrow(ameta))] <- ameta[,1]
+       pdata <- pd
+       colnames(pdata) <- gsub("  *"," ",colnames(pdata))
+       colnames(pdata) <- gsub(" $","",colnames(pdata))
+       colnames(pdata) <- gsub("\\[","(",colnames(pdata))
+       colnames(pdata) <- gsub("\\]",")",colnames(pdata))
+       colnames(pdata) <- gsub(" Name","Name",colnames(pdata))
+       names(pdata)[1] <- "Sample Name"
+       pdata$source <- "pISA-tree"
+       names(pdata)[ncol(pdata)] <- "Source Name"
+       # odstrani dvojne presledke
+
+       write.table(pdata, file=file.path(path, afname), sep="\t", row.names=FALSE)
+
+       assays[ifn] <- paste( assays[ifn], afname, sep="\t")
+       #
+
+       }
+isa <- c(isa, assays)
+###########################
+# Study Protocol lines
+layer <- "SP"
+ind <- which(isamap$layer==layer)
+for(i in ind){
+  line <- isamap[i,]
+  if (line$status==0) isa <- c(isa, line$isa_key )
+  if (line$status==1) {
+  isa <- c(isa, paste(line$isa_key,smeta[ smeta[,1]==paste0(line$pisa_key,":"),2], sep="\t"))
+  }
+  if (line$status==2) {
+       phname <- dir(iroot,pattern="phenodata")[1]
+       sfname <- paste0("s_",sname,"_",phname)
+       pdata <- read.table(file.path(iroot,phname),sep="\t",header=TRUE)
+       names(pdata)[1] <- "Sample Name"
+       pdata$source <- "pISA-tree"
+       names(pdata)[ncol(pdata)] <- "Source Name"
+       names(pdata)
+       write.table(pdata, file=sfname, sep="\t", row.names=FALSE)
+              write.table(pdata, file="", sep="\t", row.names=FALSE)
+       isa <- c(isa, paste(line$isa_key, sfname, sep="\t"))
+       }
+  if (line$status==3) isa <- c(isa, paste0(line$isa_key,"\t",line$file ))
+  if (line$status==4) isa<-c(isa, line$isa_key)
+  if (line$status==5) isa<-c(isa, paste(line$isa_key, line$default, sep="\t"))
+  }
+###########################
+# Study Contacts lines
+layer <- "SC"
+ind <- which(isamap$layer==layer)
+persons <- isamap[ind,]$isa_key
+i <- which( persons=="Study Person Address" )
+# Get person address
+#info <- smeta[ unlist(sapply(c("creator", "investigator", "[pP]erson"), grep, x=smeta[,1])), 2 ]
+#persons[i] <- paste( persons[i], paste(info, collapse="\t"), sep="\t" )
+#
+# Get person address
+smeta <- read.table(file.path(.sroot,"_STUDY_METADATA.TXT"), sep="\t", header=FALSE)
+info <- smeta[grep("Person Address",smeta[,1]),2]
+persons[i] <- paste( persons[i],
+    paste(info,  collapse="\t" ), sep="\t")
+i <- which( persons=="Study Person Last Name" )
+persons[i] <- paste( persons[i],
+    paste(rep("Use ORCID",length(info)),  collapse="\t" ), sep="\t")
+i <- which( persons=="Study Person First Name" )
+persons[i] <- paste( persons[i],
+    paste(rep("Use ORCID", length(info)),  collapse="\t" ), sep="\t")
+i <- which( persons=="Study Person Mid Initials" )
+persons[i] <- paste( persons[i],
+    paste(rep(";",length(info)),  collapse="\t" ), sep="\t")
+#
+
+isa <- c(isa, persons)
+#isa <- c(isa, persons)
+#if(sname != oldsname ) {
+#  if( sname != "") {
+#        apply(isas,1,paste, collapse="\t")
+#        isa <- c(isa,isas)
+#        isas <- ""
+#        oldsname <- sname
+#        }
+#  }
+  }  # Morda mora biti tu? end of study processing?
+  ifile <- paste0("i_",iname,".txt")
+  cat(paste(isa, collapse="\n"), file=file.path(path,ifile))
+
+#
+
+  cat("\n-------------------------\n")
+  cat("List of created files in:\n")
+  cat(normalizePath(path,winslash="/"),"\n")
+  cat("-------------------------\n")
+  files <- dir(path,pattern="^[isa]_")
+  print(files)
+  oldwd <- setwd(path)
+  on.exit(setwd(oldwd))
+  if (zip) {
+  zipname <- paste0(iname,"-ISAtab.zip")
+  cat("\nCreating zip file:",zipname,"\n")
+  #file.remove(file.path(path,zipname))
+  zip(file.path(zipname), dir(".",pattern="^[isa]_"))
+  }
+  sys::exec_wait("explorer.exe",normalizePath(getwd()))
+return(files)
 }
 

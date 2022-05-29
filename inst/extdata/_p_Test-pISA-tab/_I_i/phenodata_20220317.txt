@@ -1,0 +1,5 @@
+SampleID	SampleName	Date_of_change	AdditionalField1	_A_a-RNAisol	_A_a-qPCR	_A_a-GCMS	_A_a-LUM	_A_a-ONTSeq
+SMPL001	Sample_001	2022-03-17	B1	1	x		a	
+SMPL002	Sample_002	2022-03-17	B2		x	1		b
+SMPL003	Sample_003	2022-03-17	B3	1	x		a	
+SMPL004	Sample_004	2022-03-17	B4		x	1	a	

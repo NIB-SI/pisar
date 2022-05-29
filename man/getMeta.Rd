@@ -12,8 +12,6 @@ getMeta(x, key, nl = TRUE)
 \item{key}{String, key name. Trailing colon can be omitted.}
 
 \item{nl}{Logical, expand backslash character for new lines.}
-
-\item{...}{Any other arguments (not used at the moment).}
 }
 \value{
 Key value (character string or number).

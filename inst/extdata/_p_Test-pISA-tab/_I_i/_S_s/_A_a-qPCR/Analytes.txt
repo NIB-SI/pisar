@@ -1,0 +1,5 @@
+SampleID	SampleName	_A_a-qPCR
+SMPL001	Sample_001	x
+SMPL002	Sample_002	x
+SMPL003	Sample_003	x
+SMPL004	Sample_004	x
