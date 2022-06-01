@@ -3,7 +3,7 @@
 
 R support for pISA-tree
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5721249.svg)](https://doi.org/10.5281/zenodo.5721249)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6602080.svg)](https://doi.org/10.5281/zenodo.6602080)
 
 ## Installation
 
