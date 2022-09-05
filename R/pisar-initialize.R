@@ -526,7 +526,7 @@ if(missing(iroot)) {
      iroot <- dirname(ifile)
      }
 if(missing(files)) {
-     files <- dir(iroot, pattern="^_A.*_METADATA.TXT", recursive=TRUE)
+     files <- dir(iroot, pattern="^_A.*_METADATA.TXT", recursive=TRUE, ignore.case = TRUE)
      }
 if(missing(isamap)) {
     mfn <- "ISA_pISA_mapping.txt"
@@ -542,7 +542,8 @@ if(!dir.exists(path)) dir.create(path)
 ###########################
 # Investigation lines
 layer <- "I"
-imeta <- read.table(file.path(iroot,"_INVESTIGATION_METADATA.TXT"), sep="\t", header=FALSE)
+# imeta <- read.table(file.path(iroot,"_INVESTIGATION_METADATA.TXT"), sep="\t", header=FALSE)
+    imeta = readMeta(iroot)
 iname <-  basename(iroot)
 ind <- which(isamap$layer==layer)
 for(i in ind){
@@ -589,7 +590,8 @@ snames <- unique(lvls[,"Study"])
 for( sname in snames ){
 .sroot <- file.path(iroot,sname)
 layer <- "S"
-smeta <- read.table(file.path(.sroot,"_STUDY_METADATA.TXT"), sep="\t", header=FALSE)
+# smeta <- read.table(file.path(.sroot,"_STUDY_METADATA.TXT"), sep="\t", header=FALSE)
+    smeta = readMeta(.sroot)
 #
 ind <- which(isamap$layer==layer)
 for(i in ind){
@@ -636,7 +638,8 @@ for (aname in anames) {
        phname <- dir(iroot,pattern="phenodata")[1]
        afname <- paste0("a_",sname,"-",aname,"-",phname)
        pdata <- read.table(file.path(iroot,phname),sep="\t",header=TRUE)
-              ameta <- read.table(file.path(.sroot,aname,"_ASSAY_METADATA.TXT"), sep="\t", header=FALSE)
+              # ameta <- read.table(file.path(.sroot,aname,"_ASSAY_METADATA.TXT"), sep="\t", header=FALSE)
+    ameta = as.data.frame(readMeta(file.path(.sroot, aname)))
 # Type one fields
           for(j in 1:length(amap$isa_key)){
           line <- amap[j,]
@@ -722,7 +725,8 @@ i <- which( persons=="Study Person Address" )
 #persons[i] <- paste( persons[i], paste(info, collapse="\t"), sep="\t" )
 #
 # Get person address
-smeta <- read.table(file.path(.sroot,"_STUDY_METADATA.TXT"), sep="\t", header=FALSE)
+# smeta <- read.table(file.path(.sroot,"_STUDY_METADATA.TXT"), sep="\t", header=FALSE)
+    smeta = readMeta(.sroot)
 info <- smeta[grep("Person Address",smeta[,1]),2]
 persons[i] <- paste( persons[i],
     paste(info,  collapse="\t" ), sep="\t")
