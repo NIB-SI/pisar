@@ -767,7 +767,7 @@ isa <- c(isa, persons)
   #file.remove(file.path(path,zipname))
   zip(file.path(zipname), dir(".",pattern="^[isa]_"))
   }
-  sys::exec_wait("explorer.exe",normalizePath(getwd()))
+  # sys::exec_wait("explorer.exe",normalizePath(getwd()))
 return(files)
 }
 
