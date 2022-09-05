@@ -151,9 +151,9 @@ rpath
 #' setwd(oldwd)
 #' }
 readMeta <- function(x=".",  ...){
-d <- tolower(dir(x))
+d <- dir(x)
 d
-lfn <- d[regexpr("^_[pisa].*_metadata.txt", d)>0]
+lfn <- d[regexpr("^_[pisa].*_metadata.txt", d, ignore.case = TRUE)>0]
 if(length(lfn)==0) warning("No metadata file found")
 if(length(lfn)>1) warning("More than one metadata file found:", d)
 if(length(lfn)==1){
